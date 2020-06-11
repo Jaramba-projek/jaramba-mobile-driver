@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "1031973712156",
+    "firebase_url": "https://bano-jaramba.firebaseio.com",
+    "project_id": "bano-jaramba",
+    "storage_bucket": "bano-jaramba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031973712156:android:a81677725f8bad7e40cad9",
+        "android_client_info": {
+          "package_name": "com.example.jarambadriver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031973712156-be06b3uaooi0h7sjimruf4563qr9nofp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhdS0dCjgXU05E9FESFPDtgaVnm33pxxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1031973712156-be06b3uaooi0h7sjimruf4563qr9nofp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031973712156:android:278f094fe9a9c6e740cad9",
+        "android_client_info": {
+          "package_name": "com.example.jarambamobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031973712156-be06b3uaooi0h7sjimruf4563qr9nofp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhdS0dCjgXU05E9FESFPDtgaVnm33pxxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1031973712156-be06b3uaooi0h7sjimruf4563qr9nofp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
