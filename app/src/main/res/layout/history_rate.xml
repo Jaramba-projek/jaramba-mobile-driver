@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:padding="15dp"
+    android:background="@drawable/border_black">
+
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Let's Rate The Bus"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stepSize="0.5"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="32dp"
+        android:layout_marginTop="15dp"
+        android:progressTint="@color/gold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rating"
+        />
+
+    <EditText
+        android:id="@+id/comment_rate"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:hint="Tambahkan komentar"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+
+    <Button
+        android:id="@+id/submit_rate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Submit"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border_orange"
+        app:layout_constraintTop_toBottomOf="@id/comment_rate"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
