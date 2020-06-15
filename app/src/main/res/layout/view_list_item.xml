@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/hist2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/border_orange"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/iconbus2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            app:srcCompat="@drawable/ic_baseline_directions_bus_24" />
+
+        <TextView
+            android:id="@+id/dari2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dipatiukur - Jatinangor"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tujuan2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dari2"
+            android:layout_centerHorizontal="true"
+            android:text="D 1234 XY"
+            android:gravity="center"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/rate"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="45dp"
+            android:gravity="center"
+            app:srcCompat="@drawable/ic_baseline_star_24" />
+
+        <ImageView
+            android:id="@+id/iconinfo2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            app:srcCompat="@drawable/ic_baseline_info_24" />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
