@@ -85,6 +85,25 @@ public class TripDriver extends FragmentActivity implements OnMapReadyCallback {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                try {
+                    String databaseLatitudeString = dataSnapshot.child("latitude").getValue().toString().substring(1,dataSnapshot.child("latitude").getValue().toString().length()-1);
+                    String databaseLongitudeString = dataSnapshot.child("longitude").getValue().toString().substring(1,dataSnapshot.child("longitude").getValue().toString().length()-1);
+
+                    String[] stringLat = databaseLatitudeString.split(", ");
+                    Arrays.sort(stringLat);
+                    String latitude = stringLat[stringLat.length-1].split("=")[1];
+
+                    String[] stringLong = databaseLongitudeString.split(", ");
+                    Arrays.sort(stringLong);
+                    String longitude = stringLong[stringLong.length-1].split("=")[1];
+
+                    LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+                    mMap.addMarker(new MarkerOptions().position(latLng).title(latitude+", "+longitude));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
             @Override
