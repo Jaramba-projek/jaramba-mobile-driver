@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Jaramba Driver</string>
+    <string name="title_activity_home">Map</string>
 </resources>
