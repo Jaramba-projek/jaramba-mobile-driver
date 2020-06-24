@@ -9,27 +9,44 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Calendar;
 
-public class Trip_start extends AppCompatActivity {
+public class Trip_start extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     ImageView greetImg;
     TextView greetText;
     Button btnstart;
+    Spinner trayek, noKendaraan;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_start);
 
        greetImg = findViewById(R.id.greeting_img);
         greetText = findViewById(R.id.greeting_text);
+
+        trayek = findViewById(R.id.btn_trayek);
+        trayek.setOnItemSelectedListener(this);
+        noKendaraan = findViewById(R.id.btn_plat);
+
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.no_kendaraan, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        noKendaraan.setAdapter(adapter);
+        noKendaraan.setOnItemSelectedListener(this);
+
 
         greeting();
 
@@ -74,20 +91,34 @@ public class Trip_start extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
 
-        if (timeOfDay >= 0 && timeOfDay < 12) {
-            greetText.setText("Selamat Pagi\nBudi Makarti");
+        if (timeOfDay >= 0 && timeOfDay < 18) {
+            if(timeOfDay > 3 && timeOfDay <12 ) {
+                greetText.setText("Good Morning");
+            } else if(timeOfDay >=12) {
+                greetText.setText("Good Afternoon");
+            }
             greetImg.setImageResource(R.drawable.img_default_half_morning);
-        } else if (timeOfDay >= 12 && timeOfDay < 15) {
-            greetText.setText("Selamat Siang\nBudi Makarti");
-            greetImg.setImageResource(R.drawable.img_default_half_afternoon);
-        } else if (timeOfDay >= 15 && timeOfDay < 18) {
-            greetText.setText("Selamat Sore\nBudi Makarti");
-            greetImg.setImageResource(R.drawable.img_default_half_without_sun);
+            Glide.with(Trip_start.this).load(R.drawable.img_default_half_morning).into(greetImg);
         }else if (timeOfDay >= 18 && timeOfDay < 24) {
-            greetText.setText("Selamat Malam\nBudi Makarti");
+            if(timeOfDay < 21 ) {
+                greetText.setText("Good Evening");
+            } else if(timeOfDay > 21) {
+                greetText.setText("Good Night");
+            }
             greetText.setTextColor(Color.WHITE);
+            Glide.with(Trip_start.this).load(R.drawable.img_default_half_night).into(greetImg);
             greetImg.setImageResource(R.drawable.malamhari);
         }
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(this, parent.getSelectedItem().toString().trim(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }
