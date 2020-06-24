@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Trip_finish"></activity>
+        <activity android:name=".LoginPage"/>
+        <activity android:name=".Trip_start" />
+        <activity android:name=".Trip_finish" />
         <activity android:name=".HomeActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -30,7 +32,7 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".history" />
-        <activity android:name=".Trip_start">
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
