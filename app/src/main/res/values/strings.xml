@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Jaramba Driver</string>
     <string name="image">image</string>
+    <string name="silahkan_tunggu">Silahkan tunggu</string>
 </resources>
