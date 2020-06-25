@@ -15,10 +15,13 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -54,10 +57,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 
 public class TripDriver extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    ArrayList<LatLng>arrayList = new ArrayList<LatLng>();
+    LatLng Sydney = new LatLng(-34,151);
+    LatLng Tamworth = new LatLng(-31.083332, 150.916672);
+    LatLng NewCastle = new LatLng(-32, 151);
+
     private DatabaseReference databaseReference;
     private LocationListener locationListener;
     private LocationManager locationManager;
@@ -67,6 +76,14 @@ public class TripDriver extends FragmentActivity implements OnMapReadyCallback {
     private EditText editTextLatitude;
     private EditText editTextLongitude;
 
+
+    private static  final long START_TIME_IN_MILLIS = 600000;
+    private TextView vCounter;
+    private Button btnStart;
+    private CountDownTimer mCountDownTimer;
+    private boolean mTimerRunning;
+    private long mTimeLeftInMills = START_TIME_IN_MILLIS;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +92,10 @@ public class TripDriver extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        arrayList.add(Sydney);
+        arrayList.add(Tamworth);
+        arrayList.add(NewCastle);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
 
@@ -98,12 +119,13 @@ public class TripDriver extends FragmentActivity implements OnMapReadyCallback {
                     String longitude = stringLong[stringLong.length-1].split("=")[1];
 
                     LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-                    mMap.addMarker(new MarkerOptions().position(latLng).title(latitude+", "+longitude));
+                    mMap.addMarker(new MarkerOptions().position(latLng).title(latitude+", "+longitude).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_bus)));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+
             }
 
             @Override
@@ -111,6 +133,43 @@ public class TripDriver extends FragmentActivity implements OnMapReadyCallback {
 
             }
         });
+
+        vCounter = findViewById(R.id.txt_count);
+        btnStart = findViewById(R.id.update);
+
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startTimer();
+            }
+        });
+
+        updateCountDownText();
+
+    }
+
+    public void startTimer(){
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMills, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMills = millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+                mTimerRunning = false;
+            }
+        }.start();
+        mTimerRunning = true;
+    }
+
+    private void updateCountDownText(){
+        int minutes = (int) (mTimeLeftInMills / 1000) / 60;
+        int seconds = (int) (mTimeLeftInMills / 1000) % 60;
+
+        String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d", minutes, seconds);
+        vCounter.setText(timeLeftFormatted);
     }
 
     @Override
@@ -124,6 +183,9 @@ public class TripDriver extends FragmentActivity implements OnMapReadyCallback {
                 try {
                     editTextLatitude.setText(Double.toString(location.getLatitude()));
                     editTextLongitude.setText(Double.toString(location.getLongitude()));
+
+                    databaseReference.child("latitude").push().setValue(editTextLatitude.getText().toString());
+                    databaseReference.child("longitude").push().setValue(editTextLongitude.getText().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
