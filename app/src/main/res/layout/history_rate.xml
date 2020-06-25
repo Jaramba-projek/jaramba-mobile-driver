@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:padding="15dp"
+    android:backgroundTint="#FFFFFF"
     android:background="@drawable/border_black">
 
     <TextView
@@ -36,10 +37,11 @@
     <EditText
         android:id="@+id/comment_rate"
         android:layout_width="250dp"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:hint="Tambahkan komentar"
         android:gravity="start|top"
         android:inputType="textMultiLine"
+        android:lines="4"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
