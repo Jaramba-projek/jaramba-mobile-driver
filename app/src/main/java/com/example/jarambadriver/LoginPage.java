@@ -129,6 +129,9 @@ public class LoginPage extends AppCompatActivity {
 
     public void login(View view) {
 
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("driver");
+
         final String email1 = etEmail.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
 
@@ -143,11 +146,12 @@ public class LoginPage extends AppCompatActivity {
                     String email2 = "" + ds.child("email").getValue();
                     String pwd = ""+ds.child("password").getValue();
 
-                    if(email1 == email2 && password == pwd) {
+                    if(email1.equals(email2)) {
+                        if(password.equals(pwd)) {
 
-                        Toast.makeText(LoginPage.this, "Berhasil lo ini", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginPage.this, Trip_start.class));
-
+                            Toast.makeText(LoginPage.this, "Berhasil lo ini", Toast.LENGTH_SHORT).show();
+                          //  startActivity(new Intent(LoginPage.this, Trip_start.class));
+                        }
                     }
                 }
 
