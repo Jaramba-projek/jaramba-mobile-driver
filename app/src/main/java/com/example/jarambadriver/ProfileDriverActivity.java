@@ -1,19 +1,25 @@
 package com.example.jarambadriver;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -28,6 +34,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +47,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
@@ -56,7 +64,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
     //storage
     StorageReference storageReference;
     //path where image will be created
-    String storagePath = "User_Profile_Imgs/";
+    String storagePath = "Driver_Profile_Imgs/";
 
     ProgressDialog progressDialog;
 
@@ -69,8 +77,8 @@ public class ProfileDriverActivity extends AppCompatActivity {
     private TextView nameTv, emailTv, phoneTv;
     private ImageView avatarIv, bgDynamic, icSetting;
 
-    String cameraPermission[];
-    String storagePermission[];
+    String[] cameraPermission;
+    String[] storagePermission;
 
     private String uid;
 
@@ -82,6 +90,8 @@ public class ProfileDriverActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     ImageView greetImg;
+
+    String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +105,18 @@ public class ProfileDriverActivity extends AppCompatActivity {
         databaseReference = database.getReference("driver");
         storageReference = FirebaseStorage.getInstance().getReference();
 
+        //init array of permission
+        cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
         //bottom nav init
         bottomNavigationView = findViewById(R.id.menu_navigasi);
         bottomNavigationView.setSelectedItemId(R.id.profile);
 
         //dynamic bg init
         greetImg = findViewById(R.id.greeting_img_profile);
+
+
 
         //view init
         avatarIv = findViewById(R.id.img_profile_page);
@@ -129,7 +145,8 @@ public class ProfileDriverActivity extends AppCompatActivity {
                     String email = ""+ds.child("email").getValue();
                     String name = ""+ds.child("nama").getValue();
                     String phone = ""+ds.child("no_telp").getValue();
-//                  String image = ""+ds.child("image").getValue();
+                    String image = ""+ds.child("image").getValue();
+                    key = ""+ds.child("key").getValue();
 
                     //set data
                     nameTv.setText(name);
@@ -137,14 +154,14 @@ public class ProfileDriverActivity extends AppCompatActivity {
                     phoneTv.setText(phone);
 
 
-                    Picasso.get().load(R.drawable.ic_face_black_24dp).into(avatarIv);
-//                    try {
-//                        //if image is received then set
-//                        Glide.with(ProfileDriverActivity.this).load().into(avatarIv);
-//                    } catch (Exception e) {
-//                        //if there is any exception while getting image then set default
-//                        Picasso.get().load(R.drawable.ic_face_black_24dp).into(avatarIv);
-//                    }
+                    //Picasso.get().load(R.drawable.ic_face_black_24dp).into(avatarIv);
+                    try {
+                        //if image is received then set
+                        Glide.with(ProfileDriverActivity.this).load(image).into(avatarIv);
+                    } catch (Exception e) {
+                        //if there is any exception while getting image then set default
+                        Picasso.get().load(R.drawable.ic_face_black_24dp).into(avatarIv);
+                    }
 
                     progressDialog.dismiss();
                 }
@@ -236,24 +253,166 @@ public class ProfileDriverActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-//                if (which == 0) {
-//                    //kamera clicked
-//                    if(!checkCameraPermission()){
-//                        requestCameraPermission();
-//                    } else {
-//                        pickFromCamera();
-//                    }
-//                } else if (which == 1) {
-//                    //galeri clicked
-//                    if(!checkStoragePermission()){
-//                        requsetStoragePermission();
-//                    } else {
-//                        pickFromGaleri();
-//                    }
-//                }
+                if (which == 0) {
+                    //kamera clicked
+                    if(!checkCameraPermission()){
+                        requestCameraPermission();
+                    } else {
+                        pickFromCamera();
+                    }
+                } else if (which == 1) {
+                    //galeri clicked
+                    if(!checkStoragePermission()){
+                        requsetStoragePermission();
+                    } else {
+                        pickFromGaleri();
+                    }
+                }
             }
         });
         builder.create().show();
+    }
+
+    private void pickFromGaleri() {
+        Intent galeryIntent = new Intent(Intent.ACTION_PICK);
+        galeryIntent.setType("image/*");
+        startActivityForResult(galeryIntent, IMAGE_PICK_GALLERY_CODE);
+    }
+
+    private void pickFromCamera() {
+        ContentValues cv = new ContentValues();
+        cv.put(MediaStore.Images.Media.TITLE, "Temp Pict");
+        cv.put(MediaStore.Images.Media.DESCRIPTION, "Temp Description");
+
+        //put image uri
+        image_uri = ProfileDriverActivity.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                cv);
+
+        //intent to start camera
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requsetStoragePermission() {
+        requestPermissions(storagePermission, STORAGE_REQUEST_CODE);
+    }
+
+    private boolean checkStoragePermission() {
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == (PackageManager.PERMISSION_GRANTED);
+        return result;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestCameraPermission() {
+        requestPermissions(cameraPermission, CAMERA_REQUEST_CODE);
+    }
+
+    private boolean checkCameraPermission() {
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == (PackageManager.PERMISSION_GRANTED);
+        boolean result1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == (PackageManager.PERMISSION_GRANTED);
+        return  result && result1;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case  CAMERA_REQUEST_CODE: {
+                if(grantResults.length > 0) {
+                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeStorageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if(cameraAccepted && writeStorageAccepted) {
+                        pickFromCamera();
+                    } else {
+                        Toast.makeText(ProfileDriverActivity.this, "Mohon setujui permission Kamera & Penyimpanan", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            break;
+
+            case STORAGE_REQUEST_CODE: {
+                if(grantResults.length > 0) {
+                    boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+                    if(writeStorageAccepted) {
+                        pickFromGaleri();
+                    } else {
+                        Toast.makeText(ProfileDriverActivity.this, "Mohon setujui permission Penyimpanan", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            break;
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode == RESULT_OK) {
+            if(requestCode == IMAGE_PICK_GALLERY_CODE) {
+                image_uri = data.getData();
+                uploadProfileDriverPhoto(image_uri);
+            }
+
+            else if(requestCode == IMAGE_PICK_CAMERA_CODE) {
+                uploadProfileDriverPhoto(image_uri);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void uploadProfileDriverPhoto(final Uri uri) {
+        progressDialog();
+
+        String filePathandName = storagePath + ""+ profile + "_" + key;
+
+        StorageReference storageReference2nd = storageReference.child(filePathandName);
+        storageReference2nd.putFile(uri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+
+                        while (!uriTask.isSuccessful());
+                        final Uri downloadUri = uriTask.getResult();
+
+                        if(uriTask.isSuccessful()) {
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put(profile, downloadUri.toString());
+
+                            databaseReference.child(key).updateChildren(hashMap)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(getApplicationContext(), "Gambar berhasil diperbarui", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Maaf, upload tidak berhasil", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Maaf, terdapat gangguan ketika upload", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void editProfile (View view) {
@@ -277,10 +436,10 @@ public class ProfileDriverActivity extends AppCompatActivity {
     }
 
 
-    private void showNamePhoneUpdateDialog(final String key) {
+    private void showNamePhoneUpdateDialog(final String key_ki) {
         final String keys;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        if(key.equals("nama")){
+        if(key_ki.equals("nama")){
             keys = "nama pengguna";
             builder.setIcon(R.drawable.ic_person_black_24dp);
         } else {
@@ -294,7 +453,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
         linearLayout.setPadding(10,10,10,10);
 
         final EditText editText = new EditText(this);
-        if(key.equals("nama")){
+        if(key_ki.equals("nama")){
             editText.setHint("Masukkan " + keys);
             editText.setInputType(InputType.TYPE_CLASS_TEXT);
         } else {
@@ -313,9 +472,9 @@ public class ProfileDriverActivity extends AppCompatActivity {
                         progressDialog();
 
                         HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put(key, value);
+                        hashMap.put(key_ki, value);
 
-                        databaseReference.child("-MA_ZLSGXiSz-22OTv2y").updateChildren(hashMap)
+                        databaseReference.child(key).updateChildren(hashMap)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
