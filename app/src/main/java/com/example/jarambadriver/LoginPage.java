@@ -90,13 +90,6 @@ public class LoginPage extends AppCompatActivity {
         btnlogin.setAnimation(rightin_anim);
         txtPass.setAnimation(rightin_anim);
 
-        btnlogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
     }
 
 
@@ -132,11 +125,14 @@ public class LoginPage extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("driver");
 
+        etEmail = findViewById(R.id.et_email_login);
+        etPassword = findViewById(R.id.et_password_login);
+
         final String email1 = etEmail.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
 
 
-        Query query = databaseReference.orderByChild("email").equalTo(etEmail.getText().toString().trim());
+        Query query = databaseReference.orderByChild("email").equalTo(email1);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -145,13 +141,25 @@ public class LoginPage extends AppCompatActivity {
                     //get data
                     String email2 = "" + ds.child("email").getValue();
                     String pwd = ""+ds.child("password").getValue();
+                    String nama = ""+ds.child("nama").getValue();
+
 
                     if(email1.equals(email2)) {
                         if(password.equals(pwd)) {
 
                             Toast.makeText(LoginPage.this, "Berhasil lo ini", Toast.LENGTH_SHORT).show();
-                          //  startActivity(new Intent(LoginPage.this, Trip_start.class));
+                            Intent intent = new Intent(LoginPage.this, Trip_start.class);
+                            intent.putExtra("NAMA",nama);
+                            startActivity(intent);
+                            finish();
+
+                        } else {
+                            Toast.makeText(LoginPage.this, "password anda salah", Toast.LENGTH_SHORT).show();
                         }
+                    }
+                    else {
+                        Toast.makeText(LoginPage.this, "email anda salah", Toast.LENGTH_SHORT).show();
+
                     }
                 }
 
