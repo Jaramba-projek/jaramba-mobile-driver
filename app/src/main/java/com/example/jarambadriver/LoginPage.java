@@ -52,11 +52,8 @@ public class LoginPage extends AppCompatActivity {
 
     Animation rightin_anim,top_anim, bottom_anim;
     AwesomeValidation awesomeValidation;
-    FirebaseAuth firebaseAuth;
-    FirebaseUser user;
     FirebaseDatabase database;
     DatabaseReference databaseReference;
-    FirebaseAuth.AuthStateListener mAuthStateListener;
 
     ProgressDialog progressDialog;
 
@@ -122,56 +119,66 @@ public class LoginPage extends AppCompatActivity {
 
     public void login(View view) {
 
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        awesomeValidation.addValidation(this, R.id.et_email_login,
+                Patterns.EMAIL_ADDRESS, R.string.invalid_email);
+
+        awesomeValidation.addValidation(this, R.id.et_password_login,
+                ".{6,}", R.string.invalid_password);
+
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("driver");
 
         etEmail = findViewById(R.id.et_email_login);
         etPassword = findViewById(R.id.et_password_login);
 
-        final String email1 = etEmail.getText().toString().trim();
-        final String password = etPassword.getText().toString().trim();
+        if (awesomeValidation.validate()) {
+
+            progressDialog = new ProgressDialog(this);
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.progress_dialog);
+            progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+            final String email1 = etEmail.getText().toString().trim();
+            final String password = etPassword.getText().toString().trim();
 
 
-        Query query = databaseReference.orderByChild("email").equalTo(email1);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            Query query = databaseReference.orderByChild("email").equalTo(email1);
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    //get data
-                    String email2 = "" + ds.child("email").getValue();
-                    String pwd = ""+ds.child("password").getValue();
-                    String nama = ""+ds.child("nama").getValue();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        //get data
+                        String email2 = "" + ds.child("email").getValue();
+                        String pwd = "" + ds.child("password").getValue();
+                        String nama = "" + ds.child("nama").getValue();
 
 
-                    if(email1.equals(email2)) {
-                        if(password.equals(pwd)) {
-
-                            Toast.makeText(LoginPage.this, "Berhasil lo ini", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginPage.this, Trip_start.class);
-                            intent.putExtra("NAMA",nama);
-                            startActivity(intent);
-                            finish();
-
+                        if (email1.equals(email2)) {
+                            if (password.equals(pwd)) {
+                                Toast.makeText(LoginPage.this, "Selamat datang di Jaramba", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginPage.this, Trip_start.class);
+                                intent.putExtra("NAMA", nama);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(LoginPage.this, "password anda salah", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
-                            Toast.makeText(LoginPage.this, "password anda salah", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginPage.this, "email anda salah", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    else {
-                        Toast.makeText(LoginPage.this, "email anda salah", Toast.LENGTH_SHORT).show();
 
-                    }
                 }
 
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
 
-            }
+            });
 
-        });
-
+        }
     }
-
 }
