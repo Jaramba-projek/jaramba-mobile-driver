@@ -97,9 +97,23 @@
             android:fontFamily="@font/nunitosans_regular"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <Button
+            android:id="@+id/btn_finish_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Finish"
+            android:onClick="finishTripDriver"
+            android:layout_marginEnd="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="35dp"
+            android:textColor="#FFF"
+            android:background="@drawable/border_orange"
+            tools:ignore="OnClick" />
+
 
         <Button
-            android:id="@+id/btn_start"
+            android:id="@+id/btn_start_trip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start"
@@ -107,8 +121,13 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="35dp"
+            android:onClick="startTripDriver"
             android:textColor="#FFF"
-            android:background="@drawable/border_orange" />
+            android:background="@drawable/border_orange"
+            tools:ignore="OnClick" />
+
+
+
 
     </RelativeLayout>
 

@@ -15,7 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginPage"/>
         <activity android:name=".Trip_start" />
         <activity android:name=".Trip_finish" />
         <activity android:name=".HomeActivity" />
