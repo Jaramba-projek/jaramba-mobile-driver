@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".HistoryDriverDetail"></activity>
-        <activity android:name=".ProfileDriverActivity">
+        <activity android:name=".ProfileDriverActivity" />
 
         <activity android:name=".Trip_start" />
         <activity android:name=".Trip_finish" />
@@ -46,7 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+
     </application>
 
 </manifest>

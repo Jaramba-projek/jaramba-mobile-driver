@@ -46,7 +46,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_start);
 
-//        databaseReference = FirebaseDatabase.getInstance().getReference("driver_trips");
+       databaseReference = FirebaseDatabase.getInstance().getReference("driver_trips");
         progressDialog = new ProgressDialog(this);
 
         greetImg = findViewById(R.id.greeting_img);
@@ -76,14 +76,16 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                         startActivity(new Intent(getApplicationContext()
                                 ,history.class));
                         overridePendingTransition(0,0);
-                        return true;
-                  //  case R.id.home:
-                    //    return true;
-                    case R.id.trip:
-                        return true;
-                    //case R.id.profile:
-                      //  return true;
-
+                        finish();
+                        break;
+                    case R.id.nav_home:
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                        finish();
+                        break;
+                    case R.id.profile:
+                        startActivity(new Intent(getApplicationContext(), ProfileDriverActivity.class));
+                        finish();
+                        break;
                 }
                 return false;
             }
@@ -123,7 +125,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, parent.getSelectedItem().toString().trim(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, parent.getSelectedItem().toString().trim(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -179,14 +181,14 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         String trayek_pilihan = trayek.getSelectedItem().toString().trim();
         String nomor_kendaraan_pilihan = noKendaraan.getSelectedItem().toString().trim();
 
-//        HashMap<Object, String> hashMap = new HashMap<>();
-//        hashMap.put("email", email);
-//        hashMap.put("trayek", trayek_pilihan);
-//        hashMap.put("Nama_Lengkap", nomor_kendaraan_pilihan);
+        HashMap<Object, String> hashMap = new HashMap<>();
+        hashMap.put("email", email);
+        hashMap.put("trayek", trayek_pilihan);
+        hashMap.put("nomor_kendaraan", nomor_kendaraan_pilihan);
 
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference reference = database.getReference("driver_trips");
-//        reference.child(email).setValue(hashMap);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("driver_trips");
+        reference.child(nomor_kendaraan_pilihan).setValue(hashMap);
 
 
         if(timeOfDay > 18) {

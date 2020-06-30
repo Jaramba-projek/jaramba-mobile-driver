@@ -37,8 +37,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,9 +53,7 @@ import java.util.HashMap;
 
 public class ProfileDriverActivity extends AppCompatActivity {
 
-    //firebase
-    FirebaseAuth firebaseAuth;
-    FirebaseUser user;
+
     FirebaseDatabase database;
     DatabaseReference databaseReference;
 
@@ -99,8 +95,6 @@ public class ProfileDriverActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile_driver);
 
         //firebase component init
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("driver");
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -124,8 +118,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
         emailTv = findViewById(R.id.tv_profil_email);
         phoneTv = findViewById(R.id.tv_profil_phone);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Driver profile");
+        setTitle("Profile Driver");
 
         //init progres dialog
         progressDialog = new ProgressDialog(ProfileDriverActivity.this);
@@ -192,6 +185,17 @@ public class ProfileDriverActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         finish();
                         break;
+
+                    case R.id.nav_home:
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                        finish();
+                        break;
+
+                    case R.id.trip:
+                        startActivity(new Intent(getApplicationContext(), Trip_start.class));
+                        finish();
+                        break;
+
                 }
 
                 return false;
