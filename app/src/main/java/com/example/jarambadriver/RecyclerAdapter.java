@@ -45,44 +45,52 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
         if (isi.getRate_status().contains("done")) {
             holder.cl.setBackgroundResource(R.drawable.border_black);
             holder.info.setImageResource(R.drawable.ic_baseline_info_black_24);
+            holder.rating.setColorFilter(Color.rgb(255,204,0));
+            holder.rating.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Anda Telah Memberikan Rating dan Komentar", Toast.LENGTH_SHORT).show();
+                }
+            });
         } else {
             holder.rating.setColorFilter(Color.rgb(128,128,128));
+
+            holder.rating.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.history_rate);
+                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+                    Button Submit = dialog.findViewById(R.id.submit_rate);
+                    final RatingBar Rating = dialog.findViewById(R.id.ratingBar);
+                    final EditText Komentar = dialog.findViewById(R.id.comment_rate);
+
+                    Submit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (Rating.getRating()!=0 && !Komentar.getText().toString().equals("")) {
+                                String text = "Rating Bus : " + Rating.getRating() + "\nKomentar : " + Komentar.getText();
+                                Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+
+                                dialog.dismiss();
+                            } else {
+                                if (Rating.getRating()==0) {
+                                    Toast.makeText(context, "Anda Belum Memberi Rating!", Toast.LENGTH_SHORT).show();
+                                } else if (Komentar.getText().toString().equals("")) {
+                                    Toast.makeText(context, "Anda Belum Mengisi Komentar!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    });
+                    dialog.show();
+                }
+            });
         }
 
         holder.trayek.setText(isi.getTrayek());
         holder.plat.setText(isi.getPlat());
 
-        holder.rating.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.history_rate);
-                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-                Button Submit = dialog.findViewById(R.id.submit_rate);
-                final RatingBar Rating = dialog.findViewById(R.id.ratingBar);
-                final EditText Komentar = dialog.findViewById(R.id.comment_rate);
-
-                Submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (Rating.getRating()!=0 && !Komentar.getText().toString().equals("")) {
-                            String text = "Rating Bus : " + Rating.getRating() + "\nKomentar : " + Komentar.getText();
-                            Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-
-                            dialog.dismiss();
-                        } else {
-                            if (Rating.getRating()==0) {
-                                Toast.makeText(context, "Anda Belum Memberi Rating!", Toast.LENGTH_SHORT).show();
-                            } else if (Komentar.getText().toString().equals("")) {
-                                Toast.makeText(context, "Anda Belum Mengisi Komentar!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                });
-                dialog.show();
-            }
-        });
     }
 
     @Override
