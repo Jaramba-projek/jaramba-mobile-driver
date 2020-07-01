@@ -79,7 +79,6 @@
             android:layout_marginTop="35dp"
             android:textAlignment="center"
             android:background="@drawable/border_neworange"
-            android:entries="@array/trayek"
             android:fontFamily="@font/nunitosans_regular"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -93,7 +92,6 @@
             android:textAlignment="center"
             android:layout_below="@id/btn_trayek"
             android:background="@drawable/border_neworange"
-            android:entries="@array/no_kendaraan"
             android:fontFamily="@font/nunitosans_regular"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -116,15 +114,17 @@
             android:id="@+id/btn_start_trip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start"
-            android:layout_marginEnd="40dp"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="40dp"
             android:layout_marginBottom="35dp"
-            android:onClick="startTripDriver"
-            android:textColor="#FFF"
             android:background="@drawable/border_orange"
+            android:onClick="startTripDriver"
+            android:text="Start"
+            android:textColor="#FFF"
             tools:ignore="OnClick" />
+
+
 
 
 
