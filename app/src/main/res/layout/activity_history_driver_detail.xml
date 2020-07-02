@@ -2,59 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
     tools:context=".HistoryDriverDetail">
 
-    <TextView
-        android:id="@+id/tv_history_trip_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Your History Trips \nwith"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="30dp" />
-
-    <ImageView
-        android:id="@+id/img_logo04"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/jaramba_logo_04"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tv_history_trip_detail"
-        android:contentDescription="@string/image" />
-
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/img_logo04"
-        android:layout_above="@+id/menu_navigasi"
-        app:cardCornerRadius="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
         android:layout_margin="20dp">
         
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_et">
+            android:background="@drawable/rounded_et"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/title_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp">
-
-                <ImageView
-                    android:id="@+id/icon_arrow_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="7dp"
-                    android:src="@drawable/ic_arrow_back_black_24dp"
-                    android:contentDescription="@string/image" />
 
                 <TextView
                     android:id="@+id/tv_your_drive_detail"
@@ -63,10 +32,9 @@
                     android:text="Your Drive Detail"
                     android:padding="8dp"
                     android:textSize="20sp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_centerHorizontal="true"
                     android:textStyle="bold"
-                    android:textColor="#EA604E"
-                    android:layout_toEndOf="@+id/icon_arrow_back"/>
+                    android:textColor="#EA604E" />
 
             </RelativeLayout>
 
@@ -123,25 +91,8 @@
 
             </LinearLayout>
 
-
-
-
         </LinearLayout>
 
-
-
     </androidx.cardview.widget.CardView>
-
-
-
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/menu_navigasi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#ffff"
-        app:menu="@menu/menu_navigasi"/>
-
 
 </RelativeLayout>

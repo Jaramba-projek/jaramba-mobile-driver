@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +28,6 @@ public class HistoryDriver extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     private DatabaseReference database;
-    FirebaseAuth firebaseAuth;
 
     private ArrayList<HistoryData> historyData = new ArrayList<>();
 
@@ -44,9 +41,6 @@ public class HistoryDriver extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         database = FirebaseDatabase.getInstance().getReference();
-        //firebaseAuth = FirebaseAuth.getInstance();
-        //FirebaseUser user = firebaseAuth.getCurrentUser();
-        //String uid = user.getUid();
 
         database.child("Mobile_Apps").child("Driver").child("Uji_Coba").child("History_Trip_Driver").addValueEventListener(new ValueEventListener() {
             @Override

@@ -38,15 +38,15 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".history" />
-        <activity android:name=".SplashScreen"></activity>
-
-        <activity android:name=".HistoryDriver">
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".HistoryDriver"></activity>
 
     </application>
 
