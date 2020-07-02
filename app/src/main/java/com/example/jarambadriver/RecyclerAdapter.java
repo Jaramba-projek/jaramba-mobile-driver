@@ -98,7 +98,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
         holder.info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Ini adalah info detail trip", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "Ini adalah info detail trip", Toast.LENGTH_SHORT).show();
+                final Dialog dialog1 = new Dialog(context);
+                dialog1.setContentView(R.layout.activity_history_driver_detail);
+                dialog1.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+                final TextView trayek = dialog1.findViewById(R.id.tv_detail_destinasi);
+                final TextView plat = dialog1.findViewById(R.id.tv_detail_plat_damri);
+                final TextView tanggal = dialog1.findViewById(R.id.tv_detail_tanggal);
+                final TextView waktu = dialog1.findViewById(R.id.tv_detail_waktu);
+
+                trayek.setText(isi.getTrayek());
+                plat.setText(isi.getPlat());
+                tanggal.setText(isi.getTanggal());
+                waktu.setText(isi.getWaktu());
+
+                dialog1.show();
             }
         });
     }
