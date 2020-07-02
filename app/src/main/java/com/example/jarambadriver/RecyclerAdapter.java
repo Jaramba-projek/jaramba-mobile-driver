@@ -17,7 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
     private ArrayList<HistoryData> rvData;
 
     private Context context;
-    FirebaseAuth firebaseAuth;
 
     public RecyclerAdapter(ArrayList<HistoryData> inputData) {
         this.rvData = inputData;
@@ -40,7 +40,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
 
     @Override
     public void onBindViewHolder(@NonNull final ListViewHolder holder, int position) {
-        HistoryData isi = rvData.get(position);
+        final HistoryData isi = rvData.get(position);
 
         if (isi.getRate_status().contains("done")) {
             holder.cl.setBackgroundResource(R.drawable.border_black);
@@ -66,12 +66,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
                     final RatingBar Rating = dialog.findViewById(R.id.ratingBar);
                     final EditText Komentar = dialog.findViewById(R.id.comment_rate);
 
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    final DatabaseReference myRef = database.getReference();
+
                     Submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (Rating.getRating()!=0 && !Komentar.getText().toString().equals("")) {
-                                String text = "Rating Bus : " + Rating.getRating() + "\nKomentar : " + Komentar.getText();
-                                Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Terimakasih Telah Memberikan Rating!", Toast.LENGTH_SHORT).show();
+
+                                myRef.child("Mobile_Apps").child("Driver").child("Uji_Coba").child("History_Trip_Driver").child(isi.getKey()).setValue(new HistoryData(Rating.getRating(), Komentar.getText().toString(), isi.getTrayek(), isi.getPlat(), isi.getTanggal(), isi.getWaktu(), "done"));
 
                                 dialog.dismiss();
                             } else {
@@ -91,6 +95,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
         holder.trayek.setText(isi.getTrayek());
         holder.plat.setText(isi.getPlat());
 
+        holder.info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Ini adalah info detail trip", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

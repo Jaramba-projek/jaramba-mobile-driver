@@ -4,6 +4,20 @@ public class HistoryData {
     String trayek, plat, tanggal, waktu, comment, key, rate_status;
     float rating;
 
+    public HistoryData() {
+
+    }
+
+    public HistoryData(float rating, String comment, String trayek, String plat, String tanggal, String waktu, String rate_status) {
+        this.rating = rating;
+        this.comment = comment;
+        this.trayek = trayek;
+        this.plat = plat;
+        this.tanggal = tanggal;
+        this.waktu = waktu;
+        this.rate_status = rate_status;
+    }
+
     public String getTrayek() {
         return trayek;
     }

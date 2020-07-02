@@ -48,7 +48,7 @@ public class HistoryDriver extends AppCompatActivity {
         //FirebaseUser user = firebaseAuth.getCurrentUser();
         //String uid = user.getUid();
 
-        database.child("Mobile_Apps").child("Driver").child("Uji_Coba").addValueEventListener(new ValueEventListener() {
+        database.child("Mobile_Apps").child("Driver").child("Uji_Coba").child("History_Trip_Driver").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 historyData.clear();
@@ -71,33 +71,5 @@ public class HistoryDriver extends AppCompatActivity {
 
             }
         });
-
-/*
-        rate = findViewById(R.id.rate);
-
-        rate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(HistoryDriver.this);
-                dialog.setContentView(R.layout.history_rate);
-                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-                Button Submit = dialog.findViewById(R.id.submit_rate);
-                final RatingBar Rating = dialog.findViewById(R.id.ratingBar);
-                final EditText Komentar = dialog.findViewById(R.id.comment_rate);
-
-                Submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String text = "Rating Bus : " + Rating.getRating() + "\nKomentar : " + Komentar.getText();
-                        Toast.makeText(HistoryDriver.this, text, Toast.LENGTH_SHORT).show();
-
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-            }
-        });
-        */
     }
 }
