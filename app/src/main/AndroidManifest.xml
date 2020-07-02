@@ -38,8 +38,9 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".history" />
-        <activity android:name=".SplashScreen">
+        <activity android:name=".SplashScreen"></activity>
 
+        <activity android:name=".HistoryDriver">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
