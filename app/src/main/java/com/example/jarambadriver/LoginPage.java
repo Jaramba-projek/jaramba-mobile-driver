@@ -143,7 +143,7 @@ public class LoginPage extends AppCompatActivity {
             final String password = etPassword.getText().toString().trim();
 
 
-            Query query = databaseReference.orderByChild("email").equalTo(email1);
+            Query query = databaseReference.orderByChild("email");
             query.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -157,18 +157,20 @@ public class LoginPage extends AppCompatActivity {
 
                         if (email1.equals(email2)) {
                             if (password.equals(pwd)) {
+                                progressDialog.dismiss();
                                 Toast.makeText(LoginPage.this, "Selamat datang di Jaramba", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginPage.this, Trip_start.class);
                                 intent.putExtra("NAMA", nama);
                                 startActivity(intent);
                                 finish();
-                            } else {
-                                Toast.makeText(LoginPage.this, "password anda salah", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(LoginPage.this, "email anda salah", Toast.LENGTH_SHORT).show();
+                        }  else {
+                            progressDialog.dismiss();
+                            Toast.makeText(LoginPage.this, " email atau password anda salah ", Toast.LENGTH_SHORT).show();
                         }
+
                     }
+
 
                 }
 
@@ -180,5 +182,6 @@ public class LoginPage extends AppCompatActivity {
             });
 
         }
+
     }
 }
