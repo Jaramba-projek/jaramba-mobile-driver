@@ -31,9 +31,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 public class Trip_start extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -45,7 +49,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
     Spinner trayek, noKendaraan;
     Button btnStart, btnFinish;
 
-    String key, platNumber, trayex, status;
+    String key, platNumber, trayex, status, price;
+    String id_trip;
 
     ProgressDialog progressDialog;
 
@@ -150,20 +155,27 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         if (timeOfDay > 0 && timeOfDay < 18) {
             if(timeOfDay > 3 && timeOfDay <12 ) {
                 greetText.setText("Good Morning");
+                greetImg.setImageResource(R.drawable.img_default_half_morning);
+                Glide.with(Trip_start.this).load(R.drawable.img_default_half_morning).into(greetImg);
             } else if(timeOfDay >=12) {
                 greetText.setText("Good Afternoon");
+                greetImg.setImageResource(R.drawable.img_default_half_afternoon);
+                Glide.with(Trip_start.this).load(R.drawable.img_default_half_afternoon).into(greetImg);
             }
-            greetImg.setImageResource(R.drawable.img_default_half_morning);
-            Glide.with(Trip_start.this).load(R.drawable.img_default_half_morning).into(greetImg);
+
         }else if (timeOfDay >= 18 && timeOfDay < 23) {
             if(timeOfDay < 21 ) {
                 greetText.setText("Good Evening");
+                greetText.setTextColor(Color.WHITE);
+                Glide.with(Trip_start.this).load(R.drawable.img_default_half_without_sun).into(greetImg);
+                greetImg.setImageResource(R.drawable.img_default_half_without_sun);
             } else if(timeOfDay > 21) {
                 greetText.setText("Good Night");
+                greetText.setTextColor(Color.WHITE);
+                Glide.with(Trip_start.this).load(R.drawable.img_default_half_night).into(greetImg);
+                greetImg.setImageResource(R.drawable.malamhari);
             }
-            greetText.setTextColor(Color.WHITE);
-            Glide.with(Trip_start.this).load(R.drawable.img_default_half_night).into(greetImg);
-            greetImg.setImageResource(R.drawable.malamhari);
+
         }
 
     }
@@ -192,6 +204,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                     trayex = ""+ds.child("trayek").getValue();
                     key = ""+ds.child("key").getValue();
                     status = ""+ds.child("status").getValue();
+                    price = ""+ds.child("price").getValue();
 
                 }
             }
@@ -270,18 +283,48 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         btnFinish = findViewById(R.id.btn_finish_trip);
 
 
-        String email = "bagasganteng88@gmail.com";
         String trayek_pilihan = trayek.getSelectedItem().toString().trim();
         String nomor_kendaraan_pilihan = noKendaraan.getSelectedItem().toString().trim();
 
+        Intent i = getIntent();
+        String driver_name = i.getStringExtra("driver_name");
+        String id_driver = i.getStringExtra("id_driver");
+
+
+        //getCurrent time clock
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+        Date currentLocalTime = cal.getTime();
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
+        String localTime = dateFormat.format(currentLocalTime);
+        id_trip = key + "_" + localTime;
+
+        Date c = Calendar.getInstance().getTime();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("dd/MMM/yyyy");
+        String currentDate = df.format(c);
+
+
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("email", email);
+        hashMap.put("driver_name", "Bagas Ganteng");
         hashMap.put("trayek", trayek_pilihan);
         hashMap.put("nomor_kendaraan", nomor_kendaraan_pilihan);
+        hashMap.put("start_time", localTime);
+        hashMap.put("end_time", "");
+        hashMap.put("gps", "");
+        hashMap.put("id_bus", key);
+        hashMap.put("id_driver", "");
+        hashMap.put("key",id_trip);
+        hashMap.put("price", price);
+        hashMap.put("rating", "");
+        hashMap.put("status", "active");
+        hashMap.put("tanggal", currentDate);
+        hashMap.put("total_passenger", "");
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("driver_trips");
-        reference.child(nomor_kendaraan_pilihan).setValue(hashMap);
 
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
+        reference.child(id_trip).setValue(hashMap);
+
+        
         btnStart.setVisibility(View.GONE);
         trayek.setEnabled(false);
         noKendaraan.setEnabled(false);
@@ -294,7 +337,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         }
 
         progressDialog.dismiss();
-        Toast.makeText(this, email + "\n" + trayek_pilihan + "\n" + nomor_kendaraan_pilihan, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Berhasil memilih...", Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "Selamat memulai perjalanan, jangan lupa berdoa", Toast.LENGTH_SHORT).show();
 
     }
@@ -328,6 +371,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
                 //ini sementara solusinya
                 adapter2.clear();
+                adapter.clear();
 
             }
         });
@@ -351,6 +395,19 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         noKendaraan = findViewById(R.id.btn_plat);
         btnStart = findViewById(R.id.btn_start_trip);
         btnFinish = findViewById(R.id.btn_finish_trip);
+
+        //getCurrent time clock
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+        Date currentLocalTime = cal.getTime();
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
+        String localTime = dateFormat.format(currentLocalTime);
+
+        HashMap<String, Object> status = new HashMap<>();
+        status.put("end_time", localTime);
+        status.put("status", "tidak aktif");
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
+        reference.child(id_trip).updateChildren(status);
 
 
         btnStart.setVisibility(View.VISIBLE);

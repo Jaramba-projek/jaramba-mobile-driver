@@ -67,8 +67,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_weight="1">
 
         <Spinner
             android:id="@+id/btn_trayek"
@@ -82,6 +81,16 @@
             android:fontFamily="@font/nunitosans_regular"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_drop_down_orange_24dp"
+            android:contentDescription="@string/image"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="39dp"
+            android:layout_marginEnd="45dp"/>
+
+
         <Spinner
             android:id="@+id/btn_plat"
             android:layout_width="match_parent"
@@ -94,6 +103,16 @@
             android:background="@drawable/border_neworange"
             android:fontFamily="@font/nunitosans_regular"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_drop_down_orange_24dp"
+            android:contentDescription="@string/image"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/btn_trayek"
+            android:layout_marginTop="39dp"
+            android:layout_marginEnd="45dp"/>
 
         <Button
             android:id="@+id/btn_finish_trip"
