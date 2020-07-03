@@ -324,7 +324,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
         reference.child(id_trip).setValue(hashMap);
 
-        
+
         btnStart.setVisibility(View.GONE);
         trayek.setEnabled(false);
         noKendaraan.setEnabled(false);
