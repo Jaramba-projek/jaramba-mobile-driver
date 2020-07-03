@@ -1,3 +1,128 @@
 <resources>
-    <string name="app_name">Jaramba Driver</string>
+    <string name="register">Register</string>
+    <string name="app_name">Jaramba Mobile</string>
+    <string name="image">image</string>
+    <string name="Selamat_menjadi_bagian_dari_petualangan_seru">Selamat menjadi bagian dari petualangan seru</string>
+    <string name="nikmati_kemudahan_perjalanan_n_hanya_dengan_satu_aplikasi">Nikmati kemudahan perjalanan \n hanya dengan satu aplikasi</string>
+    <string name="masukkan_email">Masukkan email</string>
+    <string name="kata_sandi">Kata sandi</string>
+    <string name="login">LOGIN</string>
+    <string name="lupa_password">Lupa password</string>
+    <string name="mendaftar">Mendaftar</string>
+    <string name="belum_memiliki_akun">Belum memiliki akun?</string>
+    <string name="yang_telah_anda_daftarkan">yang telah anda daftarkan</string>
+    <string name="untuk_memperoleh_konfirmasi_kata_sandi">untuk memperoleh konfirmasi kata sandi</string>
+    <string name="email_anda">email anda</string>
+    <string name="pada">pada</string>
+    <string name="kembali_ke_halaman_login">Kembali ke halaman Login</string>
+    <string name="konfirmasi_email">Konfirmasi email</string>
+    <string name="secara_gratis_hingga">secara gratis hingga</string>
+    <string name="kapanpun_bersama_jaramba">kapanpun bersama Jaramba</string>
+    <string name="nomor_telepon">Nomor telepon</string>
+    <string name="mendaftar_sekarang">Mendaftar sekarang</string>
+    <string name="nama_lengkap">Nama lengkap</string>
+    <string name="invalid_name">Maaf, nama tidak valid</string>
+    <string name="invalid_email">Maaf, email tidak valid</string>
+    <string name="invalid_password">Maaf, password kurang dari 6 karakter</string>
+    <string name="invalid_number">Maaf, nomor tidak valid</string>
+    <string name="silahkan_tunggu">Silahkan tunggu</string>
+    <string name="title_activity_trip_user">Map</string>
+    <string name="edit_profil">Ganti foto</string>
+    <string name="logout">Logout</string>
+    <string name="tahukah_kamu_apa_itu_jaramba">Tahukah kamu apa itu Jaramba</string>
+    <string name="kamu_wajib_melihat_tayangan_ini">kamu wajib melihat tayangan ini</string>
+    <string name="jaramba_desc">Jaramba adalah platform mobilitas sebagai layanan yang mengintegrasikan moda transportasi dari massal ke pribadi, dari transportasi perkotaan ke antar kota. \n\nMembuat perjalananmu mulus dan mudah tanpa harus mengikat dirimu dengan kepemilikan kendaraan pribadi dan tanggung jawab melekat padanya. \n\nJaramba yang akan kita bangun adalah pengembangan lebih lanjut dari ekosistem yang telah kami bangun. \n\n\nBagaimana menurutmu, menarik bukan?</string>
+    <string name="lets_start_nyour_trip">LETS START \nYOUR TRIP</string>
+    <string name="email_baru_anda">Email baru anda</string>
+    <string name="tv_keterangan_ubah_nama_nomor">Masukkan kata sandi saat ini dan masukkan \nEmail baru sebagai autentikasi pengubahan \nemail anda</string>
+    <string name="konfirmasi">Konfirmasi</string>
+    <string name="batal">Batal</string>
+    <string name="mode_transportasi">Mode Transportasi :</string>
+    <string name="bus_damri">BUS DAMRI</string>
+    <string name="from">From :</string>
+    <string name="dago">DAGO</string>
+    <string name="bandung_jawa_barat">Bandung, Jawa Barat</string>
+    <string name="to">To :</string>
+    <string name="destinasi">TEGALEGA</string>
+    <string name="kab_prov_tujuan">Bandung, Jawa Barat</string>
+    <string name="tanggal">Tanggal :</string>
+    <string name="hari">KAMIS</string>
+    <string name="tanggal_kalender">04 - Juni - 2020</string>
+    <string name="waktu">Waktu :</string>
+    <string name="waktu_keberangkatan">01:41</string>
+    <string name="pm_am">PM</string>
+    <string name="jumlah_penumpang">Jumlah Penumpang :</string>
+    <string name="keterangan_penumpang">BELUM DITAMBAHKAN</string>
+    <string name="metode_pembayaran">Metode Pembayaran :</string>
+    <string name="keterangan_metode_pembayaran">BELUM DITAMBAHKAN</string>
+    <string name="let_s_go">Let\'s Go</string>
+    <string name="tv_keterangan_ubah_password">Jaramba akan mengirimkan pesan \nmelalui email anda, kemudian anda \ndapat mengubah kata sandi \nmelalui pesan tersebut</string>
+    <string name="silahkan_masukkan">Silahkan masukkan</string>
+
+    <string-array name="metode_pembayaran">
+        <item>Cash</item>
+        <item>E-Money</item>
+        <item>OVO</item>
+        <item>Go-Pay</item>
+        <item>Link-aja</item>
+    </string-array>
+
+    <string-array name="city">
+        <item>Bandung</item>
+    </string-array>
+
+    <string-array name="area">
+        <item>Andir</item>
+        <item>Astana Anyar</item>
+        <item>Antapani</item>
+        <item>Arcamanik</item>
+        <item>Babakan Ciparay</item>
+        <item>Bandung Kidul</item>
+        <item>Bandung Kulon</item>
+        <item>Bandung Wetan</item>
+        <item>Batununggal</item>
+        <item>Bojongloa Kaler</item>
+        <item>Bojongloa Kidul</item>
+        <item>Buahbatu</item>
+        <item>Cibeunying Kaler</item>
+        <item>Cibeunying Kidul</item>
+        <item>Cibiru</item>
+        <item>Cicendo</item>
+        <item>Cidadap</item>
+        <item>Cinambo</item>
+        <item>Coblong</item>
+        <item>Gedebage</item>
+        <item>Kiaracondong</item>
+        <item>Lengkong</item>
+        <item>Mandalajati</item>
+        <item>Panyileukan</item>
+        <item>Rancasari</item>
+        <item>Regol</item>
+        <item>Sukajadi</item>
+        <item>Sukasari</item>
+        <item>Sumur Bandung</item>
+        <item>Ujungberung</item>
+    </string-array>
+
+    <array name="trayek">
+        <item>Cicaheum - Cibeureum</item>
+        <item>Ledeng - Leuwi panjang</item>
+        <item>Dipatikur - Leuwi panjang</item>
+        <item>Elang - Jatinangor via Cibiru (Jln. Soekarno-Hatta/By Pass</item>
+        <item>Elang - Jatinangor via tol Moh Toha</item>
+        <item>Dipatikur - Jatinangor</item>
+        <item>Tanjungsari - Kebon Kelapa</item>
+        <item>Leuwi panjang - Cicaheum</item>
+        <item>Kebon kelapa - Cibiru</item>
+        <item>Alun Alun - Ciburuy</item>
+        <item>Kotabaru Parahayangan(KBP) - Leuwi panjang</item>
+    </array>
+
+    <array name="no_kendaraan">
+        <item>D 1234 AB</item>
+        <item>D 2341 BC</item>
+        <item>D 3412 CD</item>
+        <item>D 4123 DA</item>
+        <item>D 2312 AC</item>
+    </array>
 </resources>
