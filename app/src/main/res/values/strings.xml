@@ -1,6 +1,7 @@
 <resources>
+    <string name="app_name">Jaramba Driver</string>
+    <string name="title_activity_trip_driver">Map</string>
     <string name="register">Register</string>
-    <string name="app_name">Jaramba Mobile</string>
     <string name="image">image</string>
     <string name="Selamat_menjadi_bagian_dari_petualangan_seru">Selamat menjadi bagian dari petualangan seru</string>
     <string name="nikmati_kemudahan_perjalanan_n_hanya_dengan_satu_aplikasi">Nikmati kemudahan perjalanan \n hanya dengan satu aplikasi</string>
@@ -58,8 +59,6 @@
     <string name="let_s_go">Let\'s Go</string>
     <string name="tv_keterangan_ubah_password">Jaramba akan mengirimkan pesan \nmelalui email anda, kemudian anda \ndapat mengubah kata sandi \nmelalui pesan tersebut</string>
     <string name="silahkan_masukkan">Silahkan masukkan</string>
-    <string name="app_name">Jaramba Driver</string>
-    <string name="title_activity_trip_driver">Map</string>
 
     <string-array name="metode_pembayaran">
         <item>Cash</item>
@@ -105,4 +104,26 @@
         <item>Sumur Bandung</item>
         <item>Ujungberung</item>
     </string-array>
+
+<!--    <array name="trayek">-->
+<!--        <item>Cicaheum - Cibeureum</item>-->
+<!--        <item>Ledeng - Leuwi panjang</item>-->
+<!--        <item>Dipatikur - Leuwi panjang</item>-->
+<!--        <item>Elang - Jatinangor via Cibiru (Jln. Soekarno-Hatta/By Pass</item>-->
+<!--        <item>Elang - Jatinangor via tol Moh Toha</item>-->
+<!--        <item>Dipatikur - Jatinangor</item>-->
+<!--        <item>Tanjungsari - Kebon Kelapa</item>-->
+<!--        <item>Leuwi panjang - Cicaheum</item>-->
+<!--        <item>Kebon kelapa - Cibiru</item>-->
+<!--        <item>Alun Alun - Ciburuy</item>-->
+<!--        <item>Kotabaru Parahayangan(KBP) - Leuwi panjang</item>-->
+<!--    </array>-->
+
+<!--    <array name="no_kendaraan">-->
+<!--        <item>D 1234 AB</item>-->
+<!--        <item>D 2341 BC</item>-->
+<!--        <item>D 3412 CD</item>-->
+<!--        <item>D 4123 DA</item>-->
+<!--        <item>D 2312 AC</item>-->
+<!--    </array>-->
 </resources>
