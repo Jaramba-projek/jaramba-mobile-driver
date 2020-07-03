@@ -58,6 +58,8 @@
     <string name="let_s_go">Let\'s Go</string>
     <string name="tv_keterangan_ubah_password">Jaramba akan mengirimkan pesan \nmelalui email anda, kemudian anda \ndapat mengubah kata sandi \nmelalui pesan tersebut</string>
     <string name="silahkan_masukkan">Silahkan masukkan</string>
+    <string name="app_name">Jaramba Driver</string>
+    <string name="title_activity_trip_driver">Map</string>
 
     <string-array name="metode_pembayaran">
         <item>Cash</item>
