@@ -156,6 +156,10 @@ public class ProfileDriverActivity extends AppCompatActivity {
                         Picasso.get().load(R.drawable.ic_face_black_24dp).into(avatarIv);
                     }
 
+                    Intent i = new Intent(ProfileDriverActivity.this, Trip_start.class);
+                    i.putExtra("driver_name", name);
+                    i.putExtra("id_driver", key);
+
                     progressDialog.dismiss();
                 }
             }
