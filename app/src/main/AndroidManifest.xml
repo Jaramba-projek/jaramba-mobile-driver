@@ -25,6 +25,7 @@
         <activity android:name=".Trip_start" />
         <activity android:name=".Trip_finish" />
         <activity android:name=".HomeActivity" />
+        <activity android:name=".LoginPage" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -38,7 +39,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".history" />
+<!--        <activity android:name=".history" />-->
         <activity
             android:name=".TripDriver"
             android:label="@string/title_activity_trip_driver"></activity>

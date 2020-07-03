@@ -83,6 +83,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
 
     //for checking profile picture
     String profile;
+    String driverName;
 
     BottomNavigationView bottomNavigationView;
     ImageView greetImg;
@@ -110,7 +111,8 @@ public class ProfileDriverActivity extends AppCompatActivity {
         //dynamic bg init
         greetImg = findViewById(R.id.greeting_img_profile);
 
-
+        Intent intent = getIntent();
+        driverName = intent.getStringExtra("nama");
 
         //view init
         avatarIv = findViewById(R.id.img_profile_page);
@@ -129,7 +131,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
         //progress dialog shown to wait retrieve data
         progressDialog();
 
-        Query query = databaseReference.orderByChild("email").equalTo("nardiyansah@gmail.com");
+        Query query = databaseReference.orderByChild("nama").equalTo(driverName);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -155,10 +157,6 @@ public class ProfileDriverActivity extends AppCompatActivity {
                         //if there is any exception while getting image then set default
                         Picasso.get().load(R.drawable.ic_face_black_24dp).into(avatarIv);
                     }
-
-                    Intent i = new Intent(ProfileDriverActivity.this, Trip_start.class);
-                    i.putExtra("driver_name", name);
-                    i.putExtra("id_driver", key);
 
                     progressDialog.dismiss();
                 }
@@ -196,7 +194,10 @@ public class ProfileDriverActivity extends AppCompatActivity {
                         break;
 
                     case R.id.trip:
-                        startActivity(new Intent(getApplicationContext(), Trip_start.class));
+                        Intent intent = new Intent(ProfileDriverActivity.this, Trip_start.class);
+                        intent.putExtra("nama", driverName);
+                        intent.putExtra("key", key);
+                        startActivity(intent);
                         finish();
                         break;
 

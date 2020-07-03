@@ -45,12 +45,13 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
 
     ImageView greetImg;
-    TextView greetText;
+    TextView greetText, usernameDriver;
     Spinner trayek, noKendaraan;
     Button btnStart, btnFinish;
 
     String key, platNumber, trayex, status, price;
     String id_trip;
+    String nama, driverKey;
 
     ProgressDialog progressDialog;
 
@@ -69,6 +70,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
         greetImg = findViewById(R.id.greeting_img);
         greetText = findViewById(R.id.greeting_text);
+        usernameDriver = findViewById(R.id.username_driver);
 
         trayek = findViewById(R.id.btn_trayek);
 //        trayek.setOnItemSelectedListener(this);
@@ -84,14 +86,13 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         trayek.setAdapter(adapter);
         noKendaraan.setAdapter(adapter2);
 
+        Intent i = getIntent();
+        nama = i.getStringExtra("nama");
+        driverKey = i.getStringExtra("key");
+
 
         retrieveData();
 
-
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.no_kendaraan, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        noKendaraan.setAdapter(adapter);
-//        noKendaraan.setOnItemSelectedListener(this);
 
 
         greeting();
@@ -114,7 +115,9 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                         finish();
                         break;
                     case R.id.profile:
-                        startActivity(new Intent(getApplicationContext(), ProfileDriverActivity.class));
+                        Intent intent = new Intent(Trip_start.this, ProfileDriverActivity.class);
+                        intent.putExtra("nama", nama);
+                        startActivity(intent);
                         finish();
                         break;
                 }
@@ -152,13 +155,17 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         Calendar calendar = Calendar.getInstance();
         int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
 
+
+
         if (timeOfDay > 0 && timeOfDay < 18) {
             if(timeOfDay > 3 && timeOfDay <12 ) {
                 greetText.setText("Good Morning");
+                usernameDriver.setText(nama);
                 greetImg.setImageResource(R.drawable.img_default_half_morning);
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_morning).into(greetImg);
             } else if(timeOfDay >=12) {
                 greetText.setText("Good Afternoon");
+                usernameDriver.setText(nama);
                 greetImg.setImageResource(R.drawable.img_default_half_afternoon);
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_afternoon).into(greetImg);
             }
@@ -166,32 +173,19 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         }else if (timeOfDay >= 18 && timeOfDay < 23) {
             if(timeOfDay < 21 ) {
                 greetText.setText("Good Evening");
+                usernameDriver.setText(nama);
                 greetText.setTextColor(Color.WHITE);
+                usernameDriver.setTextColor(Color.WHITE);
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_without_sun).into(greetImg);
                 greetImg.setImageResource(R.drawable.img_default_half_without_sun);
             } else if(timeOfDay > 21) {
                 greetText.setText("Good Night");
+                usernameDriver.setText(nama);
                 greetText.setTextColor(Color.WHITE);
+                usernameDriver.setTextColor(Color.WHITE);
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_night).into(greetImg);
                 greetImg.setImageResource(R.drawable.malamhari);
             }
-        Intent i = getIntent();
-        String nama = i.getStringExtra("NAMA");
-
-        if (timeOfDay > 0 && timeOfDay < 12) {
-            greetText.setText("Selamat Pagi\n" + nama);
-            greetImg.setImageResource(R.drawable.img_default_half_morning);
-        } else if (timeOfDay >= 12 && timeOfDay < 15) {
-            greetText.setText("Selamat Siang\n" + nama);
-            greetImg.setImageResource(R.drawable.img_default_half_afternoon);
-        } else if (timeOfDay >= 15 && timeOfDay < 18) {
-            greetText.setText("Selamat Sore\n" + nama);
-            greetImg.setImageResource(R.drawable.img_default_half_without_sun);
-        }else if (timeOfDay >= 18 && timeOfDay < 23) {
-            greetText.setText("Selamat Malam\n" + nama);
-            greetText.setTextColor(Color.WHITE);
-            greetImg.setImageResource(R.drawable.malamhari);
-        }
 
         }
 
@@ -303,9 +297,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         String trayek_pilihan = trayek.getSelectedItem().toString().trim();
         String nomor_kendaraan_pilihan = noKendaraan.getSelectedItem().toString().trim();
 
-        Intent i = getIntent();
-        String driver_name = i.getStringExtra("driver_name");
-        String id_driver = i.getStringExtra("id_driver");
+
 
 
         //getCurrent time clock
@@ -313,22 +305,26 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         Date currentLocalTime = cal.getTime();
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
         String localTime = dateFormat.format(currentLocalTime);
-        id_trip = key + "_" + localTime;
+
 
         Date c = Calendar.getInstance().getTime();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("dd/MMM/yyyy");
         String currentDate = df.format(c);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dff = new SimpleDateFormat("dd-MMM-yyyy");
+        String currentDate_trip = dff.format(c);
+
+        id_trip = key + "_" + currentDate_trip + "_" + localTime;
 
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("driver_name", "Bagas Ganteng");
+        hashMap.put("driver_name", nama);
         hashMap.put("trayek", trayek_pilihan);
         hashMap.put("nomor_kendaraan", nomor_kendaraan_pilihan);
         hashMap.put("start_time", localTime);
         hashMap.put("end_time", "");
         hashMap.put("gps", "");
         hashMap.put("id_bus", key);
-        hashMap.put("id_driver", "");
+        hashMap.put("id_driver", driverKey);
         hashMap.put("key",id_trip);
         hashMap.put("price", price);
         hashMap.put("rating", "");

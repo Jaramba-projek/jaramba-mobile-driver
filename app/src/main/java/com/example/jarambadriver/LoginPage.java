@@ -24,9 +24,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -153,6 +150,7 @@ public class LoginPage extends AppCompatActivity {
                         String email2 = "" + ds.child("email").getValue();
                         String pwd = "" + ds.child("password").getValue();
                         String nama = "" + ds.child("nama").getValue();
+                        String key = ""+ds.child("key").getValue();
 
 
                         if (email1.equals(email2)) {
@@ -160,7 +158,8 @@ public class LoginPage extends AppCompatActivity {
                                 progressDialog.dismiss();
                                 Toast.makeText(LoginPage.this, "Selamat datang di Jaramba", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginPage.this, Trip_start.class);
-                                intent.putExtra("NAMA", nama);
+                                intent.putExtra("nama", nama);
+                                intent.putExtra("key",key);
                                 startActivity(intent);
                                 finish();
                             }
