@@ -1,6 +1,6 @@
 <resources>
-
     <string name="app_name">Jaramba Driver</string>
+    <string name="title_activity_trip_driver">Map</string>
     <string name="register">Register</string>
     <string name="image">image</string>
     <string name="Selamat_menjadi_bagian_dari_petualangan_seru">Selamat menjadi bagian dari petualangan seru</string>
@@ -127,4 +127,3 @@
 <!--        <item>D 2312 AC</item>-->
 <!--    </array>-->
 </resources>
-

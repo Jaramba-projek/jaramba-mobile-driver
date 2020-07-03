@@ -104,8 +104,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.history:
-                        startActivity(new Intent(getApplicationContext()
-                                ,history.class));
+//                        startActivity(new Intent(getApplicationContext()
+//                                ,history.class));
                         overridePendingTransition(0,0);
                         finish();
                         break;
@@ -175,6 +175,23 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_night).into(greetImg);
                 greetImg.setImageResource(R.drawable.malamhari);
             }
+        Intent i = getIntent();
+        String nama = i.getStringExtra("NAMA");
+
+        if (timeOfDay > 0 && timeOfDay < 12) {
+            greetText.setText("Selamat Pagi\n" + nama);
+            greetImg.setImageResource(R.drawable.img_default_half_morning);
+        } else if (timeOfDay >= 12 && timeOfDay < 15) {
+            greetText.setText("Selamat Siang\n" + nama);
+            greetImg.setImageResource(R.drawable.img_default_half_afternoon);
+        } else if (timeOfDay >= 15 && timeOfDay < 18) {
+            greetText.setText("Selamat Sore\n" + nama);
+            greetImg.setImageResource(R.drawable.img_default_half_without_sun);
+        }else if (timeOfDay >= 18 && timeOfDay < 23) {
+            greetText.setText("Selamat Malam\n" + nama);
+            greetText.setTextColor(Color.WHITE);
+            greetImg.setImageResource(R.drawable.malamhari);
+        }
 
         }
 
@@ -324,7 +341,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
         reference.child(id_trip).setValue(hashMap);
 
-        
+
         btnStart.setVisibility(View.GONE);
         trayek.setEnabled(false);
         noKendaraan.setEnabled(false);
@@ -443,4 +460,6 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+
 }

@@ -35,8 +35,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.history:
-                        startActivity(new Intent(getApplicationContext()
-                                ,history.class));
+//                        startActivity(new Intent(getApplicationContext()
+//                                ,history.class));
                         overridePendingTransition(0,0);
                         finish();
                         break;
