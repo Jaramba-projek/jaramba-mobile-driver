@@ -28,9 +28,30 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.menu_navigasi);
-
-        bottomNavigationView.setSelectedItemId(R.id.home);
+        BottomNavigationView bottomNavigationView =  findViewById(R.id.menu_navigasi);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.history:
+                        startActivity(new Intent(getApplicationContext()
+                                ,history.class));
+                        overridePendingTransition(0,0);
+                        finish();
+                        break;
+                    case R.id.trip:
+                        startActivity(new Intent(getApplicationContext(), Trip_start.class));
+                        finish();
+                        break;
+                    case R.id.profile:
+                        startActivity(new Intent(getApplicationContext(), ProfileDriverActivity.class));
+                        finish();
+                        break;
+                }
+                return false;
+            }
+        });
 
 
     }
