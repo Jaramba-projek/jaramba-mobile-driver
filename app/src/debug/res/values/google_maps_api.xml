@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=A4:2F:BD:36:4F:05:BF:9B:31:95:3C:3C:B6:11:C9:A6:7D:59:75:4D%3Bcom.example.jarambadriver
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    com.example.jarambadriver
+
+    SHA-1 certificate fingerprint:
+    A4:2F:BD:36:4F:05:BF:9B:31:95:3C:3C:B6:11:C9:A6:7D:59:75:4D
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAOz14F3XcQn-mFOWRX-D7WhPfiCTjs744</string>
+</resources>
