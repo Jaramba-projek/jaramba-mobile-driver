@@ -128,6 +128,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        //set berapa detik sekali akan update ke database
         locationRequest = new LocationRequest();
         locationRequest.setInterval(500);
         locationRequest.setFastestInterval(500);
@@ -135,6 +136,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    //get latLng / location callback
     LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -149,6 +151,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         }
     };
 
+    //set auto update marker
     private void setUserLocationMarker(Location location){
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -185,6 +188,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
             userLocationAccuracy.setRadius(location.getAccuracy());
         }
 
+        //update database tiap 0.5 ms
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Driver Location");
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("key", key);
@@ -217,6 +221,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         stopLocationUpdates();
     }
 
+    //ngambil current location
     private void fetchLastLocation(){
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]
@@ -244,65 +249,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if(requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length>0){
-//            startLocationServices();
-//        } else {
-//            Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//    private boolean isLocationSrviceRunning() {
-//        ActivityManager activityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
-//        if(activityManager !=  null){
-//            for(ActivityManager.RunningServiceInfo service :  activityManager.getRunningServices(Integer.MAX_VALUE)){
-//                if(LocationService.class.getName().equals(service.service.getClassName())){
-//                    if(service.foreground){
-//                        return true;
-//                    }
-//                }
-//            }
-//            return false;
-//        }
-//        return false;
-//    }
-//
-//    private void startLocationServices() {
-//        if(!isLocationSrviceRunning()){
-//            Intent intent = new Intent(getApplicationContext(), LocationService.class);
-//            intent.setAction(constants.ACTION_START_LOCATION_SERVICE);
-//            startService(intent);
-//
-//        }
-//    }
-//
-//    private void stopLocationServices() {
-//        if(isLocationSrviceRunning()){
-//            Intent intent = new Intent(getApplicationContext(), LocationService.class);
-//            intent.setAction(constants.ACTION_STOP_LOCATION_SERVICE);
-//            startService(intent);
-//
-//        }
-//    }
-//
-//    public void start(View view) {
-//        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-//                PackageManager.PERMISSION_GRANTED){
-//            ActivityCompat.requestPermissions(
-//                    HomeActivity.this,
-//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION_PERMISSION);
-//        } else {
-//            startLocationServices();
-//        }
-//    }
-//
-//    public void finish(View view) {
-//        stopLocationServices();
-//    }
 
 
     /**
