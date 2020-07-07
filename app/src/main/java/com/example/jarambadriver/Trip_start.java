@@ -52,6 +52,11 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
     String key, platNumber, trayex, status, price;
     String id_trip;
 
+    String nama, driverKey;
+    String concat, concats;
+    String trayek_pilihan;
+
+
     ProgressDialog progressDialog;
 
     ValueEventListener listener;
@@ -71,8 +76,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         greetText = findViewById(R.id.greeting_text);
 
         trayek = findViewById(R.id.btn_trayek);
-//        trayek.setOnItemSelectedListener(this);
         noKendaraan = findViewById(R.id.btn_plat);
+        btnStart = findViewById(R.id.btn_start_trip);
 
         spinnerDataList1 = new ArrayList<>();
         spinnerDataList2 = new ArrayList<>();
@@ -83,6 +88,20 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
         trayek.setAdapter(adapter);
         noKendaraan.setAdapter(adapter2);
+
+
+        Intent i = getIntent();
+        nama = i.getStringExtra("nama");
+        driverKey = i.getStringExtra("key");
+        trayek_pilihan = i.getStringExtra("trayek");
+        id_trip = i.getStringExtra("id_trip");
+        key = i.getStringExtra("id_bus");
+
+        if(id_trip!=null){
+            btnStart.setVisibility(View.GONE);
+            trayek.setEnabled(false);
+            noKendaraan.setEnabled(false);
+        }
 
 
         retrieveData();
@@ -110,11 +129,22 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                         finish();
                         break;
                     case R.id.nav_home:
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                        Intent intent2 = new Intent(Trip_start.this, HomeActivity.class);
+                        intent2.putExtra("nama", nama);
+                        intent2.putExtra("trayek",trayek_pilihan);
+                        intent2.putExtra("key", driverKey);
+                        intent2.putExtra("id_bus",key);
+                        intent2.putExtra("id_trip", id_trip);
+                        startActivity(intent2);
                         finish();
                         break;
                     case R.id.profile:
-                        startActivity(new Intent(getApplicationContext(), ProfileDriverActivity.class));
+                        Intent intent = new Intent(Trip_start.this, ProfileDriverActivity.class);
+                        intent.putExtra("nama", nama);
+                        intent.putExtra("trayek",trayek_pilihan);
+                        intent.putExtra("id_trip", id_trip);
+                        intent.putExtra("id_bus",key);
+                        startActivity(intent);
                         finish();
                         break;
                 }
@@ -212,7 +242,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         final String getTrayek = trayek.getSelectedItem().toString().trim();
         final String getPlatNumber = noKendaraan.getSelectedItem().toString().trim();
 
-        Query query = databaseReference.orderByChild("trayek").equalTo(getTrayek);
+        Query query = databaseReference.orderByChild("plat_number").equalTo(getPlatNumber);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -223,6 +253,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                     status = ""+ds.child("status").getValue();
                     price = ""+ds.child("price").getValue();
 
+
+
                 }
             }
 
@@ -232,8 +264,12 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
 
-        String concat = trayex + "_" + platNumber;
-        String concats = getTrayek + "_" + getPlatNumber;
+
+
+        concat = trayex + "_" + platNumber;
+        concats = getTrayek + "_" + getPlatNumber;
+
+        Toast.makeText(Trip_start.this, concat + "\n" + concats, Toast.LENGTH_LONG).show();
 
 
         if(concat.equals(concats)) {
@@ -244,12 +280,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
             }
         } else{
             //can't continue
-            Toast.makeText(Trip_start.this, "Maaf, trayek dan nomor kendaraan tidak sesuai jalur yang ditentukan", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Trip_start.this, "Tekan sekali lagi, \nBila kemunculan tetap sama, mungkin bus yang anda pilih tidak sesuai dengan trayek ", Toast.LENGTH_SHORT).show();
         }
-
-
-
-
     }
 
     private void setStartTrip() {
@@ -270,7 +302,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
                 //INI YG NYEBABIN BUG
                 HashMap<String, Object> status = new HashMap<>();
-                status.put("status", "Bus Aktif");
+                status.put("status", "Bus aktif");
                 databaseReference.child(key).updateChildren(status);
 
                 //ini sementara solusinya
@@ -300,12 +332,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         btnFinish = findViewById(R.id.btn_finish_trip);
 
 
-        String trayek_pilihan = trayek.getSelectedItem().toString().trim();
+        trayek_pilihan = trayek.getSelectedItem().toString().trim();
         String nomor_kendaraan_pilihan = noKendaraan.getSelectedItem().toString().trim();
-
-        Intent i = getIntent();
-        String driver_name = i.getStringExtra("driver_name");
-        String id_driver = i.getStringExtra("id_driver");
 
 
         //getCurrent time clock
@@ -313,26 +341,28 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         Date currentLocalTime = cal.getTime();
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
         String localTime = dateFormat.format(currentLocalTime);
-        id_trip = key + "_" + localTime;
+
 
         Date c = Calendar.getInstance().getTime();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("dd/MMM/yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         String currentDate = df.format(c);
+
+        id_trip = key + "_" + currentDate + "_" + localTime;
 
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("driver_name", "Bagas Ganteng");
         hashMap.put("trayek", trayek_pilihan);
-        hashMap.put("nomor_kendaraan", nomor_kendaraan_pilihan);
+        hashMap.put("plate_number", nomor_kendaraan_pilihan);
         hashMap.put("start_time", localTime);
         hashMap.put("end_time", "");
         hashMap.put("gps", "");
         hashMap.put("id_bus", key);
-        hashMap.put("id_driver", "");
+        hashMap.put("id_driver", driverKey);
         hashMap.put("key",id_trip);
         hashMap.put("price", price);
         hashMap.put("rating", "");
-        hashMap.put("status", "active");
+        hashMap.put("status", "aktif");
         hashMap.put("tanggal", currentDate);
         hashMap.put("total_passenger", "");
 
@@ -385,6 +415,11 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 HashMap<String, Object> status = new HashMap<>();
                 status.put("status", "Bus tidak aktif");
                 databaseReference.child(key).updateChildren(status);
+
+                //matikan ini ketika finish trip
+                trayek_pilihan = null;
+                id_trip = null;
+                key = null;
 
                 //ini sementara solusinya
                 adapter2.clear();
