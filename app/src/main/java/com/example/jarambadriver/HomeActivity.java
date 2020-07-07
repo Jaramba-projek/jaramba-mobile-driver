@@ -189,12 +189,26 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         //update database tiap 0.5 ms
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Driver Location");
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("key", key);
-        hashMap.put("gps", location.getLatitude() + ", " + location.getLongitude());
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Driver Location");
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//        hashMap.put("key", key);
+//        hashMap.put("gps", location.getLatitude() + ", " + location.getLongitude());
+//
+//        ref.child(key).updateChildren(hashMap);
 
-        ref.child(key).updateChildren(hashMap);
+        //update database tiap 0.5 ms, kalau udah start trip tapi
+        if(id_bus!=null && key!=null){
+            DatabaseReference refBus = FirebaseDatabase.getInstance().getReference("bus");
+            HashMap<String, Object> hmBus = new HashMap<>();
+            hmBus.put("location", location.getLatitude() + ", " + location.getLongitude());
+            refBus.child(id_bus).updateChildren(hmBus);
+
+            DatabaseReference refHistory = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
+            HashMap<String, Object> hmHistory = new HashMap<>();
+            hmHistory.put("gps", location.getLatitude() + ", " + location.getLongitude());
+            refHistory.child(id_trip).updateChildren(hmHistory);
+        }
+
     }
 
     private void startLocationUpdates(){

@@ -334,7 +334,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("driver_name", "Bagas Ganteng");
+        hashMap.put("driver_name", nama);
         hashMap.put("trayek", trayek_pilihan);
         hashMap.put("plate_number", nomor_kendaraan_pilihan);
         hashMap.put("start_time", localTime);
