@@ -360,11 +360,11 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         hashMap.put("id_bus", key);
         hashMap.put("id_driver", driverKey);
         hashMap.put("key",id_trip);
-        hashMap.put("price", price);
+//        hashMap.put("price", price);
         hashMap.put("rating", "");
         hashMap.put("status", "aktif");
         hashMap.put("tanggal", currentDate);
-        hashMap.put("total_passenger", "");
+//        hashMap.put("total_passenger", "");
 
 
 
