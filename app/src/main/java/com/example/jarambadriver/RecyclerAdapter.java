@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListViewHolder> {
     private ArrayList<HistoryData> rvData;
@@ -75,7 +76,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
                             if (Rating.getRating()!=0 && !Komentar.getText().toString().equals("")) {
                                 Toast.makeText(context, "Terimakasih Telah Memberikan Rating!", Toast.LENGTH_SHORT).show();
 
-                                myRef.child("Mobile_Apps").child("Driver").child("Uji_Coba").child("History_Trip_Driver").child(isi.getKey()).setValue(new HistoryData(Rating.getRating(), Komentar.getText().toString(), isi.getTrayek(), isi.getPlat(), isi.getTanggal(), isi.getWaktu(), "done"));
+                                myRef.child("Mobile_Apps").child("Driver").child(isi.getId_driver()).child("History_Trip_Driver").child(isi.getKey()).setValue(new HistoryData(Rating.getRating(), Komentar.getText().toString(), isi.getTrayek(), isi.getPlate_number(), isi.getTanggal(), isi.getStart_time(), isi.getEnd_time(), "done", isi.getId_key(), isi.getId_driver()));
+
+                                HashMap<String, Object> rating = new HashMap<>();
+                                rating.put("rating", Rating.getRating());
+                                myRef.child("history_trip_dashboard").child(isi.getId_key()).updateChildren(rating);
 
                                 dialog.dismiss();
                             } else {
@@ -93,12 +98,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
         }
 
         holder.trayek.setText(isi.getTrayek());
-        holder.plat.setText(isi.getPlat());
+        holder.plat.setText(isi.getPlate_number());
 
         holder.info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(context, "Ini adalah info detail trip", Toast.LENGTH_SHORT).show();
                 final Dialog dialog1 = new Dialog(context);
                 dialog1.setContentView(R.layout.activity_history_driver_detail);
                 dialog1.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -109,9 +113,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
                 final TextView waktu = dialog1.findViewById(R.id.tv_detail_waktu);
 
                 trayek.setText(isi.getTrayek());
-                plat.setText(isi.getPlat());
+                plat.setText(isi.getPlate_number());
                 tanggal.setText(isi.getTanggal());
-                waktu.setText(isi.getWaktu());
+                String time = isi.getStart_time() + " - " + isi.getEnd_time();
+                waktu.setText(time);
 
                 dialog1.show();
             }
