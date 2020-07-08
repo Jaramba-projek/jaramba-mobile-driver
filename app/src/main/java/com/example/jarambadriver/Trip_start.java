@@ -56,6 +56,9 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
     String concat, concats;
     String trayek_pilihan;
 
+    //data untuk history driver
+    String starttime_hist, endtime_hist, tgl_hist;
+
 
     ProgressDialog progressDialog;
 
@@ -118,9 +121,13 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.history:
-//                        startActivity(new Intent(getApplicationContext()
-//                                ,history.class));
-                        overridePendingTransition(0,0);
+                        Intent intent3 = new Intent(Trip_start.this, HistoryDriver.class);
+                        intent3.putExtra("nama", nama);
+                        intent3.putExtra("trayek",trayek_pilihan);
+                        intent3.putExtra("key", driverKey);
+                        intent3.putExtra("id_bus",key);
+                        intent3.putExtra("id_trip", id_trip);
+                        startActivity(intent3);
                         finish();
                         break;
                     case R.id.nav_home:
@@ -137,6 +144,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                         Intent intent = new Intent(Trip_start.this, ProfileDriverActivity.class);
                         intent.putExtra("nama", nama);
                         intent.putExtra("trayek",trayek_pilihan);
+                        intent.putExtra("key", driverKey);
                         intent.putExtra("id_trip", id_trip);
                         intent.putExtra("id_bus",key);
                         startActivity(intent);
@@ -338,6 +346,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         hashMap.put("trayek", trayek_pilihan);
         hashMap.put("plate_number", nomor_kendaraan_pilihan);
         hashMap.put("start_time", localTime);
+        starttime_hist = localTime; //mengambil data waktu start untuk history driver
         hashMap.put("end_time", "");
         hashMap.put("gps", "");
         hashMap.put("id_bus", key);
@@ -347,6 +356,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         hashMap.put("rating", "");
         hashMap.put("status", "aktif");
         hashMap.put("tanggal", currentDate);
+        tgl_hist = currentDate;
 //        hashMap.put("total_passenger", "");
 
 
@@ -399,6 +409,11 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 status.put("status", "Bus tidak aktif");
                 databaseReference.child(key).updateChildren(status);
 
+                //Mengirim data ke DB history driver
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference();
+                myRef.child("Mobile_Apps").child("Driver").child(driverKey).child("History_Trip_Driver").child("cobagabung").setValue(new HistoryData(0, "", trayek_pilihan, platNumber, tgl_hist, starttime_hist, endtime_hist, "not", id_trip, driverKey));
+
                 //matikan ini ketika finish trip
                 trayek_pilihan = null;
                 id_trip = null;
@@ -439,6 +454,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
         HashMap<String, Object> status = new HashMap<>();
         status.put("end_time", localTime);
+        endtime_hist = localTime; //mengirim data waktu selesai untuk history driver
         status.put("status", "tidak aktif");
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");

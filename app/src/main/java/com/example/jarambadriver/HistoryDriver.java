@@ -51,8 +51,8 @@ public class HistoryDriver extends AppCompatActivity {
         trayek = intent.getStringExtra("trayek");
         id_trip = intent.getStringExtra("id_trip");
         id_bus = intent.getStringExtra("id_bus");
-        //key = intent.getStringExtra("key");   coba key manual
-        key = "-MAevbqfQXiV35elXuHw";
+        key = intent.getStringExtra("key");   //coba key manual
+        //key = "-MAevbqfQXiV35elXuHw";
 
         database = FirebaseDatabase.getInstance().getReference();
 
