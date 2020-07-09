@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.Calendar;
 
@@ -46,7 +47,7 @@ public class Trip_finish extends AppCompatActivity {
         btnfinish = findViewById(R.id.btn_finish);
 
 
-        BottomNavigationView bottomNavigationView =  findViewById(R.id.menu_navigasi);
+      /*  BottomNavigationView bottomNavigationView =  findViewById(R.id.menu_navigasi);
         bottomNavigationView.setSelectedItemId(R.id.trip);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -87,6 +88,30 @@ public class Trip_finish extends AppCompatActivity {
                         break;
                 }
                 return false;
+            }
+        });
+*/
+        ChipNavigationBar bottomNavigationView =  findViewById(R.id.chipNavigationBar);
+        bottomNavigationView.setItemSelected(R.id.trip,true);
+        bottomNavigationView.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int i) {
+                switch (i) {
+                    case R.id.history:
+//                        startActivity(new Intent(getApplicationContext()
+//                                ,history.class));
+                        overridePendingTransition(0,0);
+                        finish();
+                        break;
+                    case R.id.nav_home:
+                        startActivity(new Intent(getApplicationContext(), TripDriver.class));
+                        finish();
+                        break;
+                    case R.id.profile:
+                        startActivity(new Intent(getApplicationContext(), ProfileDriverActivity.class));
+                        finish();
+                        break;
+                }
             }
         });
 
