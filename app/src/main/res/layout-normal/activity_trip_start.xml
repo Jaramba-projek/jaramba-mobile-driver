@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="855dp"
-        android:layout_weight="2.2"
+        android:layout_weight="3"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -57,7 +57,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="42dp"
-            android:layout_marginEnd="27dp"
+            android:layout_marginEnd="2dp"
             android:layout_marginBottom="42dp"
             android:foregroundGravity="center"
             android:src="@drawable/jaramba_logo_04" />
@@ -133,8 +133,10 @@
             android:id="@+id/btn_start_trip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_plat"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginTop="364dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="35dp"
             android:background="@drawable/border_orange"
