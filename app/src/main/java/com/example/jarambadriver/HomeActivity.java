@@ -1,26 +1,39 @@
 package com.example.jarambadriver;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jarambadriver.service.LocationService;
 import com.example.jarambadriver.service.constants;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -40,10 +53,23 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class HomeActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -62,7 +88,22 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     String nama, key;
     String trayek, id_trip, id_bus;
 
+    //time
+    private final long MIN_TIME = 1000;
+    private final long MIN_DIST = 5;
 
+    Calendar rightNow = Calendar.getInstance();
+     int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+    int currentMinute = rightNow.get(Calendar.MINUTE);
+     int currentSec = rightNow.get(Calendar.SECOND);
+
+     long currTime = (currentHour*3600*1000) + (currentMinute*60*1000) + (currentSec*1000);
+
+     long START_TIME_IN_MILLIS = 64800000 - currTime;
+    private TextView vCounter;
+    private CountDownTimer mCountDownTimer;
+    private boolean mTimerRunning;
+    private long mTimeLeftInMills = START_TIME_IN_MILLIS;
 
 
     @Override
@@ -80,6 +121,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         trayek = i.getStringExtra("trayek");
         id_trip = i.getStringExtra("id_trip");
         id_bus = i.getStringExtra("id_bus");
+        vCounter = findViewById(R.id.txt_count);
 
 
 
@@ -130,31 +172,91 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
         //set berapa detik sekali akan update ke database
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(500);
-        locationRequest.setFastestInterval(500);
+        locationRequest.setInterval(15000);
+        locationRequest.setFastestInterval(15000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
+
+
+
+        startTimer();
+
+        updateCountDownText();
+
     }
+
+    public void startTimer(){
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMills, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMills = millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+//                vCounter.setText("done!");
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                builder.setTitle("Terimakasih " + nama);
+                builder.setMessage("Waktu mengemudi kamu sudah habis, sistem akan melakukan Logout otomatis");
+                builder.setPositiveButton("Selesai", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(HomeActivity.this, LoginPage.class));
+                        finish();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+//                startActivity(new Intent(HomeActivity.this, LoginPage.class));
+//                finish();
+            }
+        }.start();
+        mTimerRunning = true;
+    }
+
+    private void updateCountDownText(){
+        int hours = (int) (mTimeLeftInMills / 1000) / 3600;
+        int minutes = (int) ((mTimeLeftInMills / 1000)  % 3600) / 60;
+        int seconds = (int) (mTimeLeftInMills / 1000) % 60;
+
+        String timeLeftFormatted;
+        if(hours > 0) {
+            timeLeftFormatted = String.format(Locale.getDefault(),"%18d:%02d:%02d", hours, minutes, seconds);
+
+        } else {
+            timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d", minutes, seconds);
+
+        }
+
+        vCounter.setText(timeLeftFormatted);
+    }
+
 
     //get latLng / location callback
     LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
-            super.onLocationResult(locationResult);
-            Log.d("LOCATION_RESULT", String.valueOf(locationResult.getLastLocation()));
 
-            if(mMap != null){
-                setUserLocationMarker(locationResult.getLastLocation());
-            }
+            //for(Location location : locationResult.getLocations()){
+                super.onLocationResult(locationResult);
+                Log.d("LOCATION_RESULT", String.valueOf(locationResult.getLastLocation()));
 
+                if(mMap != null){
+                    setUserLocationMarker(locationResult.getLastLocation());
 
+                   // showAllDriver(locationResult.getLastLocation());
+                }
+            //}
         }
     };
 
     //set auto update marker
     private void setUserLocationMarker(Location location){
 
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+        final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         if(userLocationMarker == null){
             //create new marker
@@ -188,16 +290,19 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
             userLocationAccuracy.setRadius(location.getAccuracy());
         }
 
-        //update database tiap 0.5 ms
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Driver Location");
-//        HashMap<String, Object> hashMap = new HashMap<>();
-//        hashMap.put("key", key);
-//        hashMap.put("gps", location.getLatitude() + ", " + location.getLongitude());
-//
-//        ref.child(key).updateChildren(hashMap);
 
-        //update database tiap 0.5 ms, kalau udah start trip tapi
+
+
+        //update database tiap 3000 ms, kalau udah start trip tapi
         if(id_bus!=null && key!=null){
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Driver Location");
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("key", key);
+            hashMap.put("latitude", location.getLatitude());
+            hashMap.put("longtitude" , location.getLongitude());
+            hashMap.put("trayek", trayek);
+            ref.child(key).updateChildren(hashMap);
+
             DatabaseReference refBus = FirebaseDatabase.getInstance().getReference("bus");
             HashMap<String, Object> hmBus = new HashMap<>();
             hmBus.put("location", location.getLatitude() + ", " + location.getLongitude());
@@ -209,7 +314,117 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
             refHistory.child(id_trip).updateChildren(hmHistory);
         }
 
+
+        DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference("Driver Location");
+        driverRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+
+                double lat = (double) snapshot.child("latitude").getValue();
+                double lon = (double) snapshot.child("longtitude").getValue();
+                String keys = (String)snapshot.child("key").getValue();
+                String trayexxx = (String)snapshot.child("trayek").getValue();
+
+
+                LatLng newLocation = new LatLng(
+                        lat,
+                        lon
+                );
+
+                if(trayexxx==null){
+                    trayexxx = "Belum memilih trayek";
+                }
+
+
+
+                    //marker nya tidak mau terhapus
+                     mMap.addMarker(new MarkerOptions()
+                            .position(newLocation)
+                            .title("Trayek: " + trayexxx)
+                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_bus))
+                            .snippet(keys));
+
+
+
+            }
+
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        mMap.clear();
+
+
     }
+
+
+//    private void showAllDriver(Location location) {
+//        DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference().child("Driver Location");
+//
+//        GeoFire geoFire = new GeoFire(driverRef);
+//        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(location.getLatitude(), location.getLongitude()), 10000);
+//        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+//            @Override
+//            public void onKeyEntered(String key, GeoLocation location) {
+//                for(Marker markeIt : markerList){
+//                    if(markeIt.getTag().equals(key))
+//                        return;
+//                }
+//
+//                LatLng driverLocation = new LatLng(location.latitude, location.longitude);
+//
+//                Marker mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLocation).title(key).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_bus)));
+//                mDriverMarker.setTag(key);
+//
+//                markerList.add(mDriverMarker);
+//            }
+//
+//            @Override
+//            public void onKeyExited(String key) {
+//                for(Marker markeIt : markerList){
+//                    if(markeIt.getTag().equals(key)) {
+//                        markeIt.remove();
+//                        markerList.remove(markeIt);
+//                        return;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onKeyMoved(String key, GeoLocation location) {
+//                for(Marker markeIt : markerList) {
+//                    if (markeIt.getTag().equals(key)) {
+//                        markeIt.setPosition(new LatLng(location.latitude, location.longitude));
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onGeoQueryReady() {
+//
+//            }
+//
+//            @Override
+//            public void onGeoQueryError(DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
     private void startLocationUpdates(){
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());

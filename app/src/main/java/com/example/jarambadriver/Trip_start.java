@@ -252,8 +252,6 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         concat = trayex + "_" + platNumber;
         concats = getTrayek + "_" + getPlatNumber;
 
-        Toast.makeText(Trip_start.this, concat + "\n" + concats, Toast.LENGTH_LONG).show();
-
 
         if(concat.equals(concats)) {
             if(status.equals("Bus tidak aktif")) {
@@ -403,6 +401,11 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 trayek_pilihan = null;
                 id_trip = null;
                 key = null;
+
+                DatabaseReference driverLocationRef = FirebaseDatabase.getInstance().getReference("Driver Location");
+                HashMap<String, Object> driverLocRef = new HashMap<>();
+                driverLocRef.put("trayek", null);
+                driverLocationRef.child(driverKey).updateChildren(driverLocRef);
 
                 //ini sementara solusinya
                 adapter2.clear();
