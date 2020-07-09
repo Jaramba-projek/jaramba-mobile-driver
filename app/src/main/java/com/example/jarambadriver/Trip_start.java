@@ -30,7 +30,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -117,12 +116,12 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         greeting();
 
 
-        ChipNavigationBar bottomNavigationView =  findViewById(R.id.chipNavigationBar);
-        bottomNavigationView.setItemSelected(R.id.trip,true);
-        bottomNavigationView.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
+        BottomNavigationView bottomNavigationView =  findViewById(R.id.menu_navigasi);
+        bottomNavigationView.setSelectedItemId(R.id.trip);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onItemSelected(int i) {
-                switch (i) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
                     case R.id.history:
                         Intent intent3 = new Intent(Trip_start.this, HistoryDriver.class);
                         intent3.putExtra("nama", nama);
@@ -164,7 +163,6 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-
     }
 
     private void retrieveData () {
@@ -191,30 +189,30 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
     private void greeting() {
         Calendar calendar = Calendar.getInstance();
         int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        Intent i = getIntent();
-        String nama = i.getStringExtra("NAMA");
 
         if (timeOfDay > 0 && timeOfDay < 18) {
             if(timeOfDay > 3 && timeOfDay <12 ) {
-                greetText.setText("Good Morning\n" + nama);
+                greetText.setText("Good Morning");
+                driversName.setText(nama);
                 greetImg.setImageResource(R.drawable.img_default_half_morning);
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_morning).into(greetImg);
             } else if(timeOfDay >=12) {
-                greetText.setText("Good Afternoon\n" + nama);
+                greetText.setText("Good Afternoon");
+                driversName.setText(nama);
                 greetImg.setImageResource(R.drawable.img_default_half_afternoon);
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_afternoon).into(greetImg);
             }
 
         }else if (timeOfDay >= 18 && timeOfDay < 23) {
             if(timeOfDay < 21 ) {
-                greetText.setText("Good Evening\n" + nama);
+                greetText.setText("Good Evening");
                 greetText.setTextColor(Color.WHITE);
                 driversName.setText(nama);
                 driversName.setTextColor(Color.WHITE);
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_without_sun).into(greetImg);
                 greetImg.setImageResource(R.drawable.img_default_half_without_sun);
             } else if(timeOfDay > 21) {
-                greetText.setText("Good Night\n" + nama);
+                greetText.setText("Good Night");
                 greetText.setTextColor(Color.WHITE);
                 driversName.setText(nama);
                 driversName.setTextColor(Color.WHITE);
@@ -222,6 +220,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 greetImg.setImageResource(R.drawable.malamhari);
             }
         }
+
     }
 
     @Override

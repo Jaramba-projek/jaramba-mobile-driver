@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/white_background"
+    android:background="@android:color/white"
     tools:context=".Trip_start">
 
 
@@ -150,14 +150,11 @@
 
     </RelativeLayout>
 
-    <com.ismaeldivita.chipnavigation.ChipNavigationBar
-        android:id="@+id/chipNavigationBar"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/menu_navigasi"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/header_navbar"
-        android:elevation="16dp"
-        android:padding="8dp"
-        app:cnb_menuResource="@menu/menu_navigasi"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_height="wrap_content"
+        android:background="#ffff"
+        app:menu="@menu/menu_navigasi"/>
 
 </LinearLayout>
