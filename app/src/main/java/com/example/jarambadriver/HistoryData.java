@@ -1,14 +1,14 @@
 package com.example.jarambadriver;
 
 public class HistoryData {
-    String trayek, plate_number, tanggal, start_time, end_time, comment, key, rate_status, id_key, id_driver;
+    String trayek, plate_number, tanggal, start_time, end_time, comment, key, rate_status, id_key, id_driver, status;
     float rating;
 
     public HistoryData() {
 
     }
 
-    public HistoryData(float rating, String comment, String trayek, String plat, String tanggal, String start_time, String end_time, String rate_status, String id_key, String id_driver) {
+    public HistoryData(float rating, String comment, String trayek, String plat, String tanggal, String start_time, String end_time, String rate_status, String id_key, String id_driver, String status) {
         this.rating = rating;
         this.comment = comment;
         this.trayek = trayek;
@@ -19,6 +19,7 @@ public class HistoryData {
         this.rate_status = rate_status;
         this.id_key = id_key;
         this.id_driver = id_driver;
+        this.status = status;
     }
 
     public String getId_driver() {return id_driver;}
@@ -99,5 +100,11 @@ public class HistoryData {
 
     public void setRate_status(String rate_status) {
         this.rate_status = rate_status;
+    }
+
+    public String getStatus() {return status;}
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -23,6 +23,8 @@ public class Trip_finish extends AppCompatActivity {
     TextView greetText;
     Button btnfinish;
 
+    String nama, driverKey, trayek_pilihan, id_trip, key;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +34,13 @@ public class Trip_finish extends AppCompatActivity {
         greetText = findViewById(R.id.greeting_text);
 
         greeting();
+
+        Intent i = getIntent();
+        nama = i.getStringExtra("nama");
+        driverKey = i.getStringExtra("key");
+        trayek_pilihan = i.getStringExtra("trayek");
+        id_trip = i.getStringExtra("id_trip");
+        key = i.getStringExtra("id_bus");
 
         btnfinish = findViewById(R.id.btn_finish);
 
@@ -43,17 +52,35 @@ public class Trip_finish extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.history:
-//                        startActivity(new Intent(getApplicationContext()
-//                                ,history.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                    //  case R.id.home:
-                    //    return true;
-                    case R.id.trip:
-                        return true;
-                    //case R.id.profile:
-                    //  return true;
-
+                        Intent intent3 = new Intent(Trip_finish.this, HistoryDriver.class);
+                        intent3.putExtra("nama", nama);
+                        intent3.putExtra("trayek",trayek_pilihan);
+                        intent3.putExtra("key", driverKey);
+                        intent3.putExtra("id_bus",key);
+                        intent3.putExtra("id_trip", id_trip);
+                        startActivity(intent3);
+                        finish();
+                        break;
+                    case R.id.nav_home:
+                        Intent intent2 = new Intent(Trip_finish.this, HomeActivity.class);
+                        intent2.putExtra("nama", nama);
+                        intent2.putExtra("trayek",trayek_pilihan);
+                        intent2.putExtra("key", driverKey);
+                        intent2.putExtra("id_bus",key);
+                        intent2.putExtra("id_trip", id_trip);
+                        startActivity(intent2);
+                        finish();
+                        break;
+                    case R.id.profile:
+                        Intent intent = new Intent(Trip_finish.this, ProfileDriverActivity.class);
+                        intent.putExtra("nama", nama);
+                        intent.putExtra("trayek",trayek_pilihan);
+                        intent.putExtra("key", driverKey);
+                        intent.putExtra("id_trip", id_trip);
+                        intent.putExtra("id_bus",key);
+                        startActivity(intent);
+                        finish();
+                        break;
                 }
                 return false;
             }

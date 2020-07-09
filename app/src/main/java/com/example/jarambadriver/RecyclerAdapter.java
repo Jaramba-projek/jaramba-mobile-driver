@@ -43,14 +43,80 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
     public void onBindViewHolder(@NonNull final ListViewHolder holder, int position) {
         final HistoryData isi = rvData.get(position);
 
-        if (isi.getRate_status().contains("done")) {
-            holder.cl.setBackgroundResource(R.drawable.border_black);
-            holder.info.setImageResource(R.drawable.ic_baseline_info_black_24);
-            holder.rating.setColorFilter(Color.rgb(255,204,0));
-            holder.rating.setOnClickListener(new View.OnClickListener() {
+        if (isi.getStatus().contains("done")) {
+            if (isi.getRate_status().contains("done")) {
+                holder.cl.setBackgroundResource(R.drawable.border_black);
+                holder.info.setImageResource(R.drawable.ic_baseline_info_black_24);
+                holder.rating.setColorFilter(Color.rgb(255,204,0));
+                holder.rating.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, "Anda Telah Memberikan Rating dan Komentar", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                holder.rating.setColorFilter(Color.rgb(128,128,128));
+
+                holder.rating.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Dialog dialog = new Dialog(context);
+                        dialog.setContentView(R.layout.history_rate);
+                        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+                        Button Submit = dialog.findViewById(R.id.submit_rate);
+                        final RatingBar Rating = dialog.findViewById(R.id.ratingBar);
+                        final EditText Komentar = dialog.findViewById(R.id.comment_rate);
+
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        final DatabaseReference myRef = database.getReference();
+
+                        Submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (Rating.getRating()!=0 && !Komentar.getText().toString().equals("")) {
+                                    Toast.makeText(context, "Terimakasih Telah Memberikan Rating!", Toast.LENGTH_SHORT).show();
+
+                                    myRef.child("Mobile_Apps").child("Driver").child(isi.getId_driver()).child("History_Trip_Driver").child(isi.getKey()).setValue(new HistoryData(Rating.getRating(), Komentar.getText().toString(), isi.getTrayek(), isi.getPlate_number(), isi.getTanggal(), isi.getStart_time(), isi.getEnd_time(), "done", isi.getId_key(), isi.getId_driver(), isi.getStatus()));
+
+                                    HashMap<String, Object> rating = new HashMap<>();
+                                    rating.put("rating", Rating.getRating());
+                                    myRef.child("history_trip_dashboard").child(isi.getId_key()).updateChildren(rating);
+
+                                    dialog.dismiss();
+                                } else {
+                                    if (Rating.getRating()==0) {
+                                        Toast.makeText(context, "Anda Belum Memberi Rating!", Toast.LENGTH_SHORT).show();
+                                    } else if (Komentar.getText().toString().equals("")) {
+                                        Toast.makeText(context, "Anda Belum Mengisi Komentar!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        });
+                        dialog.show();
+                    }
+                });
+            }
+
+            holder.info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Anda Telah Memberikan Rating dan Komentar", Toast.LENGTH_SHORT).show();
+                    final Dialog dialog1 = new Dialog(context);
+                    dialog1.setContentView(R.layout.activity_history_driver_detail);
+                    dialog1.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+                    final TextView trayek = dialog1.findViewById(R.id.tv_detail_destinasi);
+                    final TextView plat = dialog1.findViewById(R.id.tv_detail_plat_damri);
+                    final TextView tanggal = dialog1.findViewById(R.id.tv_detail_tanggal);
+                    final TextView waktu = dialog1.findViewById(R.id.tv_detail_waktu);
+
+                    trayek.setText(isi.getTrayek());
+                    plat.setText(isi.getPlate_number());
+                    tanggal.setText(isi.getTanggal());
+                    String time = isi.getStart_time() + " - " + isi.getEnd_time();
+                    waktu.setText(time);
+
+                    dialog1.show();
                 }
             });
         } else {
@@ -59,68 +125,37 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
             holder.rating.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final Dialog dialog = new Dialog(context);
-                    dialog.setContentView(R.layout.history_rate);
-                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    Toast.makeText(context, "Anda Belum Menyelesaikan Trip!!!", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-                    Button Submit = dialog.findViewById(R.id.submit_rate);
-                    final RatingBar Rating = dialog.findViewById(R.id.ratingBar);
-                    final EditText Komentar = dialog.findViewById(R.id.comment_rate);
+            holder.info.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Dialog dialog1 = new Dialog(context);
+                    dialog1.setContentView(R.layout.activity_history_driver_detail);
+                    dialog1.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    final DatabaseReference myRef = database.getReference();
+                    final TextView trayek = dialog1.findViewById(R.id.tv_detail_destinasi);
+                    final TextView plat = dialog1.findViewById(R.id.tv_detail_plat_damri);
+                    final TextView tanggal = dialog1.findViewById(R.id.tv_detail_tanggal);
+                    final TextView waktu = dialog1.findViewById(R.id.tv_detail_waktu);
 
-                    Submit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (Rating.getRating()!=0 && !Komentar.getText().toString().equals("")) {
-                                Toast.makeText(context, "Terimakasih Telah Memberikan Rating!", Toast.LENGTH_SHORT).show();
+                    trayek.setText(isi.getTrayek());
+                    plat.setText(isi.getPlate_number());
+                    tanggal.setText(isi.getTanggal());
+                    String time = isi.getStart_time() + " - Trip Belum Selesai!";
+                    waktu.setText(time);
 
-                                myRef.child("Mobile_Apps").child("Driver").child(isi.getId_driver()).child("History_Trip_Driver").child(isi.getKey()).setValue(new HistoryData(Rating.getRating(), Komentar.getText().toString(), isi.getTrayek(), isi.getPlate_number(), isi.getTanggal(), isi.getStart_time(), isi.getEnd_time(), "done", isi.getId_key(), isi.getId_driver()));
-
-                                HashMap<String, Object> rating = new HashMap<>();
-                                rating.put("rating", Rating.getRating());
-                                myRef.child("history_trip_dashboard").child(isi.getId_key()).updateChildren(rating);
-
-                                dialog.dismiss();
-                            } else {
-                                if (Rating.getRating()==0) {
-                                    Toast.makeText(context, "Anda Belum Memberi Rating!", Toast.LENGTH_SHORT).show();
-                                } else if (Komentar.getText().toString().equals("")) {
-                                    Toast.makeText(context, "Anda Belum Mengisi Komentar!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }
-                    });
-                    dialog.show();
+                    dialog1.show();
                 }
             });
         }
 
+
+
         holder.trayek.setText(isi.getTrayek());
         holder.plat.setText(isi.getPlate_number());
-
-        holder.info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog1 = new Dialog(context);
-                dialog1.setContentView(R.layout.activity_history_driver_detail);
-                dialog1.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-                final TextView trayek = dialog1.findViewById(R.id.tv_detail_destinasi);
-                final TextView plat = dialog1.findViewById(R.id.tv_detail_plat_damri);
-                final TextView tanggal = dialog1.findViewById(R.id.tv_detail_tanggal);
-                final TextView waktu = dialog1.findViewById(R.id.tv_detail_waktu);
-
-                trayek.setText(isi.getTrayek());
-                plat.setText(isi.getPlate_number());
-                tanggal.setText(isi.getTanggal());
-                String time = isi.getStart_time() + " - " + isi.getEnd_time();
-                waktu.setText(time);
-
-                dialog1.show();
-            }
-        });
     }
 
     @Override

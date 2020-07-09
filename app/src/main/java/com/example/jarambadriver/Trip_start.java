@@ -364,6 +364,10 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
         reference.child(id_trip).setValue(hashMap);
 
+        //Mengirim data ke DB history driver
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("Mobile_Apps").child("Driver").child(driverKey).child("History_Trip_Driver").child("cobagabung").setValue(new HistoryData(0, "", trayek_pilihan, platNumber, tgl_hist, starttime_hist, "", "not", id_trip, driverKey, "not"));
 
         btnStart.setVisibility(View.GONE);
         trayek.setEnabled(false);
@@ -408,11 +412,6 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 HashMap<String, Object> status = new HashMap<>();
                 status.put("status", "Bus tidak aktif");
                 databaseReference.child(key).updateChildren(status);
-
-                //Mengirim data ke DB history driver
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference();
-                myRef.child("Mobile_Apps").child("Driver").child(driverKey).child("History_Trip_Driver").child("cobagabung").setValue(new HistoryData(0, "", trayek_pilihan, platNumber, tgl_hist, starttime_hist, endtime_hist, "not", id_trip, driverKey));
 
                 //matikan ini ketika finish trip
                 trayek_pilihan = null;
@@ -460,6 +459,13 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
         reference.child(id_trip).updateChildren(status);
 
+        //Mengirim data ke DB history driver
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        HashMap<String, Object> Etime = new HashMap<>();
+        Etime.put("end_time", endtime_hist);
+        Etime.put("status", "done");
+        myRef.child("Mobile_Apps").child("Driver").child(driverKey).child("History_Trip_Driver").child("cobagabung").updateChildren(Etime);
 
         btnStart.setVisibility(View.VISIBLE);
         trayek.setEnabled(true);

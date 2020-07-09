@@ -85,7 +85,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
     String profile;
 
 
-    String driverName, trayek_pilihan, id_trip, id_bus;
+    String driverName, trayek_pilihan, id_trip, id_bus, id_driver;
 
 
     BottomNavigationView bottomNavigationView;
@@ -120,7 +120,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
         trayek_pilihan = intent.getStringExtra("trayek");
         id_trip = intent.getStringExtra("id_trip");
         id_bus = intent.getStringExtra("id_bus");
-
+        id_driver = intent.getStringExtra("key");
 
 
         //view init
@@ -140,7 +140,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
         //progress dialog shown to wait retrieve data
         progressDialog();
 
-        Query query = databaseReference.orderByChild("email").equalTo("nardiyansah@gmail.com");
+        Query query = databaseReference.orderByChild("key").equalTo(id_driver);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -196,15 +196,20 @@ public class ProfileDriverActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.history:
-                        startActivity(new Intent(ProfileDriverActivity.this, HistoryDriverDetail.class));
-                        overridePendingTransition(0,0);
+                        Intent intent3 = new Intent(ProfileDriverActivity.this, HistoryDriver.class);
+                        intent3.putExtra("nama", driverName);
+                        intent3.putExtra("trayek",trayek_pilihan);
+                        intent3.putExtra("key", id_driver);
+                        intent3.putExtra("id_bus",id_bus);
+                        intent3.putExtra("id_trip", id_trip);
+                        startActivity(intent3);
                         finish();
                         break;
 
                     case R.id.nav_home:
                         Intent intent2 = new Intent(ProfileDriverActivity.this, HomeActivity.class);
                         intent2.putExtra("nama", driverName);
-                        intent2.putExtra("key", key);
+                        intent2.putExtra("key", id_driver);
                         intent2.putExtra("trayek", trayek_pilihan);
                         intent2.putExtra("id_trip", id_trip);
                         intent2.putExtra("id_bus", id_bus);
@@ -215,7 +220,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
                     case R.id.trip:
                         Intent intent = new Intent(ProfileDriverActivity.this, Trip_start.class);
                         intent.putExtra("nama", driverName);
-                        intent.putExtra("key", key);
+                        intent.putExtra("key", id_driver);
                         intent.putExtra("trayek", trayek_pilihan);
                         intent.putExtra("id_trip", id_trip);
                         intent.putExtra("id_bus", id_bus);
