@@ -85,7 +85,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
     String profile;
 
 
-    String driverName, trayek_pilihan, id_trip, id_bus, id_driver;
+    String driverName, trayek_pilihan, id_trip, id_bus, id_driver, chKey;
 
 
     BottomNavigationView bottomNavigationView;
@@ -121,6 +121,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
         id_trip = intent.getStringExtra("id_trip");
         id_bus = intent.getStringExtra("id_bus");
         id_driver = intent.getStringExtra("key");
+        chKey = intent.getStringExtra("chKey");
 
 
         //view init
@@ -202,6 +203,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
                         intent3.putExtra("key", id_driver);
                         intent3.putExtra("id_bus",id_bus);
                         intent3.putExtra("id_trip", id_trip);
+                        intent3.putExtra("chKey", chKey);
                         startActivity(intent3);
                         finish();
                         break;
@@ -213,6 +215,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
                         intent2.putExtra("trayek", trayek_pilihan);
                         intent2.putExtra("id_trip", id_trip);
                         intent2.putExtra("id_bus", id_bus);
+                        intent2.putExtra("chKey", chKey);
                         startActivity(intent2);
                         finish();
                         break;
@@ -224,6 +227,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
                         intent.putExtra("trayek", trayek_pilihan);
                         intent.putExtra("id_trip", id_trip);
                         intent.putExtra("id_bus", id_bus);
+                        intent.putExtra("chKey", chKey);
                         startActivity(intent);
                         finish();
                         break;

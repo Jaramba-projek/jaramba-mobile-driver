@@ -60,7 +60,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int REQUEST_CODE_LOCATION_PERMISSION =1;
 
     String nama, key;
-    String trayek, id_trip, id_bus;
+    String trayek, id_trip, id_bus, chKey;
 
 
 
@@ -80,7 +80,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         trayek = i.getStringExtra("trayek");
         id_trip = i.getStringExtra("id_trip");
         id_bus = i.getStringExtra("id_bus");
-
+        chKey = i.getStringExtra("chKey");
 
 
         if(trayek==null){
@@ -104,6 +104,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                         intent3.putExtra("key", key);
                         intent3.putExtra("id_bus",id_bus);
                         intent3.putExtra("id_trip", id_trip);
+                        intent3.putExtra("chKey", chKey);
                         startActivity(intent3);
                         finish();
                         break;
@@ -114,6 +115,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                         intent.putExtra("key",key);
                         intent.putExtra("trayek", trayek);
                         intent.putExtra("id_bus", id_bus);
+                        intent.putExtra("chKey", chKey);
                         startActivity(intent);
                         finish();
                         break;
@@ -124,6 +126,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                         intent2.putExtra("key",key);
                         intent2.putExtra("trayek",trayek);
                         intent2.putExtra("id_bus", id_bus);
+                        intent2.putExtra("chKey", chKey);
                         startActivity(intent2);
                         finish();
                         break;

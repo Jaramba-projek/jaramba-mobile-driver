@@ -58,6 +58,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
     //data untuk history driver
     String starttime_hist, endtime_hist, tgl_hist;
+    String chKey;
 
 
     ProgressDialog progressDialog;
@@ -100,6 +101,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         trayek_pilihan = i.getStringExtra("trayek");
         id_trip = i.getStringExtra("id_trip");
         key = i.getStringExtra("id_bus");
+        chKey = i.getStringExtra("chKey");
 
         if(id_trip!=null){
             btnStart.setVisibility(View.GONE);
@@ -127,6 +129,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                         intent3.putExtra("key", driverKey);
                         intent3.putExtra("id_bus",key);
                         intent3.putExtra("id_trip", id_trip);
+                        intent3.putExtra("chKey", chKey);
                         startActivity(intent3);
                         finish();
                         break;
@@ -137,6 +140,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                         intent2.putExtra("key", driverKey);
                         intent2.putExtra("id_bus",key);
                         intent2.putExtra("id_trip", id_trip);
+                        intent2.putExtra("chKey", chKey);
                         startActivity(intent2);
                         finish();
                         break;
@@ -147,6 +151,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                         intent.putExtra("key", driverKey);
                         intent.putExtra("id_trip", id_trip);
                         intent.putExtra("id_bus",key);
+                        intent.putExtra("chKey", chKey);
                         startActivity(intent);
                         finish();
                         break;
@@ -364,10 +369,17 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
         reference.child(id_trip).setValue(hashMap);
 
+        //Membuat key history driver
+        char[] dd = {starttime_hist.charAt(0), starttime_hist.charAt(1), starttime_hist.charAt(3), starttime_hist.charAt(4)};
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dt = new SimpleDateFormat("yyyyMMdd");
+        String tgl = dt.format(c);
+        String dtime = new String(dd);
+        chKey = tgl + "" + dtime;
+
         //Mengirim data ke DB history driver
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
-        myRef.child("Mobile_Apps").child("Driver").child(driverKey).child("History_Trip_Driver").child("cobagabung").setValue(new HistoryData(0, "", trayek_pilihan, platNumber, tgl_hist, starttime_hist, "", "not", id_trip, driverKey, "not"));
+        myRef.child("Mobile_Apps").child("Driver").child(driverKey).child("History_Trip_Driver").child(chKey).setValue(new HistoryData(0, "", trayek_pilihan, platNumber, tgl_hist, starttime_hist, "", "not", id_trip, driverKey, "not"));
 
         btnStart.setVisibility(View.GONE);
         trayek.setEnabled(false);
@@ -465,7 +477,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         HashMap<String, Object> Etime = new HashMap<>();
         Etime.put("end_time", endtime_hist);
         Etime.put("status", "done");
-        myRef.child("Mobile_Apps").child("Driver").child(driverKey).child("History_Trip_Driver").child("cobagabung").updateChildren(Etime);
+        myRef.child("Mobile_Apps").child("Driver").child(driverKey).child("History_Trip_Driver").child(chKey).updateChildren(Etime);
 
         btnStart.setVisibility(View.VISIBLE);
         trayek.setEnabled(true);

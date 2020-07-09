@@ -33,7 +33,7 @@ public class HistoryDriver extends AppCompatActivity {
     RecyclerAdapter recyclerAdapter;
     private DatabaseReference database;
 
-    String nama, trayek, id_trip, id_bus, key;
+    String nama, trayek, id_trip, id_bus, key, chKey;
 
     private ArrayList<HistoryData> historyData = new ArrayList<>();
 
@@ -51,8 +51,8 @@ public class HistoryDriver extends AppCompatActivity {
         trayek = intent.getStringExtra("trayek");
         id_trip = intent.getStringExtra("id_trip");
         id_bus = intent.getStringExtra("id_bus");
-        key = intent.getStringExtra("key");   //coba key manual
-        //key = "-MAevbqfQXiV35elXuHw";
+        key = intent.getStringExtra("key");
+        chKey = intent.getStringExtra("chKey");
 
         database = FirebaseDatabase.getInstance().getReference();
 
@@ -94,6 +94,7 @@ public class HistoryDriver extends AppCompatActivity {
                         intent.putExtra("key",key);
                         intent.putExtra("trayek", trayek);
                         intent.putExtra("id_bus", id_bus);
+                        intent.putExtra("chKey", chKey);
                         startActivity(intent);
                         finish();
                         break;
@@ -104,6 +105,7 @@ public class HistoryDriver extends AppCompatActivity {
                         intent1.putExtra("key",key);
                         intent1.putExtra("trayek", trayek);
                         intent1.putExtra("id_bus", id_bus);
+                        intent1.putExtra("chKey", chKey);
                         startActivity(intent1);
                         finish();
                         break;
@@ -114,6 +116,7 @@ public class HistoryDriver extends AppCompatActivity {
                         intent2.putExtra("key",key);
                         intent2.putExtra("trayek", trayek);
                         intent2.putExtra("id_bus", id_bus);
+                        intent2.putExtra("chKey", chKey);
                         startActivity(intent2);
                         finish();
                         break;

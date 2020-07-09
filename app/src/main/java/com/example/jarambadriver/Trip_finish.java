@@ -23,7 +23,7 @@ public class Trip_finish extends AppCompatActivity {
     TextView greetText;
     Button btnfinish;
 
-    String nama, driverKey, trayek_pilihan, id_trip, key;
+    String nama, driverKey, trayek_pilihan, id_trip, key, chKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,7 @@ public class Trip_finish extends AppCompatActivity {
         trayek_pilihan = i.getStringExtra("trayek");
         id_trip = i.getStringExtra("id_trip");
         key = i.getStringExtra("id_bus");
+        chKey = i.getStringExtra("chKey");
 
         btnfinish = findViewById(R.id.btn_finish);
 
@@ -58,6 +59,7 @@ public class Trip_finish extends AppCompatActivity {
                         intent3.putExtra("key", driverKey);
                         intent3.putExtra("id_bus",key);
                         intent3.putExtra("id_trip", id_trip);
+                        intent3.putExtra("chKey", chKey);
                         startActivity(intent3);
                         finish();
                         break;
@@ -68,6 +70,7 @@ public class Trip_finish extends AppCompatActivity {
                         intent2.putExtra("key", driverKey);
                         intent2.putExtra("id_bus",key);
                         intent2.putExtra("id_trip", id_trip);
+                        intent2.putExtra("chKey", chKey);
                         startActivity(intent2);
                         finish();
                         break;
@@ -78,6 +81,7 @@ public class Trip_finish extends AppCompatActivity {
                         intent.putExtra("key", driverKey);
                         intent.putExtra("id_trip", id_trip);
                         intent.putExtra("id_bus",key);
+                        intent.putExtra("chKey", chKey);
                         startActivity(intent);
                         finish();
                         break;
