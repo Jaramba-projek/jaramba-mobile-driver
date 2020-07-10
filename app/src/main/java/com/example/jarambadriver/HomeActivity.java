@@ -28,12 +28,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jarambadriver.service.LocationService;
-import com.example.jarambadriver.service.constants;
-import com.firebase.geofire.GeoFire;
-import com.firebase.geofire.GeoLocation;
-import com.firebase.geofire.GeoQuery;
-import com.firebase.geofire.GeoQueryEventListener;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -83,14 +78,12 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     Marker userLocationMarker;
     Circle userLocationAccuracy;
 
-    private static final int REQUEST_CODE_LOCATION_PERMISSION =1;
+
 
     String nama, key;
     String trayek, id_trip, id_bus;
 
-    //time
-    private final long MIN_TIME = 1000;
-    private final long MIN_DIST = 5;
+
 
     Calendar rightNow = Calendar.getInstance();
      int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
@@ -110,10 +103,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-//        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
+
 
         Intent i = getIntent();
         nama = i.getStringExtra("nama");
@@ -195,13 +185,41 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public void onFinish() {
-//                vCounter.setText("done!");
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
                 builder.setTitle("Terimakasih " + nama);
                 builder.setMessage("Waktu mengemudi kamu sudah habis, sistem akan melakukan Logout otomatis");
                 builder.setPositiveButton("Selesai", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        //auto hentikan trip
+                        //null kan trayek
+                        DatabaseReference driverLocationRef = FirebaseDatabase.getInstance().getReference("Driver Location");
+                        HashMap<String, Object> driverLocRef = new HashMap<>();
+                        driverLocRef.put("trayek", null);
+                        driverLocationRef.child(key).updateChildren(driverLocRef);
+
+                        //ubah status bus menjadi tidak aktif
+                        DatabaseReference statusBusRef = FirebaseDatabase.getInstance().getReference("bus");
+                        HashMap<String, Object> statusBus = new HashMap<>();
+                        statusBus.put("status","Bus tidak aktif");
+                        statusBusRef.child(id_bus).updateChildren(statusBus);
+
+                        //selesaikan history_trip_dashboard
+                        //getCurrent time clock
+                        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+                        Date currentLocalTime = cal.getTime();
+                        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
+                        String localTime = dateFormat.format(currentLocalTime);
+
+                        DatabaseReference historyTripDashboardRef = FirebaseDatabase.getInstance().getReference("bus");
+                        HashMap<String, Object> historyTripDriver = new HashMap<>();
+                        historyTripDriver.put("end_time", localTime);
+                        historyTripDriver.put("status","tidak aktif");
+                        historyTripDashboardRef.child(id_trip).updateChildren(historyTripDriver);
+
+
                         startActivity(new Intent(HomeActivity.this, LoginPage.class));
                         finish();
                     }
@@ -239,16 +257,15 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onLocationResult(LocationResult locationResult) {
 
-            //for(Location location : locationResult.getLocations()){
+
                 super.onLocationResult(locationResult);
                 Log.d("LOCATION_RESULT", String.valueOf(locationResult.getLastLocation()));
 
                 if(mMap != null){
                     setUserLocationMarker(locationResult.getLastLocation());
 
-                   // showAllDriver(locationResult.getLastLocation());
+
                 }
-            //}
         }
     };
 
@@ -372,59 +389,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-//    private void showAllDriver(Location location) {
-//        DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference().child("Driver Location");
-//
-//        GeoFire geoFire = new GeoFire(driverRef);
-//        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(location.getLatitude(), location.getLongitude()), 10000);
-//        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
-//            @Override
-//            public void onKeyEntered(String key, GeoLocation location) {
-//                for(Marker markeIt : markerList){
-//                    if(markeIt.getTag().equals(key))
-//                        return;
-//                }
-//
-//                LatLng driverLocation = new LatLng(location.latitude, location.longitude);
-//
-//                Marker mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLocation).title(key).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_bus)));
-//                mDriverMarker.setTag(key);
-//
-//                markerList.add(mDriverMarker);
-//            }
-//
-//            @Override
-//            public void onKeyExited(String key) {
-//                for(Marker markeIt : markerList){
-//                    if(markeIt.getTag().equals(key)) {
-//                        markeIt.remove();
-//                        markerList.remove(markeIt);
-//                        return;
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onKeyMoved(String key, GeoLocation location) {
-//                for(Marker markeIt : markerList) {
-//                    if (markeIt.getTag().equals(key)) {
-//                        markeIt.setPosition(new LatLng(location.latitude, location.longitude));
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onGeoQueryReady() {
-//
-//            }
-//
-//            @Override
-//            public void onGeoQueryError(DatabaseError error) {
-//
-//            }
-//        });
-//    }
 
     private void startLocationUpdates(){
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());

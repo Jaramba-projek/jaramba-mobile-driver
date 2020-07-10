@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/kata_sandi"
-                android:text="tak coba ya gan"
+                android:text="P2JZEO"
                 android:background="@drawable/rounded_et"
                 android:drawableStart="@drawable/ic_lock_black_24dp"
                 android:drawablePadding="10dp"
