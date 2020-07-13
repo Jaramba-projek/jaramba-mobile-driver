@@ -55,6 +55,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
                     }
                 });
             } else {
+                holder.cl.setBackgroundResource(R.drawable.border_orange);
+                holder.info.setImageResource(R.drawable.ic_baseline_info_24);
                 holder.rating.setColorFilter(Color.rgb(128,128,128));
 
                 holder.rating.setOnClickListener(new View.OnClickListener() {

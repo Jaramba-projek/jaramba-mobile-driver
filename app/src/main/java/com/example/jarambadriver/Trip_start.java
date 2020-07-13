@@ -190,11 +190,9 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
     private void greeting() {
         Calendar calendar = Calendar.getInstance();
         int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        //Intent i = getIntent();
-        //String nama = i.getStringExtra("NAMA");
 
-        if (timeOfDay > 0 && timeOfDay < 18) {
-            if(timeOfDay > 3 && timeOfDay <12 ) {
+        if (timeOfDay >= 0 && timeOfDay < 18) {
+            if(timeOfDay >= 0 && timeOfDay <12 ) {
                 greetText.setText("Good Morning");
                 driversName.setText(nama);
                 greetImg.setImageResource(R.drawable.img_default_half_morning);
@@ -206,7 +204,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_afternoon).into(greetImg);
             }
 
-        }else if (timeOfDay >= 18 && timeOfDay < 23) {
+        }else if (timeOfDay >= 18 && timeOfDay < 24) {
             if(timeOfDay < 21 ) {
                 greetText.setText("Good Evening");
                 greetText.setTextColor(Color.WHITE);
@@ -214,7 +212,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 driversName.setTextColor(Color.WHITE);
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_without_sun).into(greetImg);
                 greetImg.setImageResource(R.drawable.img_default_half_without_sun);
-            } else if(timeOfDay > 21) {
+            } else if(timeOfDay >= 21) {
                 greetText.setText("Good Night");
                 greetText.setTextColor(Color.WHITE);
                 driversName.setText(nama);
