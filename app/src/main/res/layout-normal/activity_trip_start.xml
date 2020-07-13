@@ -128,15 +128,12 @@
             android:background="@drawable/border_orange"
             tools:ignore="OnClick" />
 
-
         <Button
             android:id="@+id/btn_start_trip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_plat"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="364dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="35dp"
             android:background="@drawable/border_orange"
@@ -144,11 +141,6 @@
             android:text="Start"
             android:textColor="#FFF"
             tools:ignore="OnClick" />
-
-
-
-
-
 
     </RelativeLayout>
 

@@ -47,12 +47,12 @@ public class Trip_finish extends AppCompatActivity {
         btnfinish = findViewById(R.id.btn_finish);
 
 
-      /*  BottomNavigationView bottomNavigationView =  findViewById(R.id.menu_navigasi);
-        bottomNavigationView.setSelectedItemId(R.id.trip);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        ChipNavigationBar bottomNavigationView =  findViewById(R.id.chipNavigationBar);
+        bottomNavigationView.setItemSelected(R.id.trip,true);
+        bottomNavigationView.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
+            public void onItemSelected(int i) {
+                switch (i){
                     case R.id.history:
                         Intent intent3 = new Intent(Trip_finish.this, HistoryDriver.class);
                         intent3.putExtra("nama", nama);
@@ -87,11 +87,10 @@ public class Trip_finish extends AppCompatActivity {
                         finish();
                         break;
                 }
-                return false;
             }
         });
-*/
-        ChipNavigationBar bottomNavigationView =  findViewById(R.id.chipNavigationBar);
+
+/*        ChipNavigationBar bottomNavigationView =  findViewById(R.id.chipNavigationBar);
         bottomNavigationView.setItemSelected(R.id.trip,true);
         bottomNavigationView.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
@@ -113,7 +112,7 @@ public class Trip_finish extends AppCompatActivity {
                         break;
                 }
             }
-        });
+        }); */
 
 
 

@@ -157,7 +157,6 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                         finish();
                         break;
                 }
-                return false;
             }
         });
 
@@ -191,30 +190,32 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
     private void greeting() {
         Calendar calendar = Calendar.getInstance();
         int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        Intent i = getIntent();
-        String nama = i.getStringExtra("NAMA");
+        //Intent i = getIntent();
+        //String nama = i.getStringExtra("NAMA");
 
         if (timeOfDay > 0 && timeOfDay < 18) {
             if(timeOfDay > 3 && timeOfDay <12 ) {
-                greetText.setText("Good Morning\n" + nama);
+                greetText.setText("Good Morning");
+                driversName.setText(nama);
                 greetImg.setImageResource(R.drawable.img_default_half_morning);
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_morning).into(greetImg);
             } else if(timeOfDay >=12) {
-                greetText.setText("Good Afternoon\n" + nama);
+                greetText.setText("Good Afternoon");
+                driversName.setText(nama);
                 greetImg.setImageResource(R.drawable.img_default_half_afternoon);
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_afternoon).into(greetImg);
             }
 
         }else if (timeOfDay >= 18 && timeOfDay < 23) {
             if(timeOfDay < 21 ) {
-                greetText.setText("Good Evening\n" + nama);
+                greetText.setText("Good Evening");
                 greetText.setTextColor(Color.WHITE);
                 driversName.setText(nama);
                 driversName.setTextColor(Color.WHITE);
                 Glide.with(Trip_start.this).load(R.drawable.img_default_half_without_sun).into(greetImg);
                 greetImg.setImageResource(R.drawable.img_default_half_without_sun);
             } else if(timeOfDay > 21) {
-                greetText.setText("Good Night\n" + nama);
+                greetText.setText("Good Night");
                 greetText.setTextColor(Color.WHITE);
                 driversName.setText(nama);
                 driversName.setTextColor(Color.WHITE);

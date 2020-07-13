@@ -120,14 +120,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
                 }
             });
         } else {
-            holder.rating.setColorFilter(Color.rgb(128,128,128));
-
-            holder.rating.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "Anda Belum Menyelesaikan Trip!!!", Toast.LENGTH_SHORT).show();
-                }
-            });
+            holder.rating.setVisibility(View.GONE);
 
             holder.info.setOnClickListener(new View.OnClickListener() {
                 @Override

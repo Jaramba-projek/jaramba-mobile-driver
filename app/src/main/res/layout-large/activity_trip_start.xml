@@ -48,8 +48,6 @@
             android:textColor="#006468"
             android:textSize="15sp" />
 
-
-
         <ImageView
             android:layout_width="129dp"
             android:layout_height="129dp"

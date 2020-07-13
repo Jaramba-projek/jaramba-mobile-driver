@@ -1,28 +1,19 @@
 package com.example.jarambadriver;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,13 +71,12 @@ public class HistoryDriver extends AppCompatActivity {
             }
         });
 
-        BottomNavigationView bottomNavigationView =  findViewById(R.id.menu_navigasi_history);
-        bottomNavigationView.setSelectedItemId(R.id.history);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        ChipNavigationBar bottomNavigationView =  findViewById(R.id.chipNavigationBar);
+        bottomNavigationView.setItemSelected(R.id.history,true);
+        bottomNavigationView.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
+            public void onItemSelected(int i) {
+                switch (i) {
                     case R.id.nav_home:
                         Intent intent = new Intent(HistoryDriver.this, HomeActivity.class);
                         intent.putExtra("nama", nama);
@@ -121,7 +111,6 @@ public class HistoryDriver extends AppCompatActivity {
                         finish();
                         break;
                 }
-                return false;
             }
         });
     }

@@ -17,6 +17,7 @@
             android:layout_marginTop="30dp"
             android:textColor="@color/black"
             android:gravity="center_horizontal"
+            android:fontFamily="@font/nunitosans_semibold"
             android:textSize="25dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
