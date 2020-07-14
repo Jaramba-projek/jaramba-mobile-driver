@@ -143,7 +143,7 @@ public class LoginPage extends AppCompatActivity {
             final String password = etPassword.getText().toString().trim();
 
 
-            Query query = databaseReference.orderByChild("email");
+            Query query = databaseReference.orderByChild("email").equalTo(email1);
             query.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -154,7 +154,6 @@ public class LoginPage extends AppCompatActivity {
                         String pwd = "" + ds.child("password").getValue();
                         String nama = "" + ds.child("nama").getValue();
                         String key = "" + ds.child("key").getValue();
-
 
                         if (email1.equals(email2)) {
                             if (password.equals(pwd)) {
@@ -168,10 +167,16 @@ public class LoginPage extends AppCompatActivity {
 
                                 startActivity(intent);
                                 finish();
+                            }else {
+                                progressDialog.dismiss();
+                                Toast.makeText(LoginPage.this, " email atau password anda salah ", Toast.LENGTH_SHORT).show();
+                                return;
                             }
+
                         }  else {
                             progressDialog.dismiss();
                             Toast.makeText(LoginPage.this, " email atau password anda salah ", Toast.LENGTH_SHORT).show();
+                            return;
                         }
 
                     }

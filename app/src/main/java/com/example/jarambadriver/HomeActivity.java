@@ -118,7 +118,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         if(trayek==null){
             trayek = "Belum memilih trayek";
         }
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
 
@@ -167,12 +166,11 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
 
+        if (currTime <= 64800000){
+            startTimer();
 
-
-        startTimer();
-
-        updateCountDownText();
-
+            updateCountDownText();
+        }
     }
 
     public void startTimer(){
