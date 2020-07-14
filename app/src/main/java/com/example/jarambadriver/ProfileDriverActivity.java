@@ -502,7 +502,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
     }
 
     public void editProfile (View view) {
-        String []options = {"Ubah email pengguna", "Ubah nama pengguna", "Ubah nomor handphone"};
+        String []options = {"Ubah nama pengguna", "Ubah nomor handphone"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Pilihan");
@@ -510,10 +510,8 @@ public class ProfileDriverActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(which == 0) {
-                    Toast.makeText(ProfileDriverActivity.this, "Mengubah email anda...", Toast.LENGTH_SHORT).show();
-                } else if(which == 1) {
                     showNamePhoneUpdateDialog("nama");
-                }else {
+                } else if(which == 1) {
                     showNamePhoneUpdateDialog("no_telp");
                 }
             }
