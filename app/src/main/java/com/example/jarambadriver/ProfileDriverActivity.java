@@ -84,6 +84,10 @@ public class ProfileDriverActivity extends AppCompatActivity {
     //for checking profile picture
     String profile;
 
+
+    String driverName, trayek_pilihan, id_trip, id_bus;
+
+
     BottomNavigationView bottomNavigationView;
     ImageView greetImg;
 
@@ -109,6 +113,13 @@ public class ProfileDriverActivity extends AppCompatActivity {
 
         //dynamic bg init
         greetImg = findViewById(R.id.greeting_img_profile);
+
+
+        Intent intent = getIntent();
+        driverName = intent.getStringExtra("nama");
+        trayek_pilihan = intent.getStringExtra("trayek");
+        id_trip = intent.getStringExtra("id_trip");
+        id_bus = intent.getStringExtra("id_bus");
 
 
 
@@ -191,12 +202,24 @@ public class ProfileDriverActivity extends AppCompatActivity {
                         break;
 
                     case R.id.nav_home:
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                        Intent intent2 = new Intent(ProfileDriverActivity.this, HomeActivity.class);
+                        intent2.putExtra("nama", driverName);
+                        intent2.putExtra("key", key);
+                        intent2.putExtra("trayek", trayek_pilihan);
+                        intent2.putExtra("id_trip", id_trip);
+                        intent2.putExtra("id_bus", id_bus);
+                        startActivity(intent2);
                         finish();
                         break;
 
                     case R.id.trip:
-                        startActivity(new Intent(getApplicationContext(), Trip_start.class));
+                        Intent intent = new Intent(ProfileDriverActivity.this, Trip_start.class);
+                        intent.putExtra("nama", driverName);
+                        intent.putExtra("key", key);
+                        intent.putExtra("trayek", trayek_pilihan);
+                        intent.putExtra("id_trip", id_trip);
+                        intent.putExtra("id_bus", id_bus);
+                        startActivity(intent);
                         finish();
                         break;
 
@@ -220,6 +243,9 @@ public class ProfileDriverActivity extends AppCompatActivity {
 //                FirebaseAuth.getInstance().signOut();
 //                startActivity(new Intent(ProfileDriverActivity.this, LoginPage.class));
 //                finish();
+
+                startActivity(new Intent(ProfileDriverActivity.this, LoginPage.class));
+                finish();
             }
         });
 

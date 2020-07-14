@@ -1,21 +1,48 @@
 package com.example.jarambadriver;
 
 public class HistoryData {
-    String trayek, plat, tanggal, waktu, comment, key, rate_status;
+    String trayek, plate_number, tanggal, start_time, end_time, comment, key, rate_status, id_key, id_driver;
     float rating;
 
     public HistoryData() {
 
     }
 
-    public HistoryData(float rating, String comment, String trayek, String plat, String tanggal, String waktu, String rate_status) {
+    public HistoryData(float rating, String comment, String trayek, String plat, String tanggal, String start_time, String end_time, String rate_status, String id_key, String id_driver) {
         this.rating = rating;
         this.comment = comment;
         this.trayek = trayek;
-        this.plat = plat;
+        this.plate_number = plat;
         this.tanggal = tanggal;
-        this.waktu = waktu;
+        this.start_time = start_time;
+        this.end_time = end_time;
         this.rate_status = rate_status;
+        this.id_key = id_key;
+        this.id_driver = id_driver;
+    }
+
+    public String getId_driver() {return id_driver;}
+
+    public void setId_driver(String id_driver) {
+        this.id_driver = id_driver;
+    }
+
+    public String getStart_time() {return start_time;}
+
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
+    }
+
+    public String getId_key() {return id_key;}
+
+    public void setId_key(String id_key) {
+        this.id_key = id_key;
+    }
+
+    public String getEnd_time() {return end_time;}
+
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
     }
 
     public String getTrayek() {
@@ -26,12 +53,12 @@ public class HistoryData {
         this.trayek = trayek;
     }
 
-    public String getPlat() {
-        return plat;
+    public String getPlate_number() {
+        return plate_number;
     }
 
-    public void setPlat(String plat) {
-        this.plat = plat;
+    public void setPlate_number(String plate_number) {
+        this.plate_number = plate_number;
     }
 
     public String getTanggal() {
@@ -40,14 +67,6 @@ public class HistoryData {
 
     public void setTanggal(String tanggal) {
         this.tanggal = tanggal;
-    }
-
-    public String getWaktu() {
-        return waktu;
-    }
-
-    public void setWaktu(String waktu) {
-        this.waktu = waktu;
     }
 
     public float getRating() {
