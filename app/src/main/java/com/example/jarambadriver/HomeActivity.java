@@ -54,7 +54,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.google.firebase.database.ValueEventListener;
+
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -81,7 +83,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     String nama, key;
-    String trayek, id_trip, id_bus;
+    String trayek, id_trip, id_bus, chKey;
 
 
 
@@ -111,7 +113,11 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         trayek = i.getStringExtra("trayek");
         id_trip = i.getStringExtra("id_trip");
         id_bus = i.getStringExtra("id_bus");
+
+        chKey = i.getStringExtra("chKey");
+
         vCounter = findViewById(R.id.txt_count);
+
 
 
 
@@ -122,16 +128,21 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         fetchLastLocation();
 
 
-        BottomNavigationView bottomNavigationView =  findViewById(R.id.menu_navigasi);
-        bottomNavigationView.setSelectedItemId(R.id.nav_home);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        ChipNavigationBar bottomNavigationView =  findViewById(R.id.chipNavigationBar);
+        bottomNavigationView.setItemSelected(R.id.nav_home,true);
+        bottomNavigationView.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
+            public void onItemSelected(int i) {
+                switch (i) {
                     case R.id.history:
-//                        startActivity(new Intent(getApplicationContext()
-//                                ,history.class));
-                        overridePendingTransition(0,0);
+                        Intent intent3 = new Intent(HomeActivity.this, HistoryDriver.class);
+                        intent3.putExtra("nama", nama);
+                        intent3.putExtra("trayek",trayek);
+                        intent3.putExtra("key", key);
+                        intent3.putExtra("id_bus",id_bus);
+                        intent3.putExtra("id_trip", id_trip);
+                        intent3.putExtra("chKey", chKey);
+                        startActivity(intent3);
                         finish();
                         break;
                     case R.id.trip:
@@ -141,6 +152,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                         intent.putExtra("key",key);
                         intent.putExtra("trayek", trayek);
                         intent.putExtra("id_bus", id_bus);
+                        intent.putExtra("chKey", chKey);
                         startActivity(intent);
                         finish();
                         break;
@@ -151,11 +163,11 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                         intent2.putExtra("key",key);
                         intent2.putExtra("trayek",trayek);
                         intent2.putExtra("id_bus", id_bus);
+                        intent2.putExtra("chKey", chKey);
                         startActivity(intent2);
                         finish();
                         break;
                 }
-                return false;
             }
         });
 

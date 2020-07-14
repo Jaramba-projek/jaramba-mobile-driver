@@ -155,8 +155,12 @@ public class LoginPage extends AppCompatActivity {
                         String nama = "" + ds.child("nama").getValue();
                         String key = "" + ds.child("key").getValue();
 
+
+
+                        if (email1.equals(email2) && password.equals(pwd)) {
                         if (email1.equals(email2)) {
                             if (password.equals(pwd)) {
+
                                 progressDialog.dismiss();
                                 Toast.makeText(LoginPage.this, "Selamat datang di Jaramba", Toast.LENGTH_SHORT).show();
 
@@ -167,6 +171,7 @@ public class LoginPage extends AppCompatActivity {
 
                                 startActivity(intent);
                                 finish();
+
                             }else {
                                 progressDialog.dismiss();
                                 Toast.makeText(LoginPage.this, " email atau password anda salah ", Toast.LENGTH_SHORT).show();

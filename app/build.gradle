@@ -5,7 +5,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.jarambadriver"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -53,7 +53,11 @@ dependencies {
     implementation 'com.android.support:design:26.0.0'
     implementation 'me.spark:submitbutton:1.0.1'
 
-    implementation 'com.firebase:geofire-android:3.0.0'
+
+    implementation 'me.spark:submitbutton:1.0.1'
+    implementation 'com.ismaeldivita.chipnavigation:chip-navigation-bar:1.3.2'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.70'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

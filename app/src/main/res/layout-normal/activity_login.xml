@@ -18,41 +18,35 @@
 
         <ImageView
             android:id="@+id/img_logo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="1dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="10dp"
             android:contentDescription="@string/image"
             android:src="@drawable/jaramba_logo_04" />
-
 
         <TextView
             android:id="@+id/txt_slogan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="30dp"
             android:fontFamily="@font/nunitosans_semibold"
             android:text="@string/Selamat_menjadi_bagian_dari_petualangan_seru"
             android:textAlignment="center"
             android:textSize="12sp"
             android:textStyle="bold" />
 
+
         <EditText
             android:id="@+id/et_email_login"
             android:layout_width="match_parent"
-
-            android:layout_height="44dp"
-            android:layout_marginBottom="5dp"
-
+            android:layout_height="50dp"
             android:fontFamily="@font/nunitosans_regular"
             android:hint="@string/masukkan_email"
-            android:text="anasrull99@gmail.com"
-
+            android:layout_marginBottom="10dp"
             android:autofillHints="no"
             android:background="@drawable/rounded_et"
             android:drawableStart="@drawable/ic_person_black_24dp"
             android:drawablePadding="10dp"
-            android:fontFamily="@font/nunitosans_regular"
-            android:hint="@string/masukkan_email"
             android:inputType="textEmailAddress"
             android:padding="15dp" />
 
@@ -65,14 +59,9 @@
             <EditText
                 android:id="@+id/et_password_login"
                 android:layout_width="match_parent"
-
-                android:layout_height="42dp"
-                android:layout_marginBottom="5dp"
+                android:layout_height="54dp"
+                android:layout_marginBottom="25dp"
                 android:autofillHints="no"
-
-                android:hint="@string/kata_sandi"
-                android:text="123ZXC"
-
                 android:background="@drawable/rounded_et"
                 android:drawableStart="@drawable/ic_lock_black_24dp"
                 android:drawablePadding="10dp"
@@ -85,8 +74,8 @@
 
         <com.spark.submitbutton.SubmitButton
             android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
             android:onClick="login"
             android:text="@string/login"
             android:textColor="#000000"

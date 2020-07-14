@@ -46,6 +46,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
@@ -85,10 +86,10 @@ public class ProfileDriverActivity extends AppCompatActivity {
     String profile;
 
 
-    String driverName, trayek_pilihan, id_trip, id_bus;
+    String driverName, trayek_pilihan, id_trip, id_bus, id_driver, chKey;
 
 
-    BottomNavigationView bottomNavigationView;
+//    ChipNavigationBar bottomNavigationView;
     ImageView greetImg;
 
     String key;
@@ -108,8 +109,8 @@ public class ProfileDriverActivity extends AppCompatActivity {
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         //bottom nav init
-        bottomNavigationView = findViewById(R.id.menu_navigasi);
-        bottomNavigationView.setSelectedItemId(R.id.profile);
+        //ChipNavigationBar bottomNavigationView =  findViewById(R.id.chipNavigationBar);
+        //bottomNavigationView.setItemSelected(R.id.profile,true);
 
         //dynamic bg init
         greetImg = findViewById(R.id.greeting_img_profile);
@@ -120,7 +121,8 @@ public class ProfileDriverActivity extends AppCompatActivity {
         trayek_pilihan = intent.getStringExtra("trayek");
         id_trip = intent.getStringExtra("id_trip");
         id_bus = intent.getStringExtra("id_bus");
-
+        id_driver = intent.getStringExtra("key");
+        chKey = intent.getStringExtra("chKey");
 
 
         //view init
@@ -134,13 +136,13 @@ public class ProfileDriverActivity extends AppCompatActivity {
         //init progres dialog
         progressDialog = new ProgressDialog(ProfileDriverActivity.this);
 
-        setOnNavigationSelectedListener();
+        //setOnNavigationSelectedListener();
         greeting();
 
         //progress dialog shown to wait retrieve data
         progressDialog();
 
-        Query query = databaseReference.orderByChild("email").equalTo("nardiyansah@gmail.com");
+        Query query = databaseReference.orderByChild("key").equalTo(id_driver);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -181,33 +183,32 @@ public class ProfileDriverActivity extends AppCompatActivity {
             }
         });
 
-
-    }
-    private void progressDialog() {
-        progressDialog.show();
-        progressDialog.setContentView(R.layout.progress_dialog);
-        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-    }
-
-    private void setOnNavigationSelectedListener() {
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        ChipNavigationBar bottomNavigationView =  findViewById(R.id.chipNavigationBar);
+        bottomNavigationView.setItemSelected(R.id.profile,true);
+        bottomNavigationView.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                switch (item.getItemId()){
+            public void onItemSelected(int i) {
+                switch (i) {
                     case R.id.history:
-                        startActivity(new Intent(ProfileDriverActivity.this, HistoryDriverDetail.class));
-                        overridePendingTransition(0,0);
+                        Intent intent3 = new Intent(ProfileDriverActivity.this, HistoryDriver.class);
+                        intent3.putExtra("nama", driverName);
+                        intent3.putExtra("trayek", trayek_pilihan);
+                        intent3.putExtra("key", id_driver);
+                        intent3.putExtra("id_bus", id_bus);
+                        intent3.putExtra("id_trip", id_trip);
+                        intent3.putExtra("chKey", chKey);
+                        startActivity(intent3);
                         finish();
                         break;
 
                     case R.id.nav_home:
                         Intent intent2 = new Intent(ProfileDriverActivity.this, HomeActivity.class);
                         intent2.putExtra("nama", driverName);
-                        intent2.putExtra("key", key);
+                        intent2.putExtra("key", id_driver);
                         intent2.putExtra("trayek", trayek_pilihan);
                         intent2.putExtra("id_trip", id_trip);
                         intent2.putExtra("id_bus", id_bus);
+                        intent2.putExtra("chKey", chKey);
                         startActivity(intent2);
                         finish();
                         break;
@@ -215,20 +216,71 @@ public class ProfileDriverActivity extends AppCompatActivity {
                     case R.id.trip:
                         Intent intent = new Intent(ProfileDriverActivity.this, Trip_start.class);
                         intent.putExtra("nama", driverName);
-                        intent.putExtra("key", key);
+                        intent.putExtra("key", id_driver);
                         intent.putExtra("trayek", trayek_pilihan);
                         intent.putExtra("id_trip", id_trip);
                         intent.putExtra("id_bus", id_bus);
+                        intent.putExtra("chKey", chKey);
                         startActivity(intent);
                         finish();
                         break;
 
                 }
-
-                return false;
             }
         });
     }
+
+    private void progressDialog() {
+        progressDialog.show();
+        progressDialog.setContentView(R.layout.progress_dialog);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+    }
+
+/*    private void setOnNavigationSelectedListener() {
+        bottomNavigationView.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int i) {
+                switch (i) {
+                    case R.id.history:
+                        Intent intent3 = new Intent(ProfileDriverActivity.this, HistoryDriver.class);
+                        intent3.putExtra("nama", driverName);
+                        intent3.putExtra("trayek",trayek_pilihan);
+                        intent3.putExtra("key", id_driver);
+                        intent3.putExtra("id_bus",id_bus);
+                        intent3.putExtra("id_trip", id_trip);
+                        intent3.putExtra("chKey", chKey);
+                        startActivity(intent3);
+                        finish();
+                        break;
+
+                    case R.id.nav_home:
+                        Intent intent2 = new Intent(ProfileDriverActivity.this, HomeActivity.class);
+                        intent2.putExtra("nama", driverName);
+                        intent2.putExtra("key", id_driver);
+                        intent2.putExtra("trayek", trayek_pilihan);
+                        intent2.putExtra("id_trip", id_trip);
+                        intent2.putExtra("id_bus", id_bus);
+                        intent2.putExtra("chKey", chKey);
+                        startActivity(intent2);
+                        finish();
+                        break;
+
+                    case R.id.trip:
+                        Intent intent = new Intent(ProfileDriverActivity.this, Trip_start.class);
+                        intent.putExtra("nama", driverName);
+                        intent.putExtra("key", id_driver);
+                        intent.putExtra("trayek", trayek_pilihan);
+                        intent.putExtra("id_trip", id_trip);
+                        intent.putExtra("id_bus", id_bus);
+                        intent.putExtra("chKey", chKey);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                }
+            }
+        });
+    } */
 
     public void logout(View view) {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);

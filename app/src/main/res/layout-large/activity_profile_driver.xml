@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/white_background"
+    tools:context=".ProfileDriverActivity">
+
+
+    <ImageView
+        android:id="@+id/greeting_img_profile"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/image" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_profile_page"
+        android:layout_width="203dp"
+        android:layout_height="207dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/avatar_blank"
+        android:onClick="changeProfilePicture"
+        app:civ_border_color="#77000000"
+        app:civ_border_width="4dp"
+        tools:ignore="OnClick" />
+
+    <TextView
+        android:id="@+id/tv_edit_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit profil"
+        android:fontFamily="@font/nunitosans_semibold"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:layout_below="@+id/img_profile_page"
+        android:layout_centerHorizontal="true"
+        android:onClick="editProfile"
+        tools:ignore="OnClick" />
+
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_below="@+id/greeting_img_profile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="51dp"
+        android:layout_marginEnd="20dp"
+        android:background="#77000000" />
+
+    <LinearLayout
+        android:id="@+id/info_profile_page"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_edit_profile"
+        android:layout_marginTop="39dp"
+        android:background="#77000000"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_profil_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/white"
+            android:textSize="23sp" />
+
+        <TextView
+            android:id="@+id/tv_profil_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_profil_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/menu_navigasi"
+        android:layout_below="@+id/info_profile_page"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/rounded_btn"
+        android:onClick="logout"
+        android:text="logout"
+        android:textColor="@android:color/white"
+        tools:ignore="OnClick" />
+
+    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        android:id="@+id/chipNavigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/header_navbar"
+        android:elevation="16dp"
+        android:padding="8dp"
+        app:cnb_menuResource="@menu/menu_navigasi"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+</RelativeLayout>
