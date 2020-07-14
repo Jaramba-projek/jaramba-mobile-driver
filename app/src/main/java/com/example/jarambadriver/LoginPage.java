@@ -157,7 +157,7 @@ public class LoginPage extends AppCompatActivity {
 
 
 
-                        
+
                         if (email1.equals(email2)) {
                             if (password.equals(pwd)) {
 
