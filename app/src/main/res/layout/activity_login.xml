@@ -39,8 +39,14 @@
         <EditText
             android:id="@+id/et_email_login"
             android:layout_width="match_parent"
+
             android:layout_height="44dp"
             android:layout_marginBottom="5dp"
+
+            android:fontFamily="@font/nunitosans_regular"
+            android:hint="@string/masukkan_email"
+            android:text="anasrull99@gmail.com"
+
             android:autofillHints="no"
             android:background="@drawable/rounded_et"
             android:drawableStart="@drawable/ic_person_black_24dp"
@@ -59,9 +65,14 @@
             <EditText
                 android:id="@+id/et_password_login"
                 android:layout_width="match_parent"
+
                 android:layout_height="42dp"
                 android:layout_marginBottom="5dp"
                 android:autofillHints="no"
+
+                android:hint="@string/kata_sandi"
+                android:text="123ZXC"
+
                 android:background="@drawable/rounded_et"
                 android:drawableStart="@drawable/ic_lock_black_24dp"
                 android:drawablePadding="10dp"

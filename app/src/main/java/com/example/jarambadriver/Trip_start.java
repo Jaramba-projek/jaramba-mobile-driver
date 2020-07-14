@@ -68,6 +68,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
     ArrayAdapter<String> adapter, adapter2;
     ArrayList<String> spinnerDataList1, spinnerDataList2;
 
+    Calendar calendar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
@@ -84,6 +86,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         trayek = findViewById(R.id.btn_trayek);
         noKendaraan = findViewById(R.id.btn_plat);
         btnStart = findViewById(R.id.btn_start_trip);
+        btnFinish = findViewById(R.id.btn_finish_trip);
 
         spinnerDataList1 = new ArrayList<>();
         spinnerDataList2 = new ArrayList<>();
@@ -106,6 +109,16 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
         if(id_trip!=null){
             btnStart.setVisibility(View.GONE);
+            trayek.setEnabled(false);
+            noKendaraan.setEnabled(false);
+        }
+
+        calendar = Calendar.getInstance();
+        int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+
+        if(timeOfDay >= 18) {
+            btnStart.setVisibility(View.GONE);
+            btnFinish.setVisibility(View.GONE);
             trayek.setEnabled(false);
             noKendaraan.setEnabled(false);
         }
@@ -188,7 +201,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
     @SuppressLint("SetTextI18n")
     private void greeting() {
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
 
         if (timeOfDay >= 0 && timeOfDay < 18) {
@@ -264,8 +277,6 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
         concat = trayex + "_" + platNumber;
         concats = getTrayek + "_" + getPlatNumber;
-
-        Toast.makeText(Trip_start.this, concat + "\n" + concats, Toast.LENGTH_LONG).show();
 
 
         if(concat.equals(concats)) {
@@ -386,12 +397,6 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         noKendaraan.setEnabled(false);
 
 
-        if(timeOfDay > 18) {
-            btnStart.setVisibility(View.VISIBLE);
-            trayek.setEnabled(true);
-            noKendaraan.setEnabled(true);
-        }
-
         progressDialog.dismiss();
         Toast.makeText(this, "Berhasil memilih...", Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "Selamat memulai perjalanan, jangan lupa berdoa", Toast.LENGTH_SHORT).show();
@@ -429,6 +434,11 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 trayek_pilihan = null;
                 id_trip = null;
                 key = null;
+
+                DatabaseReference driverLocationRef = FirebaseDatabase.getInstance().getReference("Driver Location");
+                HashMap<String, Object> driverLocRef = new HashMap<>();
+                driverLocRef.put("trayek", null);
+                driverLocationRef.child(driverKey).updateChildren(driverLocRef);
 
                 //ini sementara solusinya
                 adapter2.clear();
