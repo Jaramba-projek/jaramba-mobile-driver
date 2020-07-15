@@ -280,7 +280,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
 
         if(concat.equals(concats)) {
-            if(status.equals("Bus tidak aktif")) {
+            if(status.equals("tidak aktif")) {
                 setStartTrip();
             }else {
                 Toast.makeText(Trip_start.this, "Maaf, Bus sedang aktif", Toast.LENGTH_SHORT).show();
@@ -309,7 +309,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
                 //INI YG NYEBABIN BUG
                 HashMap<String, Object> status = new HashMap<>();
-                status.put("status", "Bus aktif");
+                status.put("status", "aktif");
                 databaseReference.child(key).updateChildren(status);
 
                 //ini sementara solusinya
@@ -427,7 +427,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
                 //INI YG NYEBABIN BUG
                 HashMap<String, Object> status = new HashMap<>();
-                status.put("status", "Bus tidak aktif");
+                status.put("status", "tidak aktif");
                 databaseReference.child(key).updateChildren(status);
 
                 //matikan ini ketika finish trip
