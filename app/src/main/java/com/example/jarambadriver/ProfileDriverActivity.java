@@ -319,11 +319,11 @@ public class ProfileDriverActivity extends AppCompatActivity {
         int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
 
         if (timeOfDay > 0 && timeOfDay < 18) {
-            greetImg.setImageResource(R.drawable.img_default_half_morning);
-            Glide.with(ProfileDriverActivity.this).load(R.drawable.img_default_half_morning).into(greetImg);
+            greetImg.setImageResource(R.drawable.header_morning);
+            Glide.with(ProfileDriverActivity.this).load(R.drawable.header_morning).into(greetImg);
         }else if (timeOfDay >= 18 && timeOfDay < 23) {
-            Glide.with(ProfileDriverActivity.this).load(R.drawable.img_default_half_night).into(greetImg);
-            greetImg.setImageResource(R.drawable.img_default_half_night);
+            Glide.with(ProfileDriverActivity.this).load(R.drawable.header_night).into(greetImg);
+            greetImg.setImageResource(R.drawable.header_night);
         }
 
     }
