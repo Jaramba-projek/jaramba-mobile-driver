@@ -113,15 +113,45 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
             noKendaraan.setEnabled(false);
         }
 
-        calendar = Calendar.getInstance();
-        int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("jam");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String jam = snapshot.child("selesai").getValue(String.class);
 
-        if(timeOfDay >= 18) {
-            btnStart.setVisibility(View.GONE);
-            btnFinish.setVisibility(View.GONE);
-            trayek.setEnabled(false);
-            noKendaraan.setEnabled(false);
-        }
+                String x = jam.substring(0,2);
+                String y = jam.substring(3);
+
+                long  jam_selesai = Integer.parseInt(x) * 3600 * 1000;
+                long  menit_selesai = Integer.parseInt(y) * 60 * 1000;
+
+                long hasil = jam_selesai+menit_selesai;
+
+                //Toast.makeText(HomeActivity.this, x + " + "+ y + "\n" + hasil, Toast.LENGTH_LONG).show();
+
+                Calendar rightNow = Calendar.getInstance();
+                int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+                int currentMinute = rightNow.get(Calendar.MINUTE);
+                int currentSec = rightNow.get(Calendar.SECOND);
+
+                long currTime = (currentHour*3600*1000) + (currentMinute*60*1000) + (currentSec*1000);
+
+                if(currTime > hasil) {
+                    btnStart.setVisibility(View.GONE);
+                    btnFinish.setVisibility(View.GONE);
+                    trayek.setEnabled(false);
+                    noKendaraan.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
 
         retrieveData();

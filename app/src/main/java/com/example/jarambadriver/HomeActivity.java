@@ -54,6 +54,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.google.firebase.database.ValueEventListener;
 
@@ -87,18 +88,15 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-    Calendar rightNow = Calendar.getInstance();
-     int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-    int currentMinute = rightNow.get(Calendar.MINUTE);
-     int currentSec = rightNow.get(Calendar.SECOND);
 
-     long currTime = (currentHour*3600*1000) + (currentMinute*60*1000) + (currentSec*1000);
 
-     long START_TIME_IN_MILLIS = 64800000 - currTime;
+    long START_TIME_IN_MILLIS;
     private TextView vCounter;
     private CountDownTimer mCountDownTimer;
     private boolean mTimerRunning;
     private long mTimeLeftInMills = START_TIME_IN_MILLIS;
+
+    long hasil;
 
 
     @Override
@@ -117,9 +115,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         chKey = i.getStringExtra("chKey");
 
         vCounter = findViewById(R.id.txt_count);
-
-
-
 
         if(trayek==null){
             trayek = "Belum memilih trayek";
@@ -177,12 +172,46 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         locationRequest.setFastestInterval(15000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("jam");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String jam = snapshot.child("selesai").getValue(String.class);
 
-        if (currTime <= 64800000){
-            startTimer();
+                String x = jam.substring(0,2);
+                String y = jam.substring(3);
 
-            updateCountDownText();
-        }
+                long  jam_selesai = Integer.parseInt(x) * 3600 * 1000;
+                long  menit_selesai = Integer.parseInt(y) * 60 * 1000;
+
+                long hasil = jam_selesai+menit_selesai;
+
+                //Toast.makeText(HomeActivity.this, x + " + "+ y + "\n" + hasil, Toast.LENGTH_LONG).show();
+
+                Calendar rightNow = Calendar.getInstance();
+                int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+                int currentMinute = rightNow.get(Calendar.MINUTE);
+                int currentSec = rightNow.get(Calendar.SECOND);
+
+                long currTime = (currentHour*3600*1000) + (currentMinute*60*1000) + (currentSec*1000);
+                START_TIME_IN_MILLIS = hasil - currTime;
+                mTimeLeftInMills = START_TIME_IN_MILLIS;
+
+                if (currTime <= hasil){
+                    startTimer();
+
+                    updateCountDownText();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
     }
 
     public void startTimer(){
@@ -214,6 +243,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                         DatabaseReference statusBusRef = FirebaseDatabase.getInstance().getReference("bus");
                         HashMap<String, Object> statusBus = new HashMap<>();
                         statusBus.put("status","Bus tidak aktif");
+
+                        //akan NPE ketika tidak melaksanakan trip
                         statusBusRef.child(id_bus).updateChildren(statusBus);
 
                         //selesaikan history_trip_dashboard
