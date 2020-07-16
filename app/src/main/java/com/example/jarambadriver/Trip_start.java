@@ -107,21 +107,58 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         key = i.getStringExtra("id_bus");
         chKey = i.getStringExtra("chKey");
 
+       // Toast.makeText(Trip_start.this, trayek_pilihan + "\n" + id_trip + "\n" + nama + "\n" + key, Toast.LENGTH_LONG).show();
+
+
         if(id_trip!=null){
             btnStart.setVisibility(View.GONE);
             trayek.setEnabled(false);
             noKendaraan.setEnabled(false);
         }
 
-        calendar = Calendar.getInstance();
-        int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        //cek apakah masih ada trip yang berlangsung
 
-        if(timeOfDay >= 18) {
-            btnStart.setVisibility(View.GONE);
-            btnFinish.setVisibility(View.GONE);
-            trayek.setEnabled(false);
-            noKendaraan.setEnabled(false);
-        }
+
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("jam");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String jam = snapshot.child("selesai").getValue(String.class);
+
+                String x = jam.substring(0,2);
+                String y = jam.substring(3);
+
+                long  jam_selesai = Integer.parseInt(x) * 3600 * 1000;
+                long  menit_selesai = Integer.parseInt(y) * 60 * 1000;
+
+                long hasil = jam_selesai+menit_selesai;
+
+                //Toast.makeText(HomeActivity.this, x + " + "+ y + "\n" + hasil, Toast.LENGTH_LONG).show();
+
+                Calendar rightNow = Calendar.getInstance();
+                int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+                int currentMinute = rightNow.get(Calendar.MINUTE);
+                int currentSec = rightNow.get(Calendar.SECOND);
+
+                long currTime = (currentHour*3600*1000) + (currentMinute*60*1000) + (currentSec*1000);
+
+                if(currTime > hasil) {
+                    btnStart.setVisibility(View.GONE);
+                    btnFinish.setVisibility(View.GONE);
+                    trayek.setEnabled(false);
+                    noKendaraan.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
 
         retrieveData();
@@ -183,6 +220,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         listener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adapter.clear();
+                adapter2.clear();
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     spinnerDataList1.add(ds.child("trayek").getValue().toString());
                     spinnerDataList2.add(ds.child("plat_number").getValue().toString());
@@ -208,13 +247,13 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
             if(timeOfDay >= 0 && timeOfDay <12 ) {
                 greetText.setText("Good Morning");
                 driversName.setText(nama);
-                greetImg.setImageResource(R.drawable.img_default_half_morning);
-                Glide.with(Trip_start.this).load(R.drawable.img_default_half_morning).into(greetImg);
+                greetImg.setImageResource(R.drawable.header_morning);
+                Glide.with(Trip_start.this).load(R.drawable.header_morning).into(greetImg);
             } else if(timeOfDay >=12) {
                 greetText.setText("Good Afternoon");
                 driversName.setText(nama);
-                greetImg.setImageResource(R.drawable.img_default_half_afternoon);
-                Glide.with(Trip_start.this).load(R.drawable.img_default_half_afternoon).into(greetImg);
+                greetImg.setImageResource(R.drawable.header_morning);
+                Glide.with(Trip_start.this).load(R.drawable.header_morning).into(greetImg);
             }
 
         }else if (timeOfDay >= 18 && timeOfDay < 24) {
@@ -223,15 +262,15 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 greetText.setTextColor(Color.WHITE);
                 driversName.setText(nama);
                 driversName.setTextColor(Color.WHITE);
-                Glide.with(Trip_start.this).load(R.drawable.img_default_half_without_sun).into(greetImg);
-                greetImg.setImageResource(R.drawable.img_default_half_without_sun);
+                Glide.with(Trip_start.this).load(R.drawable.header_night).into(greetImg);
+                greetImg.setImageResource(R.drawable.header_night);
             } else if(timeOfDay >= 21) {
                 greetText.setText("Good Night");
                 greetText.setTextColor(Color.WHITE);
                 driversName.setText(nama);
                 driversName.setTextColor(Color.WHITE);
-                Glide.with(Trip_start.this).load(R.drawable.img_default_half_night).into(greetImg);
-                greetImg.setImageResource(R.drawable.malamhari);
+                Glide.with(Trip_start.this).load(R.drawable.header_night).into(greetImg);
+                greetImg.setImageResource(R.drawable.header_night);
             }
         }
     }
@@ -280,7 +319,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
 
         if(concat.equals(concats)) {
-            if(status.equals("Bus tidak aktif")) {
+            if(status.equals("tidak aktif")) {
                 setStartTrip();
             }else {
                 Toast.makeText(Trip_start.this, "Maaf, Bus sedang aktif", Toast.LENGTH_SHORT).show();
@@ -309,11 +348,11 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
                 //INI YG NYEBABIN BUG
                 HashMap<String, Object> status = new HashMap<>();
-                status.put("status", "Bus aktif");
+                status.put("status", "aktif");
                 databaseReference.child(key).updateChildren(status);
 
-                //ini sementara solusinya
-                adapter.clear();
+//                //ini sementara solusinya
+//                adapter.clear();
             }
         });
 
@@ -427,7 +466,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
                 //INI YG NYEBABIN BUG
                 HashMap<String, Object> status = new HashMap<>();
-                status.put("status", "Bus tidak aktif");
+                status.put("status", "tidak aktif");
                 databaseReference.child(key).updateChildren(status);
 
                 //matikan ini ketika finish trip
@@ -441,8 +480,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 driverLocationRef.child(driverKey).updateChildren(driverLocRef);
 
                 //ini sementara solusinya
-                adapter2.clear();
-                adapter.clear();
+//                adapter2.clear();
+//                adapter.clear();
 
             }
         });
