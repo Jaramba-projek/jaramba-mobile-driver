@@ -119,6 +119,9 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         if(trayek==null){
             trayek = "Belum memilih trayek";
         }
+
+       // Toast.makeText(HomeActivity.this, trayek + "\n" + id_trip + "\n" + nama + "\n" + id_bus, Toast.LENGTH_LONG).show();
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
 
@@ -240,26 +243,30 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                         driverLocationRef.child(key).updateChildren(driverLocRef);
 
                         //ubah status bus menjadi tidak aktif
-                        DatabaseReference statusBusRef = FirebaseDatabase.getInstance().getReference("bus");
-                        HashMap<String, Object> statusBus = new HashMap<>();
-                        statusBus.put("status","Bus tidak aktif");
 
-                        //akan NPE ketika tidak melaksanakan trip
-                        statusBusRef.child(id_bus).updateChildren(statusBus);
+                        if(id_bus != null) {
+                            DatabaseReference statusBusRef = FirebaseDatabase.getInstance().getReference("bus");
+                            HashMap<String, Object> statusBus = new HashMap<>();
+                            statusBus.put("status","Bus tidak aktif");
 
-                        //selesaikan history_trip_dashboard
-                        //getCurrent time clock
-                        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-                        Date currentLocalTime = cal.getTime();
-                        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
-                        String localTime = dateFormat.format(currentLocalTime);
+                            //akan NPE ketika tidak melaksanakan trip
+                            statusBusRef.child(id_bus).updateChildren(statusBus);
+                        }
 
-                        DatabaseReference historyTripDashboardRef = FirebaseDatabase.getInstance().getReference("bus");
-                        HashMap<String, Object> historyTripDriver = new HashMap<>();
-                        historyTripDriver.put("end_time", localTime);
-                        historyTripDriver.put("status","tidak aktif");
-                        historyTripDashboardRef.child(id_trip).updateChildren(historyTripDriver);
+                        if(id_trip != null){
+                            //selesaikan history_trip_dashboard
+                            //getCurrent time clock
+                            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+                            Date currentLocalTime = cal.getTime();
+                            @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
+                            String localTime = dateFormat.format(currentLocalTime);
 
+                            DatabaseReference historyTripDashboardRef = FirebaseDatabase.getInstance().getReference("bus");
+                            HashMap<String, Object> historyTripDriver = new HashMap<>();
+                            historyTripDriver.put("end_time", localTime);
+                            historyTripDriver.put("status","tidak aktif");
+                            historyTripDashboardRef.child(id_trip).updateChildren(historyTripDriver);
+                        }
 
                         startActivity(new Intent(HomeActivity.this, LoginPage.class));
                         finish();

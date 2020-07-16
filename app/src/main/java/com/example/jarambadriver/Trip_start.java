@@ -107,11 +107,18 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         key = i.getStringExtra("id_bus");
         chKey = i.getStringExtra("chKey");
 
+       // Toast.makeText(Trip_start.this, trayek_pilihan + "\n" + id_trip + "\n" + nama + "\n" + key, Toast.LENGTH_LONG).show();
+
+
         if(id_trip!=null){
             btnStart.setVisibility(View.GONE);
             trayek.setEnabled(false);
             noKendaraan.setEnabled(false);
         }
+
+        //cek apakah masih ada trip yang berlangsung
+
+
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("jam");
         ref.addValueEventListener(new ValueEventListener() {
@@ -213,6 +220,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         listener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adapter.clear();
+                adapter2.clear();
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     spinnerDataList1.add(ds.child("trayek").getValue().toString());
                     spinnerDataList2.add(ds.child("plat_number").getValue().toString());
@@ -342,8 +351,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 status.put("status", "aktif");
                 databaseReference.child(key).updateChildren(status);
 
-                //ini sementara solusinya
-                adapter.clear();
+//                //ini sementara solusinya
+//                adapter.clear();
             }
         });
 
@@ -471,8 +480,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 driverLocationRef.child(driverKey).updateChildren(driverLocRef);
 
                 //ini sementara solusinya
-                adapter2.clear();
-                adapter.clear();
+//                adapter2.clear();
+//                adapter.clear();
 
             }
         });
