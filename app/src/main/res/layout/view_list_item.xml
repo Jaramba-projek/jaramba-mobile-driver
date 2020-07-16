@@ -7,8 +7,8 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="35dp"
     android:layout_marginRight="35dp"
-    android:layout_marginBottom="25dp"
-    android:background="@drawable/border_orange"
+    android:layout_marginTop="25dp"
+    android:background="@drawable/card_style"
     android:orientation="horizontal">
 
     <ImageView
@@ -61,6 +61,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
-        app:srcCompat="@drawable/ic_baseline_info_24" />
+        app:srcCompat="@drawable/ic_baseline_info_black_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
