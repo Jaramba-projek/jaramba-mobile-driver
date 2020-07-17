@@ -290,7 +290,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
         builder.setTitle("Konfirmasi Logout aplikasi");
         builder.setIcon(R.drawable.ic_exit_to_app_black_24dp);
-        builder.setMessage("Anda yakin ingin Logout ?\n Jika anda belum menyelesaikan perjalanan, maka otomatis perjalanan anda akan diberhentikan ");
+        builder.setMessage("Anda yakin ingin Logout ?\n\nJika anda belum menyelesaikan perjalanan, maka otomatis perjalanan anda akan diberhentikan ");
         builder.setCancelable(false);
 
         builder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
@@ -623,6 +623,12 @@ public class ProfileDriverActivity extends AppCompatActivity {
                                             intent2.putExtra("id_trip", id_trip);
                                             intent2.putExtra("id_bus", id_bus);
                                             intent2.putExtra("chKey", chKey);
+
+                                            DatabaseReference refNama = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
+                                            HashMap<String, Object> hashMap = new HashMap<>();
+                                            hashMap.put("driver_name", value);
+                                            refNama.child(id_trip).updateChildren(hashMap);
+
                                         } else {
                                             intent2.putExtra("nama", driverName);
                                             intent2.putExtra("key", id_driver);

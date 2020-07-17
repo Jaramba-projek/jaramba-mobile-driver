@@ -217,17 +217,32 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     private void retrieveData () {
-        listener = databaseReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference refTrayek = FirebaseDatabase.getInstance().getReference("trayek");
+        listener = refTrayek.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 adapter.clear();
-                adapter2.clear();
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     spinnerDataList1.add(ds.child("trayek").getValue().toString());
-                    spinnerDataList2.add(ds.child("plat_number").getValue().toString());
                 }
                 adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        listener = databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adapter2.clear();
+                for(DataSnapshot ds : snapshot.getChildren()) {
+                    spinnerDataList2.add(ds.child("plat_number").getValue().toString());
+                }
                 adapter2.notifyDataSetChanged();
+
             }
 
             @Override

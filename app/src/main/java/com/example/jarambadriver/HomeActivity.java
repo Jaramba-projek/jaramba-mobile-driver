@@ -261,7 +261,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                             @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
                             String localTime = dateFormat.format(currentLocalTime);
 
-                            DatabaseReference historyTripDashboardRef = FirebaseDatabase.getInstance().getReference("bus");
+                            DatabaseReference historyTripDashboardRef = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
                             HashMap<String, Object> historyTripDriver = new HashMap<>();
                             historyTripDriver.put("end_time", localTime);
                             historyTripDriver.put("status","tidak aktif");
@@ -484,7 +484,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
