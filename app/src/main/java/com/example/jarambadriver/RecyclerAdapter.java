@@ -44,6 +44,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
         final HistoryData isi = rvData.get(position);
 
         if (isi.getStatus().contains("done")) {
+            holder.rating.setVisibility(View.VISIBLE);
             if (isi.getRate_status().contains("done")) {
                 holder.cl.setBackgroundResource(R.drawable.border_black);
                 holder.info.setImageResource(R.drawable.ic_baseline_info_black_24);
@@ -122,6 +123,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListVi
                 }
             });
         } else {
+            holder.cl.setBackgroundResource(R.drawable.border_orange);
+            holder.info.setImageResource(R.drawable.ic_baseline_info_24);
             holder.rating.setVisibility(View.GONE);
 
             holder.info.setOnClickListener(new View.OnClickListener() {
