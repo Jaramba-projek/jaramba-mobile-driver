@@ -266,6 +266,14 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                             historyTripDriver.put("end_time", localTime);
                             historyTripDriver.put("status","tidak aktif");
                             historyTripDashboardRef.child(id_trip).updateChildren(historyTripDriver);
+
+                            //Mengirim data ke DB history driver
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference myRef = database.getReference();
+                            HashMap<String, Object> Etime = new HashMap<>();
+                            Etime.put("end_time", localTime);
+                            Etime.put("status", "done");
+                            myRef.child("Mobile_Apps").child("Driver").child(key).child("History_Trip_Driver").child(chKey).updateChildren(Etime);
                         }
 
                         startActivity(new Intent(HomeActivity.this, LoginPage.class));
