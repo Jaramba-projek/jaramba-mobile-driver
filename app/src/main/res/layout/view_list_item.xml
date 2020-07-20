@@ -32,6 +32,8 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/nunitosans_regular"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/iconbus2"
         app:layout_constraintEnd_toStartOf="@id/rate"
         android:textColor="@color/black" />
@@ -43,6 +45,8 @@
         android:layout_below="@+id/trayek"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:fontFamily="@font/nunitosans_regular"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/iconbus2"
         app:layout_constraintEnd_toStartOf="@id/rate"
