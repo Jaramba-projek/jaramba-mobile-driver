@@ -1,13 +1,18 @@
 package com.example.jarambadriver;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 public class HistoryDriver extends AppCompatActivity {
@@ -25,6 +31,10 @@ public class HistoryDriver extends AppCompatActivity {
     private DatabaseReference database;
 
     String nama, trayek, id_trip, id_bus, key, chKey;
+
+    Calendar calendar;
+    ImageView greetImg;
+    TextView headerHist, withHist;
 
     private ArrayList<HistoryData> historyData = new ArrayList<>();
 
@@ -36,6 +46,12 @@ public class HistoryDriver extends AppCompatActivity {
         recyclerView = findViewById(R.id.rv_dtlist);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        greetImg = findViewById(R.id.headerHistory);
+        headerHist = findViewById(R.id.txtTrip);
+        withHist = findViewById(R.id.tripWith);
+
+        greeting();
 
         Intent intent = getIntent();
         nama = intent.getStringExtra("nama");
@@ -114,4 +130,21 @@ public class HistoryDriver extends AppCompatActivity {
             }
         });
     }
+
+    @SuppressLint("SetTextI18n")
+    private void greeting() {
+        calendar = Calendar.getInstance();
+        int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+
+        if (timeOfDay >= 0 && timeOfDay < 18) {
+            greetImg.setImageResource(R.drawable.header_morning);
+            Glide.with(HistoryDriver.this).load(R.drawable.header_morning).into(greetImg);
+        }else if (timeOfDay >= 18 && timeOfDay < 24) {
+            headerHist.setTextColor(Color.WHITE);
+            withHist.setTextColor(Color.WHITE);
+            Glide.with(HistoryDriver.this).load(R.drawable.header_night).into(greetImg);
+            greetImg.setImageResource(R.drawable.header_night);
+        }
+    }
+
 }
