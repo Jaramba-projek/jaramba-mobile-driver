@@ -45,7 +45,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
     DatabaseReference databaseReference;
 
 
-    ImageView greetImg;
+    ImageView greetImg, jaramba_logo_04, spinner_trayek, spinner_plat;
     TextView greetText, driversName;
     Spinner trayek, noKendaraan;
     Button btnStart, btnFinish;
@@ -87,6 +87,19 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         noKendaraan = findViewById(R.id.btn_plat);
         btnStart = findViewById(R.id.btn_start_trip);
         btnFinish = findViewById(R.id.btn_finish_trip);
+
+        //cast image view
+        jaramba_logo_04 = findViewById(R.id.jaramba_logo_04);
+        spinner_trayek = findViewById(R.id.spinner_trayek);
+        spinner_plat = findViewById(R.id.spinner_plat);
+
+        Glide.with(this).load(R.drawable.jaramba_logo_04).into(jaramba_logo_04);
+        Glide.with(this).load(R.drawable.header_morning).into(greetImg);
+        Glide.with(this).load(R.drawable.header_night).into(greetImg);
+        Glide.with(this).load(R.drawable.ic_arrow_drop_down_orange_24dp).into(spinner_trayek);
+        Glide.with(this).load(R.drawable.ic_arrow_drop_down_orange_24dp).into(spinner_plat);
+
+
 
         spinnerDataList1 = new ArrayList<>();
         spinnerDataList2 = new ArrayList<>();
@@ -306,7 +319,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         final String getPlatNumber = noKendaraan.getSelectedItem().toString().trim();
 
         Query query = databaseReference.orderByChild("plat_number").equalTo(getPlatNumber);
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()) {
@@ -316,7 +329,20 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                     status = ""+ds.child("status").getValue();
                     price = ""+ds.child("price").getValue();
 
+                    concat = trayex + "_" + platNumber;
+                    concats = getTrayek + "_" + getPlatNumber;
 
+
+                    if(concat.equals(concats)) {
+                        if(status.equals("tidak aktif")) {
+                            setStartTrip();
+                        }else {
+                            Toast.makeText(Trip_start.this, "Maaf, Bus sedang aktif", Toast.LENGTH_SHORT).show();
+                        }
+                    } else{
+                        //can't continue
+                        Toast.makeText(Trip_start.this, "Tekan sekali lagi, \nBila kemunculan tetap sama, mungkin bus yang anda pilih tidak sesuai dengan trayek ", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             }
@@ -329,20 +355,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-        concat = trayex + "_" + platNumber;
-        concats = getTrayek + "_" + getPlatNumber;
 
-
-        if(concat.equals(concats)) {
-            if(status.equals("tidak aktif")) {
-                setStartTrip();
-            }else {
-                Toast.makeText(Trip_start.this, "Maaf, Bus sedang aktif", Toast.LENGTH_SHORT).show();
-            }
-        } else{
-            //can't continue
-            Toast.makeText(Trip_start.this, "Tekan sekali lagi, \nBila kemunculan tetap sama, mungkin bus yang anda pilih tidak sesuai dengan trayek ", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void setStartTrip() {

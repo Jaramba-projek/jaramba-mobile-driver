@@ -114,6 +114,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
         chKey = i.getStringExtra("chKey");
 
+      //  Toast.makeText(this, id_bus + "\n" + key, Toast.LENGTH_SHORT).show();
+
         vCounter = findViewById(R.id.txt_count);
 
         if(trayek==null){
@@ -366,8 +368,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-        //update database tiap 3000 ms, kalau udah start trip tapi
-        if(id_bus!=null && key!=null){
+        //update database tiap 15000 ms, kalau udah start trip tapi
+        if(id_bus!=null && key!=null && id_trip!=null){
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Driver Location");
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("key", key);

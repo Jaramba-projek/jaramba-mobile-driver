@@ -94,7 +94,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
 
 
 //    ChipNavigationBar bottomNavigationView;
-    ImageView greetImg;
+    ImageView greetImg, icon_name, icon_email, icon_phone, add_photo;
 
     String key;
 
@@ -116,8 +116,21 @@ public class ProfileDriverActivity extends AppCompatActivity {
         //ChipNavigationBar bottomNavigationView =  findViewById(R.id.chipNavigationBar);
         //bottomNavigationView.setItemSelected(R.id.profile,true);
 
-        //dynamic bg init
+        //casting imageView
         greetImg = findViewById(R.id.greeting_img_profile);
+        icon_email = findViewById(R.id.icon_email);
+        icon_name = findViewById(R.id.icon_name);
+        icon_phone = findViewById(R.id.icon_phone);
+        add_photo = findViewById(R.id.add_photo);
+
+        Glide.with(this).load(R.drawable.header_morning).into(greetImg);
+        Glide.with(this).load(R.drawable.header_night).into(greetImg);
+        Glide.with(this).load(R.drawable.user_icon).into(icon_name);
+        Glide.with(this).load(R.drawable.email_icon).into(icon_email);
+        Glide.with(this).load(R.drawable.phone_icon).into(icon_phone);
+        Glide.with(this).load(R.drawable.ic_add_a_photo_black_24dp).into(add_photo);
+
+
 
 
         Intent intent = getIntent();
@@ -615,32 +628,37 @@ public class ProfileDriverActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         progressDialog.dismiss();
                                         Toast.makeText(ProfileDriverActivity.this, keys + " diperbarui...",Toast.LENGTH_SHORT).show();
-                                        Intent intent2 = new Intent(ProfileDriverActivity.this, HomeActivity.class);
-                                        if(key_ki.equals("nama")){
-                                            intent2.putExtra("nama", value);
-                                            intent2.putExtra("key", id_driver);
-                                            intent2.putExtra("trayek", trayek_pilihan);
-                                            intent2.putExtra("id_trip", id_trip);
-                                            intent2.putExtra("id_bus", id_bus);
-                                            intent2.putExtra("chKey", chKey);
 
-                                            DatabaseReference refNama = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
-                                            HashMap<String, Object> hashMap = new HashMap<>();
-                                            hashMap.put("driver_name", value);
-                                            refNama.child(id_trip).updateChildren(hashMap);
 
-                                        } else {
-                                            intent2.putExtra("nama", driverName);
-                                            intent2.putExtra("key", id_driver);
-                                            intent2.putExtra("trayek", trayek_pilihan);
-                                            intent2.putExtra("id_trip", id_trip);
-                                            intent2.putExtra("id_bus", id_bus);
-                                            intent2.putExtra("chKey", chKey);
+                                            Intent intent2 = new Intent(ProfileDriverActivity.this, HomeActivity.class);
+                                            if(key_ki.equals("nama")){
+                                                intent2.putExtra("nama", value);
+                                                intent2.putExtra("key", id_driver);
+                                                intent2.putExtra("trayek", trayek_pilihan);
+                                                intent2.putExtra("id_trip", id_trip);
+                                                intent2.putExtra("id_bus", id_bus);
+                                                intent2.putExtra("chKey", chKey);
+
+                                                if(id_trip!=null){
+                                                    DatabaseReference refNama = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
+                                                    HashMap<String, Object> hashMap = new HashMap<>();
+                                                    hashMap.put("driver_name", value);
+                                                    refNama.child(id_trip).updateChildren(hashMap);
+                                                }
+                                            } else {
+                                                intent2.putExtra("nama", driverName);
+                                                intent2.putExtra("key", id_driver);
+                                                intent2.putExtra("trayek", trayek_pilihan);
+                                                intent2.putExtra("id_trip", id_trip);
+                                                intent2.putExtra("id_bus", id_bus);
+                                                intent2.putExtra("chKey", chKey);
+                                            }
+
+                                            startActivity(intent2);
+                                            finish();
                                         }
 
-                                        startActivity(intent2);
-                                        finish();
-                                    }
+
                                 }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {

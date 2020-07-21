@@ -21,15 +21,29 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_profile_page"
-        android:layout_width="179dp"
-        android:layout_height="176dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        app:civ_border_width="3dp"
+        app:civ_border_color="#EA604E"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/avatar_blank"
+        android:scaleType="centerCrop"/>
+
+
+    <ImageView
+        android:id="@+id/add_photo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignEnd="@+id/img_profile_page"
+        android:layout_alignBottom="@+id/img_profile_page"
+        android:background="@drawable/shape_circle"
+        android:elevation="1dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_add_a_photo_black_24dp"
         android:onClick="changeProfilePicture"
-        app:civ_border_color="#77000000"
-        app:civ_border_width="4dp"
-        tools:ignore="OnClick" />
+        tools:ignore="OnClick"
+        android:contentDescription="@string/image" />
 
     <TextView
         android:id="@+id/tv_edit_profile"
@@ -75,12 +89,14 @@
             android:paddingEnd="10dp">
 
             <ImageView
+                android:id="@+id/icon_name"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="8dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/user_icon" />
+                android:src="@drawable/user_icon"
+                android:contentDescription="@string/image" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -114,11 +130,13 @@
             android:paddingEnd="10dp">
 
             <ImageView
+                android:id="@+id/icon_email"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/email_icon"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/image" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -152,12 +170,14 @@
             android:paddingEnd="10dp">
 
             <ImageView
+                android:id="@+id/icon_phone"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="8dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/phone_icon" />
+                android:src="@drawable/phone_icon"
+                android:contentDescription="@string/image" />
 
             <LinearLayout
                 android:layout_width="match_parent"
