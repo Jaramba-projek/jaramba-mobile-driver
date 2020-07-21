@@ -682,4 +682,71 @@ public class ProfileDriverActivity extends AppCompatActivity {
 
 
     }
+
+    public void onBackPressed() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setTitle("Konfirmasi keluar aplikasi");
+        builder.setIcon(R.drawable.ic_exit_to_app_black_24dp);
+        builder.setMessage("Anda yakin ingin Logout ?\n\nJika anda belum menyelesaikan perjalanan, maka otomatis perjalanan anda akan diberhentikan ");
+        builder.setCancelable(false);
+
+        builder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                FirebaseAuth.getInstance().signOut();
+//                startActivity(new Intent(ProfileDriverActivity.this, LoginPage.class));
+//                finish();
+
+                DatabaseReference driverLocationRef = FirebaseDatabase.getInstance().getReference("Driver Location");
+                HashMap<String, Object> driverLocRef = new HashMap<>();
+                driverLocRef.put("trayek", null);
+                driverLocationRef.child(id_driver).updateChildren(driverLocRef);
+
+                if (id_bus != null && id_trip != null) {
+                    DatabaseReference busRef = FirebaseDatabase.getInstance().getReference("bus");
+                    HashMap<String, Object> status = new HashMap<>();
+                    status.put("status", "tidak aktif");
+                    busRef.child(id_bus).updateChildren(status);
+                }
+
+                if (id_trip != null) {
+                    //getCurrent time clock
+                    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+                    Date currentLocalTime = cal.getTime();
+                    @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
+                    String localTime = dateFormat.format(currentLocalTime);
+
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
+                    HashMap<String, Object> status_endTime = new HashMap<>();
+                    status_endTime.put("end_time", localTime);
+                    status_endTime.put("status", "tidak aktif");
+                    endtime_hist = localTime; //mengirim data waktu selesai untuk history driver
+                    reference.child(id_trip).updateChildren(status_endTime);
+
+                    //Mengirim data ke DB history driver
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = database.getReference();
+                    HashMap<String, Object> Etime = new HashMap<>();
+                    Etime.put("end_time", endtime_hist);
+                    Etime.put("status", "done");
+                    myRef.child("Mobile_Apps").child("Driver").child(key).child("History_Trip_Driver").child(chKey).updateChildren(Etime);
+                }
+
+
+                startActivity(new Intent(ProfileDriverActivity.this, LoginPage.class));
+                finish();
+            }
+        });
+
+        builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 }
