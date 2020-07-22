@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -86,6 +87,8 @@ public class LoginPage extends AppCompatActivity {
 
         btnlogin.setAnimation(rightin_anim);
         txtPass.setAnimation(rightin_anim);
+
+        Glide.with(this).load(R.drawable.logo_jaramba_full).into(img_logo);
 
     }
 
@@ -157,7 +160,7 @@ public class LoginPage extends AppCompatActivity {
 
 
 
-                        
+
                         if (email1.equals(email2)) {
                             if (password.equals(pwd)) {
 

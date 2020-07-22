@@ -51,6 +51,7 @@
 
 
         <ImageView
+            android:id="@+id/jaramba_logo_04"
             android:layout_width="129dp"
             android:layout_height="129dp"
             android:layout_alignParentTop="true"
@@ -60,7 +61,8 @@
             android:layout_marginEnd="2dp"
             android:layout_marginBottom="42dp"
             android:foregroundGravity="center"
-            android:src="@drawable/jaramba_logo_04" />
+            android:src="@drawable/jaramba_logo_04"
+            android:contentDescription="@string/image" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -82,8 +84,9 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/spinner_trayek"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
             android:src="@drawable/ic_arrow_drop_down_orange_24dp"
             android:contentDescription="@string/image"
             android:layout_alignParentEnd="true"
@@ -105,8 +108,9 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/spinner_plat"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
             android:src="@drawable/ic_arrow_drop_down_orange_24dp"
             android:contentDescription="@string/image"
             android:layout_alignParentEnd="true"

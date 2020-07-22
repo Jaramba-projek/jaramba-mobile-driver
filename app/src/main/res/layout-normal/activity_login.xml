@@ -43,6 +43,7 @@
             android:fontFamily="@font/nunitosans_regular"
             android:hint="@string/masukkan_email"
             android:layout_marginBottom="10dp"
+            android:text="anasrull99@gmail.com"
             android:autofillHints="no"
             android:background="@drawable/rounded_et"
             android:drawableStart="@drawable/ic_person_black_24dp"
@@ -67,6 +68,7 @@
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/nunitosans_regular"
                 android:hint="@string/kata_sandi"
+                android:text="123ZXC"
                 android:inputType="textPassword"
                 android:padding="15dp"
                 tools:ignore="TextFields" />

@@ -54,6 +54,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.google.firebase.database.ValueEventListener;
 
@@ -83,22 +84,19 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     String nama, key;
-    String trayek, id_trip, id_bus, chKey;
+    String trayek, id_trip, id_bus, chKey, endtime_hist;
 
 
 
-    Calendar rightNow = Calendar.getInstance();
-     int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-    int currentMinute = rightNow.get(Calendar.MINUTE);
-     int currentSec = rightNow.get(Calendar.SECOND);
 
-     long currTime = (currentHour*3600*1000) + (currentMinute*60*1000) + (currentSec*1000);
 
-     long START_TIME_IN_MILLIS = 64800000 - currTime;
+    long START_TIME_IN_MILLIS;
     private TextView vCounter;
     private CountDownTimer mCountDownTimer;
     private boolean mTimerRunning;
     private long mTimeLeftInMills = START_TIME_IN_MILLIS;
+
+    long hasil;
 
 
     @Override
@@ -116,14 +114,16 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
         chKey = i.getStringExtra("chKey");
 
+      //  Toast.makeText(this, id_bus + "\n" + key, Toast.LENGTH_SHORT).show();
+
         vCounter = findViewById(R.id.txt_count);
-
-
-
 
         if(trayek==null){
             trayek = "Belum memilih trayek";
         }
+
+       // Toast.makeText(HomeActivity.this, trayek + "\n" + id_trip + "\n" + nama + "\n" + id_bus, Toast.LENGTH_LONG).show();
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
 
@@ -177,12 +177,46 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         locationRequest.setFastestInterval(15000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("jam");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String jam = snapshot.child("selesai").getValue(String.class);
 
-        if (currTime <= 64800000){
-            startTimer();
+                String x = jam.substring(0,2);
+                String y = jam.substring(3);
 
-            updateCountDownText();
-        }
+                long  jam_selesai = Integer.parseInt(x) * 3600 * 1000;
+                long  menit_selesai = Integer.parseInt(y) * 60 * 1000;
+
+                long hasil = jam_selesai+menit_selesai;
+
+                //Toast.makeText(HomeActivity.this, x + " + "+ y + "\n" + hasil, Toast.LENGTH_LONG).show();
+
+                Calendar rightNow = Calendar.getInstance();
+                int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+                int currentMinute = rightNow.get(Calendar.MINUTE);
+                int currentSec = rightNow.get(Calendar.SECOND);
+
+                long currTime = (currentHour*3600*1000) + (currentMinute*60*1000) + (currentSec*1000);
+                START_TIME_IN_MILLIS = hasil - currTime;
+                mTimeLeftInMills = START_TIME_IN_MILLIS;
+
+                if (currTime <= hasil){
+                    startTimer();
+
+                    updateCountDownText();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
     }
 
     public void startTimer(){
@@ -211,24 +245,38 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                         driverLocationRef.child(key).updateChildren(driverLocRef);
 
                         //ubah status bus menjadi tidak aktif
-                        DatabaseReference statusBusRef = FirebaseDatabase.getInstance().getReference("bus");
-                        HashMap<String, Object> statusBus = new HashMap<>();
-                        statusBus.put("status","Bus tidak aktif");
-                        statusBusRef.child(id_bus).updateChildren(statusBus);
 
-                        //selesaikan history_trip_dashboard
-                        //getCurrent time clock
-                        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-                        Date currentLocalTime = cal.getTime();
-                        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
-                        String localTime = dateFormat.format(currentLocalTime);
+                        if(id_bus != null) {
+                            DatabaseReference statusBusRef = FirebaseDatabase.getInstance().getReference("bus");
+                            HashMap<String, Object> statusBus = new HashMap<>();
+                            statusBus.put("status","Bus tidak aktif");
 
-                        DatabaseReference historyTripDashboardRef = FirebaseDatabase.getInstance().getReference("bus");
-                        HashMap<String, Object> historyTripDriver = new HashMap<>();
-                        historyTripDriver.put("end_time", localTime);
-                        historyTripDriver.put("status","tidak aktif");
-                        historyTripDashboardRef.child(id_trip).updateChildren(historyTripDriver);
+                            //akan NPE ketika tidak melaksanakan trip
+                            statusBusRef.child(id_bus).updateChildren(statusBus);
+                        }
 
+                        if(id_trip != null){
+                            //selesaikan history_trip_dashboard
+                            //getCurrent time clock
+                            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+                            Date currentLocalTime = cal.getTime();
+                            @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
+                            String localTime = dateFormat.format(currentLocalTime);
+
+                            DatabaseReference historyTripDashboardRef = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
+                            HashMap<String, Object> historyTripDriver = new HashMap<>();
+                            historyTripDriver.put("end_time", localTime);
+                            historyTripDriver.put("status","tidak aktif");
+                            historyTripDashboardRef.child(id_trip).updateChildren(historyTripDriver);
+
+                            //Mengirim data ke DB history driver
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference myRef = database.getReference();
+                            HashMap<String, Object> Etime = new HashMap<>();
+                            Etime.put("end_time", localTime);
+                            Etime.put("status", "done");
+                            myRef.child("Mobile_Apps").child("Driver").child(key).child("History_Trip_Driver").child(chKey).updateChildren(Etime);
+                        }
 
                         startActivity(new Intent(HomeActivity.this, LoginPage.class));
                         finish();
@@ -320,8 +368,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-        //update database tiap 3000 ms, kalau udah start trip tapi
-        if(id_bus!=null && key!=null){
+        //update database tiap 15000 ms, kalau udah start trip tapi
+        if(id_bus!=null && key!=null && id_trip!=null){
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Driver Location");
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("key", key);
@@ -446,7 +494,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -488,5 +536,71 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
 //        mMap.addMarker(markerOptions);
 //        mMap.setMyLocationEnabled(true);
+    }
+
+    public void onBackPressed() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setTitle("Konfirmasi keluar aplikasi");
+        builder.setIcon(R.drawable.ic_exit_to_app_black_24dp);
+        builder.setMessage("Anda yakin ingin Logout ?\n\nJika anda belum menyelesaikan perjalanan, maka otomatis perjalanan anda akan diberhentikan ");
+        builder.setCancelable(false);
+
+        builder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                FirebaseAuth.getInstance().signOut();
+//                startActivity(new Intent(ProfileDriverActivity.this, LoginPage.class));
+//                finish();
+
+                DatabaseReference driverLocationRef = FirebaseDatabase.getInstance().getReference("Driver Location");
+                HashMap<String, Object> driverLocRef = new HashMap<>();
+                driverLocRef.put("trayek", null);
+                driverLocationRef.child(key).updateChildren(driverLocRef);
+
+                if (id_bus != null && id_trip != null) {
+                    DatabaseReference busRef = FirebaseDatabase.getInstance().getReference("bus");
+                    HashMap<String, Object> status = new HashMap<>();
+                    status.put("status", "tidak aktif");
+                    busRef.child(id_bus).updateChildren(status);
+                }
+
+                if (id_trip != null) {
+                    //getCurrent time clock
+                    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+                    Date currentLocalTime = cal.getTime();
+                    @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
+                    String localTime = dateFormat.format(currentLocalTime);
+
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
+                    HashMap<String, Object> status_endTime = new HashMap<>();
+                    status_endTime.put("end_time", localTime);
+                    status_endTime.put("status", "tidak aktif");
+                    endtime_hist = localTime; //mengirim data waktu selesai untuk history driver
+                    reference.child(id_trip).updateChildren(status_endTime);
+
+                    //Mengirim data ke DB history driver
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = database.getReference();
+                    HashMap<String, Object> Etime = new HashMap<>();
+                    Etime.put("end_time", endtime_hist);
+                    Etime.put("status", "done");
+                    myRef.child("Mobile_Apps").child("Driver").child(key).child("History_Trip_Driver").child(chKey).updateChildren(Etime);
+                }
+
+
+                startActivity(new Intent(HomeActivity.this, LoginPage.class));
+                finish();
+            }
+        });
+
+        builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

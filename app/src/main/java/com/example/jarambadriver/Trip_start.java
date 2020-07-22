@@ -45,7 +45,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
     DatabaseReference databaseReference;
 
 
-    ImageView greetImg;
+    ImageView greetImg, jaramba_logo_04, spinner_trayek, spinner_plat;
     TextView greetText, driversName;
     Spinner trayek, noKendaraan;
     Button btnStart, btnFinish;
@@ -88,6 +88,19 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         btnStart = findViewById(R.id.btn_start_trip);
         btnFinish = findViewById(R.id.btn_finish_trip);
 
+        //cast image view
+        jaramba_logo_04 = findViewById(R.id.jaramba_logo_04);
+        spinner_trayek = findViewById(R.id.spinner_trayek);
+        spinner_plat = findViewById(R.id.spinner_plat);
+
+        Glide.with(this).load(R.drawable.jaramba_logo_04).into(jaramba_logo_04);
+        Glide.with(this).load(R.drawable.header_morning).into(greetImg);
+        Glide.with(this).load(R.drawable.header_night).into(greetImg);
+        Glide.with(this).load(R.drawable.ic_arrow_drop_down_orange_24dp).into(spinner_trayek);
+        Glide.with(this).load(R.drawable.ic_arrow_drop_down_orange_24dp).into(spinner_plat);
+
+
+
         spinnerDataList1 = new ArrayList<>();
         spinnerDataList2 = new ArrayList<>();
         adapter = new ArrayAdapter<String>(Trip_start.this,
@@ -107,21 +120,58 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         key = i.getStringExtra("id_bus");
         chKey = i.getStringExtra("chKey");
 
+       // Toast.makeText(Trip_start.this, trayek_pilihan + "\n" + id_trip + "\n" + nama + "\n" + key, Toast.LENGTH_LONG).show();
+
+
         if(id_trip!=null){
             btnStart.setVisibility(View.GONE);
             trayek.setEnabled(false);
             noKendaraan.setEnabled(false);
         }
 
-        calendar = Calendar.getInstance();
-        int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        //cek apakah masih ada trip yang berlangsung
 
-        if(timeOfDay >= 18) {
-            btnStart.setVisibility(View.GONE);
-            btnFinish.setVisibility(View.GONE);
-            trayek.setEnabled(false);
-            noKendaraan.setEnabled(false);
-        }
+
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("jam");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String jam = snapshot.child("selesai").getValue(String.class);
+
+                String x = jam.substring(0,2);
+                String y = jam.substring(3);
+
+                long  jam_selesai = Integer.parseInt(x) * 3600 * 1000;
+                long  menit_selesai = Integer.parseInt(y) * 60 * 1000;
+
+                long hasil = jam_selesai+menit_selesai;
+
+                //Toast.makeText(HomeActivity.this, x + " + "+ y + "\n" + hasil, Toast.LENGTH_LONG).show();
+
+                Calendar rightNow = Calendar.getInstance();
+                int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+                int currentMinute = rightNow.get(Calendar.MINUTE);
+                int currentSec = rightNow.get(Calendar.SECOND);
+
+                long currTime = (currentHour*3600*1000) + (currentMinute*60*1000) + (currentSec*1000);
+
+                if(currTime > hasil) {
+                    btnStart.setVisibility(View.GONE);
+                    btnFinish.setVisibility(View.GONE);
+                    trayek.setEnabled(false);
+                    noKendaraan.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
 
         retrieveData();
@@ -180,15 +230,32 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     private void retrieveData () {
+        DatabaseReference refTrayek = FirebaseDatabase.getInstance().getReference("trayek");
+        listener = refTrayek.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adapter.clear();
+                for(DataSnapshot ds : snapshot.getChildren()) {
+                    spinnerDataList1.add(ds.child("trayek").getValue().toString());
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         listener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adapter2.clear();
                 for(DataSnapshot ds : snapshot.getChildren()) {
-                    spinnerDataList1.add(ds.child("trayek").getValue().toString());
                     spinnerDataList2.add(ds.child("plat_number").getValue().toString());
                 }
-                adapter.notifyDataSetChanged();
                 adapter2.notifyDataSetChanged();
+
             }
 
             @Override
@@ -208,13 +275,13 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
             if(timeOfDay >= 0 && timeOfDay <12 ) {
                 greetText.setText("Good Morning");
                 driversName.setText(nama);
-                greetImg.setImageResource(R.drawable.img_default_half_morning);
-                Glide.with(Trip_start.this).load(R.drawable.img_default_half_morning).into(greetImg);
+                greetImg.setImageResource(R.drawable.header_morning);
+                Glide.with(Trip_start.this).load(R.drawable.header_morning).into(greetImg);
             } else if(timeOfDay >=12) {
                 greetText.setText("Good Afternoon");
                 driversName.setText(nama);
-                greetImg.setImageResource(R.drawable.img_default_half_afternoon);
-                Glide.with(Trip_start.this).load(R.drawable.img_default_half_afternoon).into(greetImg);
+                greetImg.setImageResource(R.drawable.header_morning);
+                Glide.with(Trip_start.this).load(R.drawable.header_morning).into(greetImg);
             }
 
         }else if (timeOfDay >= 18 && timeOfDay < 24) {
@@ -223,15 +290,15 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 greetText.setTextColor(Color.WHITE);
                 driversName.setText(nama);
                 driversName.setTextColor(Color.WHITE);
-                Glide.with(Trip_start.this).load(R.drawable.img_default_half_without_sun).into(greetImg);
-                greetImg.setImageResource(R.drawable.img_default_half_without_sun);
+                Glide.with(Trip_start.this).load(R.drawable.header_night).into(greetImg);
+                greetImg.setImageResource(R.drawable.header_night);
             } else if(timeOfDay >= 21) {
                 greetText.setText("Good Night");
                 greetText.setTextColor(Color.WHITE);
                 driversName.setText(nama);
                 driversName.setTextColor(Color.WHITE);
-                Glide.with(Trip_start.this).load(R.drawable.img_default_half_night).into(greetImg);
-                greetImg.setImageResource(R.drawable.malamhari);
+                Glide.with(Trip_start.this).load(R.drawable.header_night).into(greetImg);
+                greetImg.setImageResource(R.drawable.header_night);
             }
         }
     }
@@ -252,7 +319,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
         final String getPlatNumber = noKendaraan.getSelectedItem().toString().trim();
 
         Query query = databaseReference.orderByChild("plat_number").equalTo(getPlatNumber);
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()) {
@@ -262,7 +329,20 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                     status = ""+ds.child("status").getValue();
                     price = ""+ds.child("price").getValue();
 
+                    concat = trayex + "_" + platNumber;
+                    concats = getTrayek + "_" + getPlatNumber;
 
+
+                    if(concat.equals(concats)) {
+                        if(status.equals("tidak aktif")) {
+                            setStartTrip();
+                        }else {
+                            Toast.makeText(Trip_start.this, "Maaf, Bus sedang aktif", Toast.LENGTH_SHORT).show();
+                        }
+                    } else{
+                        //can't continue
+                        Toast.makeText(Trip_start.this, "Tekan sekali lagi, \nBila kemunculan tetap sama, mungkin bus yang anda pilih tidak sesuai dengan trayek ", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             }
@@ -275,20 +355,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-        concat = trayex + "_" + platNumber;
-        concats = getTrayek + "_" + getPlatNumber;
 
-
-        if(concat.equals(concats)) {
-            if(status.equals("Bus tidak aktif")) {
-                setStartTrip();
-            }else {
-                Toast.makeText(Trip_start.this, "Maaf, Bus sedang aktif", Toast.LENGTH_SHORT).show();
-            }
-        } else{
-            //can't continue
-            Toast.makeText(Trip_start.this, "Tekan sekali lagi, \nBila kemunculan tetap sama, mungkin bus yang anda pilih tidak sesuai dengan trayek ", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void setStartTrip() {
@@ -309,11 +376,11 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
                 //INI YG NYEBABIN BUG
                 HashMap<String, Object> status = new HashMap<>();
-                status.put("status", "Bus aktif");
+                status.put("status", "aktif");
                 databaseReference.child(key).updateChildren(status);
 
-                //ini sementara solusinya
-                adapter.clear();
+//                //ini sementara solusinya
+//                adapter.clear();
             }
         });
 
@@ -427,7 +494,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
 
                 //INI YG NYEBABIN BUG
                 HashMap<String, Object> status = new HashMap<>();
-                status.put("status", "Bus tidak aktif");
+                status.put("status", "tidak aktif");
                 databaseReference.child(key).updateChildren(status);
 
                 //matikan ini ketika finish trip
@@ -441,8 +508,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 driverLocationRef.child(driverKey).updateChildren(driverLocRef);
 
                 //ini sementara solusinya
-                adapter2.clear();
-                adapter.clear();
+//                adapter2.clear();
+//                adapter.clear();
 
             }
         });
@@ -498,16 +565,56 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
         builder.setTitle("Konfirmasi keluar aplikasi");
         builder.setIcon(R.drawable.ic_exit_to_app_black_24dp);
-        builder.setMessage("Anda yakin ingin keluar aplikasi ? ");
+        builder.setMessage("Anda yakin ingin Logout ?\n\nJika anda belum menyelesaikan perjalanan, maka otomatis perjalanan anda akan diberhentikan ");
         builder.setCancelable(false);
 
         builder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finishAndRemoveTask();
+//                FirebaseAuth.getInstance().signOut();
+//                startActivity(new Intent(ProfileDriverActivity.this, LoginPage.class));
+//                finish();
+
+                DatabaseReference driverLocationRef = FirebaseDatabase.getInstance().getReference("Driver Location");
+                HashMap<String, Object> driverLocRef = new HashMap<>();
+                driverLocRef.put("trayek", null);
+                driverLocationRef.child(driverKey).updateChildren(driverLocRef);
+
+                if ( key != null && id_trip != null) {
+                    DatabaseReference busRef = FirebaseDatabase.getInstance().getReference("bus");
+                    HashMap<String, Object> status = new HashMap<>();
+                    status.put("status", "tidak aktif");
+                    busRef.child(key).updateChildren(status);
+                }
+
+                if (id_trip != null) {
+                    //getCurrent time clock
+                    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+                    Date currentLocalTime = cal.getTime();
+                    @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm a");
+                    String localTime = dateFormat.format(currentLocalTime);
+
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("history_trip_dashboard");
+                    HashMap<String, Object> status_endTime = new HashMap<>();
+                    status_endTime.put("end_time", localTime);
+                    status_endTime.put("status", "tidak aktif");
+                    endtime_hist = localTime; //mengirim data waktu selesai untuk history driver
+                    reference.child(id_trip).updateChildren(status_endTime);
+
+                    //Mengirim data ke DB history driver
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = database.getReference();
+                    HashMap<String, Object> Etime = new HashMap<>();
+                    Etime.put("end_time", endtime_hist);
+                    Etime.put("status", "done");
+                    myRef.child("Mobile_Apps").child("Driver").child(key).child("History_Trip_Driver").child(chKey).updateChildren(Etime);
+                }
+
+
+                startActivity(new Intent(Trip_start.this, LoginPage.class));
                 finish();
             }
         });
@@ -519,7 +626,7 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
 
-        AlertDialog alertDialog = builder.create();
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
 

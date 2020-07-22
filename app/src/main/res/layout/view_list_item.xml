@@ -7,19 +7,23 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="35dp"
     android:layout_marginRight="35dp"
-    android:layout_marginBottom="25dp"
-    android:background="@drawable/border_orange"
+    android:layout_marginTop="25dp"
+    android:background="@drawable/card_style_primary"
+    android:elevation="16dp"
     android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/iconbus2"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_gravity="center"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_directions_bus_24" />
+        app:srcCompat="@drawable/d_bus_icon" />
 
     <TextView
         android:id="@+id/trayek"
@@ -28,6 +32,8 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/nunitosans_regular"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/iconbus2"
         app:layout_constraintEnd_toStartOf="@id/rate"
         android:textColor="@color/black" />
@@ -39,6 +45,8 @@
         android:layout_below="@+id/trayek"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:fontFamily="@font/nunitosans_regular"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/iconbus2"
         app:layout_constraintEnd_toStartOf="@id/rate"
