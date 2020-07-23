@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="70dp"
-            android:text="Good Morning"
+            android:text="@string/good_morning"
             android:fontFamily="@font/nunitosans_semibold"
             android:layout_marginStart="50dp"
             android:textColor="#006468"
@@ -43,7 +43,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="@font/nunitosans_regular"
             android:layout_below="@+id/greeting_text"
-            android:text="Username"
+            android:text="@string/username"
             android:layout_marginStart="50dp"
             android:textColor="#006468"
             android:textSize="15sp" />
@@ -120,7 +120,7 @@
             android:id="@+id/btn_finish_trip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Finish"
+            android:text="@string/finish"
             android:onClick="finishTripDriver"
             android:layout_marginEnd="40dp"
             android:layout_alignParentBottom="true"
@@ -141,7 +141,7 @@
             android:layout_marginBottom="35dp"
             android:background="@drawable/border_orange"
             android:onClick="startTripDriver"
-            android:text="Start"
+            android:text="@string/start"
             android:textColor="#FFF"
             tools:ignore="OnClick" />
 

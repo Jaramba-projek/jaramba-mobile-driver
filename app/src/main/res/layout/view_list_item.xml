@@ -23,7 +23,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/d_bus_icon" />
+        app:srcCompat="@drawable/d_bus_icon"
+        android:contentDescription="@string/image" />
 
     <TextView
         android:id="@+id/trayek"
@@ -59,7 +60,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iconinfo2"
         android:gravity="center"
-        app:srcCompat="@drawable/ic_baseline_star_24" />
+        app:srcCompat="@drawable/ic_baseline_star_24"
+        android:contentDescription="@string/image" />
 
     <ImageView
         android:id="@+id/iconinfo2"
@@ -69,6 +71,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
-        app:srcCompat="@drawable/ic_baseline_info_24" />
+        app:srcCompat="@drawable/ic_baseline_info_24"
+        android:contentDescription="@string/image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

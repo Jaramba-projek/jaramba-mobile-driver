@@ -59,6 +59,26 @@
     <string name="let_s_go">Let\'s Go</string>
     <string name="tv_keterangan_ubah_password">Jaramba akan mengirimkan pesan \nmelalui email anda, kemudian anda \ndapat mengubah kata sandi \nmelalui pesan tersebut</string>
     <string name="silahkan_masukkan">Silahkan masukkan</string>
+    <string name="your_drive_detail">Your Drive Detail</string>
+    <string name="dipatiukur_jatinangor">Dipatiukur - Jatinangor</string>
+    <string name="d_1234_xy">D 1234 XY</string>
+    <string name="_04_juni_2020">04-Juni-2020</string>
+    <string name="_09_00_am_02_00_pm">09.00 AM - 02.00 PM</string>
+    <string name="countdowntimer">00:00:00</string>
+    <string name="koerniawanedi_gmail_com">koerniawanedi@gmail.com</string>
+    <string name="t2v5oef">T2V5OEf</string>
+    <string name="edit_profil2">Edit profil</string>
+    <string name="profile">PROFILE</string>
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
+    <string name="no_telepon">No.Telepon</string>
+    <string name="good_morning">Good Morning</string>
+    <string name="username">Username</string>
+    <string name="finish">Finish</string>
+    <string name="start">Start</string>
+    <string name="let_s_rate_the_bus">Let\'s Rate The Bus</string>
+    <string name="tambahkan_komentar">Tambahkan komentar</string>
+    <string name="submit">Submit</string>
 
     <string-array name="metode_pembayaran">
         <item>Cash</item>
