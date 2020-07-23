@@ -12,21 +12,21 @@
     <item
         android:id="@+id/trip"
         android:icon="@drawable/ic_place_black_24dp"
-        android:title="Trip"
+        android:title="@string/trip"
         app:cnb_iconColor="#fff"
         app:cnb_backgroundColor="@color/colorPrimary"
         app:cnb_textColor="#fff"/>
     <item
         android:id="@+id/history"
         android:icon="@drawable/ic_history_black_24dp"
-        android:title="History"
+        android:title="@string/history"
         app:cnb_iconColor="#fff"
         app:cnb_backgroundColor="@color/colorPrimary"
         app:cnb_textColor="#fff"/>
     <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_person_black_24dp"
-        android:title="Profile"
+        android:title="@string/profile3"
         app:cnb_iconColor="#fff"
         app:cnb_backgroundColor="@color/colorPrimary"
         app:cnb_textColor="#fff"/>

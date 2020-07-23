@@ -20,26 +20,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:layout_marginEnd="60dp"
-        android:text="00:00:00"
+        android:text="@string/_00_00_00"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        tools:ignore="RelativeOverlap" />
 
-<!--    <Button-->
-<!--        android:id="@+id/start"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="start"-->
-<!--        android:onClick="start"-->
-<!--        tools:ignore="OnClick" />-->
 
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="finish"-->
-<!--        android:onClick="finish"-->
-<!--        android:layout_toEndOf="@id/start"-->
-<!--        tools:ignore="OnClick" />-->
 
     <RelativeLayout
         android:layout_width="wrap_content"

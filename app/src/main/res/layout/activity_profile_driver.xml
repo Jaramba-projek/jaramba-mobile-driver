@@ -66,10 +66,10 @@
                 android:fontFamily="@font/nunitosans_semibold"
                 android:onClick="editProfile"
                 android:padding="10dp"
-                android:text="Edit profil"
+                android:text="@string/edit_profil2"
                 android:gravity="center"
                 android:textSize="10sp"
-                tools:ignore="OnClick" />
+                tools:ignore="OnClick,SmallSp" />
 
         </RelativeLayout>
 
@@ -89,13 +89,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PROFILE"
+            android:text="@string/profile"
             android:textColor="@color/black"
             android:textSize="10sp"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            />
+            tools:ignore="SmallSp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,17 +123,19 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Full Name"
+                    android:text="@string/full_name"
                     android:textColor="@color/black"
                     android:textSize="10sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="SmallSp" />
 
                 <TextView
                     android:id="@+id/tv_profil_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
-                    android:textStyle="" />
+                    android:textStyle=""
+                    tools:ignore="SmallSp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -164,17 +166,19 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Email"
+                    android:text="@string/email"
                     android:textColor="@color/black"
                     android:textSize="10sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="SmallSp" />
 
                 <TextView
                     android:id="@+id/tv_profil_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
-                    android:textStyle="" />
+                    android:textStyle=""
+                    tools:ignore="SmallSp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -205,17 +209,19 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No.Telepon"
+                    android:text="@string/no_telepon"
                     android:textColor="@color/black"
                     android:textSize="10sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="SmallSp" />
 
                 <TextView
                     android:id="@+id/tv_profil_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
-                    android:textStyle="" />
+                    android:textStyle=""
+                    tools:ignore="SmallSp" />
             </LinearLayout>
 
         </LinearLayout>

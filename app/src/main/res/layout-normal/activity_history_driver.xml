@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Your History Trips"
+                android:text="@string/your_history_trips"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="18sp" />
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtTrip"
                 android:layout_centerHorizontal="true"
-                android:text="with"
+                android:text="@string/with"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
@@ -64,7 +64,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
-            app:srcCompat="@drawable/logo_jaramba_full" />
+            app:srcCompat="@drawable/logo_jaramba_full"
+            android:contentDescription="@string/image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
       
