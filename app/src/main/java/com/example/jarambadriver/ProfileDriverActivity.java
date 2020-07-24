@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,8 +76,8 @@ public class ProfileDriverActivity extends AppCompatActivity {
     private static final int IMAGE_PICK_GALLERY_CODE = 300;
     private static final int IMAGE_PICK_CAMERA_CODE = 400;
 
-    private TextView nameTv, emailTv, phoneTv;
-    private ImageView avatarIv, bgDynamic, icSetting;
+    private TextView nameTv, emailTv, phoneTv, usernameTv;
+    private ImageView avatarIv;
 
     String[] cameraPermission;
     String[] storagePermission;
@@ -94,7 +95,8 @@ public class ProfileDriverActivity extends AppCompatActivity {
 
 
 //    ChipNavigationBar bottomNavigationView;
-    ImageView greetImg, icon_name, icon_email, icon_phone, add_photo;
+    ImageView icon_name, icon_email, icon_phone, add_photo;
+    RelativeLayout greetImg;
 
     String key;
 
@@ -117,18 +119,16 @@ public class ProfileDriverActivity extends AppCompatActivity {
         //bottomNavigationView.setItemSelected(R.id.profile,true);
 
         //casting imageView
-        greetImg = findViewById(R.id.greeting_img_profile);
+        greetImg = findViewById(R.id.layoutHeader);
         icon_email = findViewById(R.id.icon_email);
         icon_name = findViewById(R.id.icon_name);
         icon_phone = findViewById(R.id.icon_phone);
         add_photo = findViewById(R.id.add_photo);
 
-        Glide.with(this).load(R.drawable.header_morning).into(greetImg);
-        Glide.with(this).load(R.drawable.header_night).into(greetImg);
-        Glide.with(this).load(R.drawable.user_icon).into(icon_name);
-        Glide.with(this).load(R.drawable.email_icon).into(icon_email);
-        Glide.with(this).load(R.drawable.phone_icon).into(icon_phone);
-        Glide.with(this).load(R.drawable.ic_add_a_photo_black_24dp).into(add_photo);
+//        Glide.with(this).load(R.drawable.user_icon).into(icon_name);
+//        Glide.with(this).load(R.drawable.email_icon).into(icon_email);
+//        Glide.with(this).load(R.drawable.phone_icon).into(icon_phone);
+//        Glide.with(this).load(R.drawable.ic_add_a_photo_black_24dp).into(add_photo);
 
 
 
@@ -145,6 +145,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
         //view init
         avatarIv = findViewById(R.id.img_profile_page);
         nameTv = findViewById(R.id.tv_profil_username);
+        usernameTv = findViewById(R.id.txtNameProfile);
         emailTv = findViewById(R.id.tv_profil_email);
         phoneTv = findViewById(R.id.tv_profil_phone);
 
@@ -173,6 +174,7 @@ public class ProfileDriverActivity extends AppCompatActivity {
 
                     //set data
                     nameTv.setText(name);
+                    usernameTv.setText(name);
                     emailTv.setText(email);
                     phoneTv.setText(phone);
 
@@ -371,12 +373,11 @@ public class ProfileDriverActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
 
-        if (timeOfDay > 0 && timeOfDay < 18) {
-            greetImg.setImageResource(R.drawable.header_morning);
-            Glide.with(ProfileDriverActivity.this).load(R.drawable.header_morning).into(greetImg);
-        }else if (timeOfDay >= 18 && timeOfDay < 23) {
-            Glide.with(ProfileDriverActivity.this).load(R.drawable.header_night).into(greetImg);
-            greetImg.setImageResource(R.drawable.header_night);
+        if (timeOfDay >= 0 && timeOfDay < 18){
+            greetImg.setBackgroundResource(R.drawable.header_morning);
+        } else if (timeOfDay >= 18 && timeOfDay < 24) {
+            greetImg.setBackgroundResource(R.drawable.header_night);
+            usernameTv.setTextColor(Color.parseColor("#FFFFFF"));
         }
 
     }
