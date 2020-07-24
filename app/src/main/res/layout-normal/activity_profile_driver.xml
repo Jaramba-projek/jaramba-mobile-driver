@@ -66,7 +66,6 @@
                 android:id="@+id/txtNameProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rivaldo Fernandes"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -108,6 +107,7 @@
             android:paddingEnd="10dp">
 
             <ImageView
+                android:id="@+id/icon_name"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
@@ -148,6 +148,7 @@
             android:paddingEnd="10dp">
 
             <ImageView
+                android:id="@+id/icon_email"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
@@ -186,6 +187,7 @@
             android:paddingEnd="10dp">
 
             <ImageView
+                android:id="@+id/icon_phone"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="10dp"

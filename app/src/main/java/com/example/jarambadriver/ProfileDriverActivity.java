@@ -125,10 +125,10 @@ public class ProfileDriverActivity extends AppCompatActivity {
         icon_phone = findViewById(R.id.icon_phone);
         add_photo = findViewById(R.id.add_photo);
 
-//        Glide.with(this).load(R.drawable.user_icon).into(icon_name);
-//        Glide.with(this).load(R.drawable.email_icon).into(icon_email);
-//        Glide.with(this).load(R.drawable.phone_icon).into(icon_phone);
-//        Glide.with(this).load(R.drawable.ic_add_a_photo_black_24dp).into(add_photo);
+        Glide.with(this).load(R.drawable.user_icon).into(icon_name);
+        Glide.with(this).load(R.drawable.email_icon).into(icon_email);
+        Glide.with(this).load(R.drawable.phone_icon).into(icon_phone);
+        Glide.with(this).load(R.drawable.ic_add_a_photo_black_24dp).into(add_photo);
 
 
 
