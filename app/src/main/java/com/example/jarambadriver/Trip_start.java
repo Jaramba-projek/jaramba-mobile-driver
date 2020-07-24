@@ -590,6 +590,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                     busRef.child(key).updateChildren(status);
                 }
 
+
+
                 if (id_trip != null) {
                     //getCurrent time clock
                     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));

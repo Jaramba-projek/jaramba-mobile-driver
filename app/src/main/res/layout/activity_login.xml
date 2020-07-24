@@ -68,7 +68,6 @@
                 android:drawableStart="@drawable/ic_lock_black_24dp"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/nunitosans_regular"
-                android:hint="@string/kata_sandi"
                 android:inputType="textPassword"
                 android:padding="15dp"
                 tools:ignore="TextFields" />
