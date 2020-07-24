@@ -70,7 +70,7 @@
                 android:fontFamily="@font/nunitosans_regular"
                 android:inputType="textPassword"
                 android:padding="15dp"
-                tools:ignore="TextFields" />
+                tools:ignore="LabelFor,TextFields" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.spark.submitbutton.SubmitButton
