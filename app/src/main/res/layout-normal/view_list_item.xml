@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="35dp"
+    android:id="@+id/item_history"
     android:layout_marginRight="35dp"
     android:layout_marginTop="25dp"
     android:background="@drawable/card_style_primary"
@@ -39,6 +40,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunitosans_regular"
             android:textSize="12sp"
+            android:gravity="center_horizontal"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
             android:textColor="@color/black" />
@@ -83,6 +85,7 @@
             android:layout_toEndOf="@+id/rate"
             android:contentDescription="@string/image"
             android:gravity="center"
+            android:layout_centerHorizontal="true"
             app:srcCompat="@drawable/ic_baseline_info_24" />
     </RelativeLayout>
 

@@ -55,7 +55,7 @@ public class HistoryDriver extends AppCompatActivity {
 
         greetImg = findViewById(R.id.headerHistory);
         headerHist = findViewById(R.id.txtTrip);
-        withHist = findViewById(R.id.tripWith);
+        withHist = findViewById(R.id.txtWith);
 
         greeting();
 
