@@ -14,15 +14,6 @@
         android:background="@drawable/header_morning"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/headerHistory"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/image" />
-
         <RelativeLayout
             android:id="@+id/relativeLayout2"
             android:layout_width="wrap_content"

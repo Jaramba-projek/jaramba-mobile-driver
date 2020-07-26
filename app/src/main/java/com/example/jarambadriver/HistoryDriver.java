@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +40,8 @@ public class HistoryDriver extends AppCompatActivity {
     String nama, trayek, id_trip, id_bus, key, chKey, endtime_hist;
 
     Calendar calendar;
-    ImageView greetImg;
+    ConstraintLayout greetImg;
+    ImageView imgLogo;
     TextView headerHist, withHist;
 
     private ArrayList<HistoryData> historyData = new ArrayList<>();
@@ -53,9 +55,10 @@ public class HistoryDriver extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        greetImg = findViewById(R.id.headerHistory);
+        greetImg = findViewById(R.id.layoutHeader);
         headerHist = findViewById(R.id.txtTrip);
         withHist = findViewById(R.id.txtWith);
+        imgLogo = findViewById(R.id.imageView3);
 
         greeting();
 
@@ -143,13 +146,12 @@ public class HistoryDriver extends AppCompatActivity {
         int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
 
         if (timeOfDay >= 0 && timeOfDay < 18) {
-            greetImg.setImageResource(R.drawable.header_morning);
-            Glide.with(HistoryDriver.this).load(R.drawable.header_morning).into(greetImg);
+            greetImg.setBackgroundResource(R.drawable.header_morning);
         }else if (timeOfDay >= 18 && timeOfDay < 24) {
             headerHist.setTextColor(Color.WHITE);
             withHist.setTextColor(Color.WHITE);
-            Glide.with(HistoryDriver.this).load(R.drawable.header_night).into(greetImg);
-            greetImg.setImageResource(R.drawable.header_night);
+            greetImg.setBackgroundResource(R.drawable.header_night);
+            imgLogo.setImageResource(R.drawable.jaramba_logo_night);
         }
     }
 
