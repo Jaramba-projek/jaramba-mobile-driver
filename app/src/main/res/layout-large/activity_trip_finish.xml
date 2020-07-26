@@ -115,7 +115,7 @@
 
 
             <TextView
-                android:id="@+id/dari2"
+                android:id="@+id/trayek"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_alignParentStart="true"

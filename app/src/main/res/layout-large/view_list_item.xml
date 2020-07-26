@@ -13,8 +13,8 @@
 
     <ImageView
         android:id="@+id/iconbus2"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunitosans_regular"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
             android:textColor="@color/black" />
@@ -47,7 +47,7 @@
             android:id="@+id/plat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:fontFamily="@font/nunitosans_regular"
             android:gravity="center"
@@ -57,10 +57,9 @@
 
     </RelativeLayout>
 
-
     <RelativeLayout
         android:id="@+id/relativeLayout3"
-        android:layout_width="50dp"
+        android:layout_width="80dp"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="15dp"
@@ -71,19 +70,21 @@
 
         <ImageView
             android:id="@+id/rate"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:contentDescription="@string/image"
+            android:enabled="false"
             app:srcCompat="@drawable/ic_baseline_star_24" />
 
         <ImageView
             android:id="@+id/iconinfo2"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_toEndOf="@+id/rate"
             android:contentDescription="@string/image"
             android:gravity="center"
             app:srcCompat="@drawable/ic_baseline_info_24" />
+
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

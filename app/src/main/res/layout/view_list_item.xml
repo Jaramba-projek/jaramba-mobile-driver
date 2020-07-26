@@ -52,7 +52,6 @@
         app:layout_constraintStart_toEndOf="@id/iconbus2"
         app:layout_constraintEnd_toStartOf="@id/rate"
         android:textColor="@color/black" />
-
     <ImageView
         android:id="@+id/rate"
         android:layout_width="40dp"
