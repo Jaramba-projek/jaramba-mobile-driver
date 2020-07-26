@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutHeader"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="200dp"
+        android:background="@drawable/header_morning"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -39,10 +40,10 @@
                 android:text="Your History Trips"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/tripWith"
+                android:id="@+id/txtWith"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtTrip"
@@ -50,7 +51,7 @@
                 android:text="with"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
         </RelativeLayout>
 
 
@@ -83,7 +84,7 @@
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/chipNavigationBar"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="72dp"
         android:background="@drawable/header_navbar"
         android:elevation="16dp"
         android:padding="8dp"
