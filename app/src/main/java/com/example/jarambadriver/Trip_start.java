@@ -292,6 +292,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 driversName.setTextColor(Color.WHITE);
                 Glide.with(Trip_start.this).load(R.drawable.header_night).into(greetImg);
                 greetImg.setImageResource(R.drawable.header_night);
+                jaramba_logo_04.setImageResource(R.drawable.jaramba_logo_night);
+                Glide.with(Trip_start.this).load(R.drawable.jaramba_logo_night).into(jaramba_logo_04);
             } else if(timeOfDay >= 21) {
                 greetText.setText("Good Night");
                 greetText.setTextColor(Color.WHITE);
@@ -299,6 +301,8 @@ public class Trip_start extends AppCompatActivity implements AdapterView.OnItemS
                 driversName.setTextColor(Color.WHITE);
                 Glide.with(Trip_start.this).load(R.drawable.header_night).into(greetImg);
                 greetImg.setImageResource(R.drawable.header_night);
+                jaramba_logo_04.setImageResource(R.drawable.jaramba_logo_night);
+                Glide.with(Trip_start.this).load(R.drawable.jaramba_logo_night).into(jaramba_logo_04);
             }
         }
     }
