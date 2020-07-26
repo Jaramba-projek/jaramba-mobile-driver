@@ -132,11 +132,11 @@ public class Trip_finish extends AppCompatActivity {
             greetImg.setImageResource(R.drawable.header_morning);
         } else if (timeOfDay >= 15 && timeOfDay < 18) {
             greetText.setText("Selamat Sore\nBudi Makarti");
-            greetImg.setImageResource(R.drawable.img_default_half_without_sun);
+            greetImg.setImageResource(R.drawable.header_night);
         }else if (timeOfDay >= 18 && timeOfDay < 24) {
             greetText.setText("Selamat Malam\nBudi Makarti");
             greetText.setTextColor(Color.WHITE);
-            greetImg.setImageResource(R.drawable.malamhari);
+            greetImg.setImageResource(R.drawable.header_night);
         }
     }
 }
