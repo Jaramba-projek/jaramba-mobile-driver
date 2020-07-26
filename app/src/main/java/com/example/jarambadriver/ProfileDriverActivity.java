@@ -326,7 +326,6 @@ public class ProfileDriverActivity extends AppCompatActivity {
                     status.put("status", "tidak aktif");
                     busRef.child(id_bus).updateChildren(status);
                 }
-
                 if(id_trip != null){
                     //getCurrent time clock
                     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
@@ -709,7 +708,6 @@ public class ProfileDriverActivity extends AppCompatActivity {
                     status.put("status", "tidak aktif");
                     busRef.child(id_bus).updateChildren(status);
                 }
-
                 if (id_trip != null) {
                     //getCurrent time clock
                     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));

@@ -60,7 +60,6 @@
                 android:id="@+id/et_password_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/kata_sandi"
                 android:background="@drawable/rounded_et"
                 android:drawableStart="@drawable/ic_lock_black_24dp"
                 android:drawablePadding="10dp"
@@ -70,7 +69,7 @@
                 android:autofillHints="no"
                 android:inputType="textPassword"
                 android:layout_marginBottom="25dp"
-                tools:ignore="TextFields" />
+                tools:ignore="LabelFor,TextFields" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.spark.submitbutton.SubmitButton

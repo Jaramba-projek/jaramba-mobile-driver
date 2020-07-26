@@ -556,7 +556,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                 HashMap<String, Object> driverLocRef = new HashMap<>();
                 driverLocRef.put("trayek", null);
                 driverLocationRef.child(key).updateChildren(driverLocRef);
-
                 if (id_bus != null && id_trip != null) {
                     DatabaseReference busRef = FirebaseDatabase.getInstance().getReference("bus");
                     HashMap<String, Object> status = new HashMap<>();
