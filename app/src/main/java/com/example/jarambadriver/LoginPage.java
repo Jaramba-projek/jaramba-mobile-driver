@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.animation.Animation;
@@ -159,16 +160,19 @@ public class LoginPage extends AppCompatActivity {
                         String key = "" + ds.child("key").getValue();
 
                         if(email1.equals(email2) && password.equals(pwd)){
-                            progressDialog.dismiss();
-                            Toast.makeText(LoginPage.this, "Selamat datang di Jaramba", Toast.LENGTH_SHORT).show();
+
+                                progressDialog.dismiss();
+                                Toast.makeText(LoginPage.this, "Selamat datang di Jaramba", Toast.LENGTH_SHORT).show();
 
 
-                            Intent intent = new Intent(LoginPage.this, HomeActivity.class);
-                            intent.putExtra("nama", nama);
-                            intent.putExtra("key",key);
+                                Intent intent = new Intent(LoginPage.this, HomeActivity.class);
+                                intent.putExtra("nama", nama);
+                                intent.putExtra("key",key);
 
-                            startActivity(intent);
-                            finish();
+                                startActivity(intent);
+                                finish();
+
+
                         }else if (!password.equals(pwd)){
                             progressDialog.dismiss();
                             Toast.makeText(LoginPage.this, " email atau password anda salah ", Toast.LENGTH_SHORT).show();

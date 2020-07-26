@@ -40,8 +40,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunitosans_regular"
             android:textSize="12sp"
-            android:textStyle="bold"
             android:gravity="center_horizontal"
+            android:textStyle="bold"
             android:layout_centerHorizontal="true"
             android:textColor="@color/black" />
 
@@ -83,9 +83,9 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_toEndOf="@+id/rate"
-            android:layout_centerHorizontal="true"
             android:contentDescription="@string/image"
             android:gravity="center"
+            android:layout_centerHorizontal="true"
             app:srcCompat="@drawable/ic_baseline_info_24" />
     </RelativeLayout>
 

@@ -12,7 +12,7 @@
     <RelativeLayout
         android:id="@+id/layoutHeader"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="180dp"
         android:background="@drawable/header_morning"
         android:layout_gravity="center_horizontal"
         android:layout_margin="0dp"
@@ -20,8 +20,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
-
+        <ImageView
+            android:id="@+id/setting_profile_page"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/image"
+            android:onClick="editProfile"
+            android:padding="5dp"
+            android:src="@drawable/ic_settings_black_48dp"
+            tools:ignore="DuplicateIds" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -34,10 +43,8 @@
                 android:id="@+id/img_profile_page"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                app:civ_border_width="3dp"
-                app:civ_border_color="#EA604E"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/avatar_blank"
                 android:scaleType="centerCrop"/>
 
@@ -51,25 +58,20 @@
                 android:background="@drawable/shape_circle"
                 android:elevation="1dp"
                 android:padding="5dp"
-                android:src="@drawable/ic_add_a_photo_black_24dp"
+                android:src="@drawable/ic_photo_camera_black_24dp"
                 android:onClick="changeProfilePicture"
-                tools:ignore="OnClick"
-                android:contentDescription="@string/image" />
-
+                tools:ignore="DuplicateIds,OnClick" />
 
             <TextView
-                android:id="@+id/tv_edit_profile"
-                android:layout_width="96dp"
+                android:id="@+id/txtNameProfile"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/img_profile_page"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_below="@id/img_profile_page"
                 android:layout_centerHorizontal="true"
-                android:fontFamily="@font/nunitosans_semibold"
-                android:onClick="editProfile"
-                android:padding="10dp"
-                android:text="@string/edit_profil2"
-                android:gravity="center"
-                android:textSize="10sp"
-                tools:ignore="OnClick,SmallSp" />
+                />
 
         </RelativeLayout>
 
@@ -89,13 +91,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/profile"
+            android:text="PROFILE"
             android:textColor="@color/black"
-            android:textSize="10sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            tools:ignore="SmallSp" />
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -106,14 +107,12 @@
             android:paddingEnd="10dp">
 
             <ImageView
-                android:id="@+id/icon_name"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="8dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/user_icon"
-                android:contentDescription="@string/image" />
+                android:src="@drawable/user_icon" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -123,19 +122,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/full_name"
+                    android:text="Full Name"
                     android:textColor="@color/black"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    tools:ignore="SmallSp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_profil_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textStyle=""
-                    tools:ignore="SmallSp" />
+                    android:textSize="12sp"
+                    android:textStyle="" />
             </LinearLayout>
 
         </LinearLayout>
@@ -150,13 +147,11 @@
             android:paddingEnd="10dp">
 
             <ImageView
-                android:id="@+id/icon_email"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/email_icon"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/image" />
+                android:layout_gravity="center_vertical"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -166,19 +161,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/email"
+                    android:text="Email"
                     android:textColor="@color/black"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    tools:ignore="SmallSp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_profil_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textStyle=""
-                    tools:ignore="SmallSp" />
+                    android:textSize="12sp"
+                    android:textStyle="" />
             </LinearLayout>
 
         </LinearLayout>
@@ -192,14 +185,12 @@
             android:paddingEnd="10dp">
 
             <ImageView
-                android:id="@+id/icon_phone"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="8dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/phone_icon"
-                android:contentDescription="@string/image" />
+                android:src="@drawable/phone_icon" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -209,19 +200,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/no_telepon"
+                    android:text="No.Telepon"
                     android:textColor="@color/black"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    tools:ignore="SmallSp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_profil_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textStyle=""
-                    tools:ignore="SmallSp" />
+                    android:textSize="12sp"
+                    android:textStyle="" />
             </LinearLayout>
 
         </LinearLayout>
@@ -230,8 +219,9 @@
 
     <Button
         android:id="@+id/btn_logout"
-        android:layout_width="69dp"
-        android:layout_height="33dp"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:background="@drawable/rounded_btn"
         android:fontFamily="@font/nunitosans_semibold"
         android:onClick="logout"
@@ -241,21 +231,18 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/chipNavigationBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.642"
         tools:ignore="OnClick" />
 
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/chipNavigationBar"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/header_navbar"
-        android:elevation="10dp"
-        android:padding="0dp"
+        android:elevation="16dp"
+        android:padding="8dp"
         app:cnb_menuResource="@menu/menu_navigasi"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
