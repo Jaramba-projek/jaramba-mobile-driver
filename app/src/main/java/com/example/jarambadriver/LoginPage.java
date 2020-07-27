@@ -93,33 +93,7 @@ public class LoginPage extends AppCompatActivity {
 
     }
 
-
-    public void onBackPressed() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Konfirmasi keluar aplikasi");
-        builder.setIcon(R.drawable.ic_exit_to_app_black_24dp);
-        builder.setMessage("Anda yakin ingin keluar aplikasi ? ");
-        builder.setCancelable(false);
-
-        builder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finishAndRemoveTask();
-                finish();
-            }
-        });
-
-        builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
+    
 
     public void login(View view) {
 
